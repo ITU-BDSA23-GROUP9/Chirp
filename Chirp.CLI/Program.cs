@@ -1,10 +1,23 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using System.Globalization;
+using Microsoft.VisualBasic.FileIO;
 
-Console.WriteLine("Hello, Jonas!");
+var path = "chirp_cli_db.csv";
 
-Console.WriteLine("Hello, Jonas! Again!");
+using TextFieldParser parser = new TextFieldParser(path);
+parser.TextFieldType = FieldType.Delimited;
+parser.SetDelimiters(",");
 
-Console.WriteLine("Hello, Oline!");
+parser.ReadFields();
 
-Console.WriteLine("Hello, Clara!");
+while(!parser.EndOfData)
+{
+    var currentRow = parser.ReadFields();
+    var author = currentRow[0];
+    var message = currentRow[1];
+    var timestamp = currentRow[2];
+    var dateTime = DateTimeOffset.FromUnixTimeSeconds(Convert.ToInt64(timestamp)).LocalDateTime;
+    var formattedDate = dateTime.ToString("MM/dd/yy HH:mm:ss", CultureInfo.InvariantCulture); 
+    var formattedCheep = $"{author} @ {formattedDate}: {message}";
+
+    Console.WriteLine(formattedCheep);
+}
