@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using CsvHelper;
 
-var path = "chirp_cli_db.csv";
+var path = "chirp_cli_db.csv" ?? throw new ArgumentNullException();
 
 IEnumerable<Cheep> readCheeps() 
 {
