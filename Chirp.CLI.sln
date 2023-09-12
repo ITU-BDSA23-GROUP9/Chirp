@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chirp.CLI", "Chirp.CLI.csproj", "{43F23C1E-220F-46FF-BB37-503067A8A170}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chirp.CLI", "Chirp.CLI\Chirp.CLI.csproj", "{43F23C1E-220F-46FF-BB37-503067A8A170}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleDB", "SimpleDB\SimpleDB.csproj", "{F44D103C-FF89-427D-A4CB-325FD42A7D2D}"
 EndProject

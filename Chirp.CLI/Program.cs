@@ -1,15 +1,6 @@
 ﻿using System.Globalization;
 using CsvHelper;
-
-IEnumerable<Cheep> readCheeps() 
-{
-    using StreamReader reader = new("chirp_cli_db.csv");
-    using CsvReader csvReader = new(reader, CultureInfo.InvariantCulture);
-
-    var cheeps = csvReader.GetRecords<Cheep>().ToList();
-    return cheeps;
-}
-
+using SimpleDB;
 string formatDateTime(long timestamp)
 {
     var dateTime = DateTimeOffset.FromUnixTimeSeconds(Convert.ToInt64(timestamp)).LocalDateTime;
@@ -36,9 +27,10 @@ void writeCheep(string message)
     writer.WriteLine();
 }
 
+IDatabaseRepository<Cheep> database = new CSVDatabase<Cheep>();
 if(args[0] == "read")
 {
-    foreach (var cheep in readCheeps())
+    foreach (var cheep in database.Read())
     {
         readCheep(cheep);
     }
