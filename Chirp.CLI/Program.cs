@@ -17,7 +17,7 @@ Usage:
     Chirp.CLI.dll cheep <message>
 ";
 
-var arguments = new Docopt().Apply(usage, args)!;
+var arguments = new Docopt().Apply(usage, args, exit: true)!;
 
 if (arguments["read"].IsTrue)
 {
