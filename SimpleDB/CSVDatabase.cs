@@ -2,8 +2,6 @@ namespace SimpleDB;
 using CsvHelper;
 using System.Globalization;
 
-
-
 public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 {
     public IEnumerable<T> Read(int? limit = null)
