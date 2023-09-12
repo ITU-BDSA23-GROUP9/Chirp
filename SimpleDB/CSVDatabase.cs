@@ -17,6 +17,10 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 
     public void Store(T record)
     {
-        throw new NotImplementedException();
+        using StreamWriter writer = new("chirp_cli_db.csv", true);
+        using CsvWriter csvWriter = new(writer, CultureInfo.InvariantCulture);
+
+        csvWriter.WriteRecord(record);
+        writer.WriteLine();
     }
 }
