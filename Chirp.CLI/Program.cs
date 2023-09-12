@@ -1,35 +1,38 @@
 ﻿using System.Globalization;
-using Microsoft.VisualBasic.FileIO;
+using CsvHelper;
 
 var path = "chirp_cli_db.csv";
 
+IEnumerable<Cheep> readCheeps() 
+{
+    using StreamReader reader = new(path);
+    using CsvReader csvReader = new(reader, CultureInfo.InvariantCulture);
+
+    var cheeps = csvReader.GetRecords<Cheep>().ToList();
+    return cheeps;
+}
+
 if(args[0] == "read")
 {
-    using TextFieldParser parser = new TextFieldParser(path);
-    parser.TextFieldType = FieldType.Delimited;
-    parser.SetDelimiters(",");
-
-    parser.ReadFields();
-
-    while(!parser.EndOfData)
+    foreach (var cheep in readCheeps())
     {
-        var currentRow = parser.ReadFields();
-        var author = currentRow[0];
-        var message = currentRow[1];
-        var timestamp = currentRow[2];
-        var dateTime = DateTimeOffset.FromUnixTimeSeconds(Convert.ToInt64(timestamp)).LocalDateTime;
+        var dateTime = DateTimeOffset.FromUnixTimeSeconds(Convert.ToInt64(cheep.Timestamp)).LocalDateTime;
         var formattedDate = dateTime.ToString("MM/dd/yy HH:mm:ss", CultureInfo.InvariantCulture);
-        var formattedCheep = $"{author} @ {formattedDate}: {message}";
+        var formattedCheep = $"{cheep.Author} @ {formattedDate}: {cheep.Message}";
 
         Console.WriteLine(formattedCheep);
     }
 }
 else if(args[0] == "cheep")
 {
-    using StreamWriter writer = new StreamWriter(path, true);
+    using StreamWriter writer = new(path);
+    using CsvWriter csvWriter = new(writer, CultureInfo.InvariantCulture);
+    //csvWriter.WriteRecords()
+
     var userName = Environment.UserName;
     var currentTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
     var message = args[1];
-    var saveFormattedCheep = $"{userName},\"{message}\",{currentTimestamp}";
-    writer.WriteLine(saveFormattedCheep);
+    var saveCheep = new Cheep(userName, message, currentTimestamp);
+    csvWriter.WriteRecord(saveCheep);
+    writer.WriteLine();
 }
