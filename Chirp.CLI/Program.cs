@@ -1,11 +1,9 @@
 ﻿using System.Globalization;
 using CsvHelper;
 
-var path = "chirp_cli_db.csv" ?? throw new ArgumentNullException();
-
 IEnumerable<Cheep> readCheeps() 
 {
-    using StreamReader reader = new(path);
+    using StreamReader reader = new("chirp_cli_db.csv");
     using CsvReader csvReader = new(reader, CultureInfo.InvariantCulture);
 
     var cheeps = csvReader.GetRecords<Cheep>().ToList();
@@ -28,7 +26,7 @@ void readCheep(Cheep cheep)
 
 void writeCheep(string message)
 {
-    using StreamWriter writer = new(path, true);
+    using StreamWriter writer = new("chirp_cli_db.csv", true);
     using CsvWriter csvWriter = new(writer, CultureInfo.InvariantCulture);
 
     var userName = Environment.UserName;
@@ -38,17 +36,14 @@ void writeCheep(string message)
     writer.WriteLine();
 }
 
-void Main(string[] args)
+if(args[0] == "read")
 {
-    if(args[0] == "read")
+    foreach (var cheep in readCheeps())
     {
-        foreach (var cheep in readCheeps())
-        {
-            readCheep(cheep);
-        }
+        readCheep(cheep);
     }
-    else if(args[0] == "cheep")
-    {
-        writeCheep(args[1]);
-    }
+}
+else if(args[0] == "cheep")
+{
+    writeCheep(args[1]);
 }
