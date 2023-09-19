@@ -27,9 +27,5 @@ public class IntegrationTests
         //Assert
         Assert.Equal(formattedCheeps, output.ToString().Trim());
 
-
-
-
-
     }
 }
