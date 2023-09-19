@@ -4,7 +4,8 @@ using DocoptNet;
 
 IDatabaseRepository<Cheep> database = new CSVDatabase<Cheep>();
 
-static Cheep CreateCheep(string message) {
+static Cheep CreateCheep(string message)
+{
     var userName = Environment.UserName;
     var currentTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
     return new Cheep(userName, message, currentTimestamp);
