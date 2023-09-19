@@ -1,3 +1,4 @@
+using UI;
 
 namespace Chirp.CLI.Tests;
 
@@ -19,5 +20,17 @@ public class UnitTests
     }
 
     [Fact]
-    publi
+    public void FormatDatetimeTest()
+    {
+        // Arrange
+        var unixTimestamp = 1695117316;
+        string stringDatetimeTimestamp;
+
+        //Act
+        stringDatetimeTimestamp = UserInterface.FormatDateTime(unixTimestamp);
+
+        //Assert
+        Assert.Equal("09/19/23 11:55:16", stringDatetimeTimestamp);
+
+    }
 }
