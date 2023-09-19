@@ -4,9 +4,10 @@ using System.Globalization;
 
 public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 {
+    string path = "../../data/chirp_cli_db.csv";
     public IEnumerable<T> Read(int? limit = null)
     {
-        using StreamReader reader = new("chirp_cli_db.csv");
+        using StreamReader reader = new(path);
         using CsvReader csvReader = new(reader, CultureInfo.InvariantCulture);
 
         var records = csvReader.GetRecords<T>().ToList();
@@ -15,7 +16,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 
     public void Store(T record)
     {
-        using StreamWriter writer = new("chirp_cli_db.csv", true);
+        using StreamWriter writer = new(path, true);
         using CsvWriter csvWriter = new(writer, CultureInfo.InvariantCulture);
 
         csvWriter.WriteRecord(record);
