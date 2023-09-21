@@ -4,7 +4,7 @@ namespace SimpleDB.Tests;
 
 public class UnitTests
 {
-    [Fact]
+    
     public void CleanupAfterTest()
     {
         // Clear the content of the CSV file
