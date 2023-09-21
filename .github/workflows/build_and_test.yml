@@ -2,15 +2,23 @@ name: .NET Build and Test
 
 on:
   push:
-    branches: [ $default-branch ]
+    branches: 
+      - main
   pull_request:
-    branches: [ $default-branch ]
+    branches: 
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Set timezone
+      uses: szenius/set-timezone@v1.2
+      with:
+        timezoneLinux: 'Europe/Warsaw'
+        timezoneWindows: 'Europe/Warsaw'
+        timezoneMacos: 'Europe/Warsaw'
     - uses: actions/checkout@v3
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
