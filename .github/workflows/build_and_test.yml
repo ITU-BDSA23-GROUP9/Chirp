@@ -3,7 +3,7 @@ name: .NET Build and Test
 on:
   push:
     branches:
-      - ${{ github.ref_name }}
+      - ${{ github.ref }}
   pull_request:
     branches:
       - main
