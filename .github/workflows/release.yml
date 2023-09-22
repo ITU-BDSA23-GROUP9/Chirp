@@ -3,9 +3,9 @@
 name: Build_and_release
 
 on:
-  pull_request:
-    branches:
-      - main
+  push:
+    tags:
+      - "v*"
 
 jobs:
   build_and_test:
