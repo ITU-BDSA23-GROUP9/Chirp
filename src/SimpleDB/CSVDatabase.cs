@@ -13,6 +13,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 
             if (File.Exists(path))
             {
+                this.path = path;
                 return;
             }
 
