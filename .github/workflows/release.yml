@@ -4,13 +4,14 @@ name: Publish
 
 on:
   push:
-    tags: 
-    - 'v*'
+    tags:
+      - "v*"
 
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
 
+    steps:
       - name: Set timezone
         uses: szenius/set-timezone@v1.2
         with:
