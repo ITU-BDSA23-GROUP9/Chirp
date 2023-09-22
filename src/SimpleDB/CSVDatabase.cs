@@ -7,6 +7,19 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
     string path;
     public CSVDatabase(string path)
     {
+        if (!File.Exists(path))
+        {
+            path = "./chirp_cli_db.csv";
+
+            if (File.Exists(path))
+            {
+                return;
+            }
+
+            File.Create(path).Close();
+            File.WriteAllText(path, "Author,Message,Timestamp");
+        }
+
         this.path = path;
     }
 
