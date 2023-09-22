@@ -56,7 +56,7 @@ jobs:
           # Build
           dotnet publish src/Chirp.CLI/Chirp.CLI.csproj -r ${{ matrix.target }} -c Release -o "$release_name"
 
-          # Zip the files
+          # Zip files
           if [ "${{ matrix.target }}" == "win-x64" ]; then
             7z a -tzip "${release_name}.zip" "./${release_name}/*"
           else
