@@ -4,11 +4,16 @@ namespace SimpleDB.Tests;
 
 public class UnitTests
 {
-    
-    public void CleanupAfterTest()
+    private CSVDatabase<Cheep> CreateTestDatabase()
     {
-        // Clear the content of the CSV file
-        File.WriteAllText("../../../../testdata/testdatabase.csv", "Author,Message,Timestamp");
+        var fileName = "csvTestDB.csv";
+        File.Create(fileName).Close();
+        File.WriteAllText(fileName, "Author,Message,Timestamp");
+        return new CSVDatabase<Cheep>(fileName);
+    }
+
+    private CSVDatabase<Cheep> PopulateTestDatabase(CSVDatabase<Cheep> db)
+    {
         List<Cheep> constantcheeps = new List<Cheep>{
         new Cheep("ropf", "Hello, BDSA students!", 1690891760),
         new Cheep("rnie", "Welcome to the course!", 1690978778),
@@ -16,19 +21,25 @@ public class UnitTests
         new Cheep("ropf", "Cheeping cheeps on Chirp :)", 1690981487)
         };
 
-
-        var database = SetupDatabase();
-
         for (int i = 0; i < constantcheeps.ToArray().Length; i++)
         {
-            database.Store(constantcheeps[i]);
+            db.Store(constantcheeps[i]);
 
         }
+
+        return db;
     }
 
-    private CSVDatabase<Cheep> SetupDatabase()
+    private CSVDatabase<Cheep> SetupTestDatabase()
     {
-        return new CSVDatabase<Cheep>("../../../../testdata/testdatabase.csv");
+        var db = CreateTestDatabase();
+        PopulateTestDatabase(db);
+        return db;
+    }
+
+    private void RemoveTestDatabase()
+    {
+        File.Delete("csvTestDB.csv");
     }
 
     [Fact]
@@ -43,7 +54,7 @@ public class UnitTests
         };
 
         // Act
-        var databaseCheeps = SetupDatabase().Read().ToArray();
+        var databaseCheeps = SetupTestDatabase().Read().ToArray();
 
         // Assert
         for (int i = 0; i < databaseCheeps.Length - 1; i++)
@@ -53,6 +64,7 @@ public class UnitTests
             Assert.Equal(constantcheeps[i].Timestamp, databaseCheeps[i].Timestamp);
         };
 
+        RemoveTestDatabase();
     }
 
     [Fact]
@@ -68,11 +80,11 @@ public class UnitTests
         };
 
         // Act
-        var database = SetupDatabase();
+        var database = SetupTestDatabase();
         var testcheep = new Cheep("kram", "hello everyone", 1690981488);
         database.Store(testcheep);
         var databaseCheeps = database.Read().ToArray();
-        CleanupAfterTest();
+        RemoveTestDatabase();
 
         // Assert
         for (int i = 0; i < databaseCheeps.Length - 1; i++)
