@@ -2,7 +2,7 @@
 using UI;
 using DocoptNet;
 
-IDatabaseRepository<Cheep> database = new CSVDatabase<Cheep>("../../data/chirp_cli_db.csv");
+IDatabaseRepository<Cheep> database = CSVDatabase<Cheep>.getInstance("../../data/chirp_cli_db.csv");
 
 static Cheep CreateCheep(string message)
 {

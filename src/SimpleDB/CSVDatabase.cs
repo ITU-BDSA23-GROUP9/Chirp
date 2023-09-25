@@ -4,8 +4,20 @@ using System.Globalization;
 
 public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 {
-    string path;
-    public CSVDatabase(string path)
+
+    private static CSVDatabase<T> instance = null;
+    private string path;
+
+    public static CSVDatabase<T> getInstance(string path)
+    {
+        if (instance == null)
+        {
+            instance = new CSVDatabase<T>(path);
+        }
+        return instance;
+    }
+
+    private CSVDatabase(string path)
     {
         if (!File.Exists(path))
         {
