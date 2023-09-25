@@ -8,7 +8,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
     private static CSVDatabase<T> instance = null;
     private string path;
 
-    public static CSVDatabase<T> getInstance(string path)
+    public static CSVDatabase<T> getInstance(string? path)
     {
         if (instance == null)
         {
@@ -17,7 +17,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
         return instance;
     }
 
-    private CSVDatabase(string path)
+    private CSVDatabase(string? path)
     {
         if (!File.Exists(path))
         {
