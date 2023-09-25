@@ -55,6 +55,7 @@ public class UnitTests
 
         // Act
         var databaseCheeps = SetupTestDatabase().Read().ToArray();
+        RemoveTestDatabase();
 
         // Assert
         for (int i = 0; i < databaseCheeps.Length - 1; i++)
@@ -63,8 +64,6 @@ public class UnitTests
             Assert.Equal(constantcheeps[i].Message, databaseCheeps[i].Message);
             Assert.Equal(constantcheeps[i].Timestamp, databaseCheeps[i].Timestamp);
         };
-
-        RemoveTestDatabase();
     }
 
     [Fact]
