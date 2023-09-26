@@ -10,7 +10,7 @@ public class IntegrationTests
         var fileName = "csvTestDB.csv";
         File.Create(fileName).Close();
         File.WriteAllText(fileName, "Author,Message,Timestamp");
-        return new CSVDatabase<Cheep>(fileName);
+        return CSVDatabase<Cheep>.getInstance(fileName);
     }
 
     private CSVDatabase<Cheep> PopulateTestDatabase(CSVDatabase<Cheep> db)
