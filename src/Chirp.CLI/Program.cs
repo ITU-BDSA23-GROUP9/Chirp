@@ -2,6 +2,8 @@
 using UI;
 using DocoptNet;
 using Utilities;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 
 IDatabaseRepository<Cheep> database = CSVDatabase<Cheep>.getInstance("../../data/chirp_cli_db.csv");
 
@@ -23,10 +25,11 @@ var arguments = new Docopt().Apply(usage, args, exit: true)!;
 
 if (arguments["read"].IsTrue)
 {
-    UserInterface.PrintCheeps(database.Read());
+    var cheeps = await WebServiceClient.Get();
+    UserInterface.PrintCheeps(cheeps);
 }
 else if (arguments["cheep"].IsTrue)
 {
     var message = arguments["<message>"].ToString();
-    database.Store(CreateCheep(message));
+    await WebServiceClient.Post(CreateCheep(message));
 }
