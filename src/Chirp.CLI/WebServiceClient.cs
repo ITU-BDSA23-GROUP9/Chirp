@@ -1,13 +1,5 @@
-using System.Collections;
-using System.Data.Common;
-using System.Formats.Tar;
-using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Runtime.ExceptionServices;
-using System.Security.Cryptography;
-using System.Text.Json;
-using DocoptNet;
 using Utilities;
 
 public static class WebServiceClient 
