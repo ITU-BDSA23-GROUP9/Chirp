@@ -1,4 +1,5 @@
 using UI;
+using Utilities;
 
 namespace Chirp.CLI.Tests;
 
