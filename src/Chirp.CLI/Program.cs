@@ -1,6 +1,7 @@
 ﻿using SimpleDB;
 using UI;
 using DocoptNet;
+using Utilities;
 
 IDatabaseRepository<Cheep> database = CSVDatabase<Cheep>.getInstance("../../data/chirp_cli_db.csv");
 

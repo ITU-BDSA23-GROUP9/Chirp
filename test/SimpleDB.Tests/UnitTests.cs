@@ -1,6 +1,7 @@
 using System.Net.Security;
 using SimpleDB;
 namespace SimpleDB.Tests;
+using Utilities;
 
 public class UnitTests
 {
