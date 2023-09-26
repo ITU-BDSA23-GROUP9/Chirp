@@ -8,13 +8,12 @@ public class UnitTests
     [Fact]
     public void WebServiceGetTest()
     {
-        Cheep cheep = new Cheep();
         // Arrange
-        var baseURL = "http://localhost:5222";
+        /*var baseURL = "http://localhost:5222";
         using HttpClient client = new();
         client.DefaultRequestHeaders.Accept.Clear();
         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        client.BaseAddress = new Uri(baseURL);
+        client.BaseAddress = new Uri(baseURL);*/
         // Act
 
         // Assert
