@@ -33,7 +33,7 @@ public class CheepService : ICheepService
 
             while(reader.Read())
             {
-                cheeps.Add(new CheepViewModel(reader.GetString(0), reader.GetString(1), reader.GetString(2)));
+                cheeps.Add(new CheepViewModel(reader.GetString(0), reader.GetString(1), UnixTimeStampToDateTimeString(reader.GetDouble(2))));
             }
 
             return cheeps;
@@ -43,7 +43,7 @@ public class CheepService : ICheepService
     public List<CheepViewModel> GetCheepsFromAuthor(string author)
     {
         var sqlDBFilePath = "/tmp/chirp.db";
-        var query = @"SELECT U.username, M.text, M.pub_date FROM message M JOIN user U WHERE U.username = $author";
+        var query = @"SELECT U.username, M.text, M.pub_date FROM message M JOIN user U ON U.user_id = M.author_id WHERE U.username = $author";
         using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
         {
             connection.Open();
@@ -56,7 +56,7 @@ public class CheepService : ICheepService
 
             while(reader.Read())
             {
-                cheeps.Add(new CheepViewModel(reader.GetString(0), reader.GetString(1), reader.GetString(2)));
+                cheeps.Add(new CheepViewModel(reader.GetString(0), reader.GetString(1), UnixTimeStampToDateTimeString(reader.GetDouble(2))));
             }
 
             return cheeps;
