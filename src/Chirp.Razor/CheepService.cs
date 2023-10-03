@@ -22,7 +22,7 @@ public class CheepService : ICheepService
     {
         var sqlDBFilePath = "/tmp/chirp.db";
         var query = @"SELECT U.username, M.text, M.pub_date FROM message M JOIN user U WHERE U.user_id = M.author_id";
-        var connection = new SqliteConnection($"Data Source={sqlDBFilePath}");
+        using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
         {
             connection.Open();
             var command = connection.CreateCommand();
