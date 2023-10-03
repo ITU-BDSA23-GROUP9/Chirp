@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1E658C75-DA7B-487B-B70E-EBAD19B0E4E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.Razor", "src\Chirp.Razor\Chirp.Razor.csproj", "{50FBB680-8269-451B-BA24-E48A1F0EF797}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{6E8ED4D2-4F0C-4F1A-90D0-41FF7DF54B53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.Razor.Tests", "test\Chirp.Razor.Tests\Chirp.Razor.Tests.csproj", "{53CD127E-7CE5-4E28-BDD3-EFF4EC2967E5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{50FBB680-8269-451B-BA24-E48A1F0EF797}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50FBB680-8269-451B-BA24-E48A1F0EF797}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50FBB680-8269-451B-BA24-E48A1F0EF797}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50FBB680-8269-451B-BA24-E48A1F0EF797}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53CD127E-7CE5-4E28-BDD3-EFF4EC2967E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53CD127E-7CE5-4E28-BDD3-EFF4EC2967E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53CD127E-7CE5-4E28-BDD3-EFF4EC2967E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53CD127E-7CE5-4E28-BDD3-EFF4EC2967E5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{50FBB680-8269-451B-BA24-E48A1F0EF797} = {1E658C75-DA7B-487B-B70E-EBAD19B0E4E9}
+		{53CD127E-7CE5-4E28-BDD3-EFF4EC2967E5} = {6E8ED4D2-4F0C-4F1A-90D0-41FF7DF54B53}
+	EndGlobalSection
+EndGlobal
