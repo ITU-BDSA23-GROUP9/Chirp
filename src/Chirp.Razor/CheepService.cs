@@ -1,3 +1,4 @@
+using System.Globalization;
 public record CheepViewModel(string Author, string Message, string Timestamp);
 
 public interface ICheepService
@@ -13,9 +14,10 @@ public class CheepService : ICheepService
         {
             new CheepViewModel("Helge", "Hello, BDSA students!", UnixTimeStampToDateTimeString(1690892208)),
             new CheepViewModel("Rasmus", "Hej, velkommen til kurset.", UnixTimeStampToDateTimeString(1690895308)),
-        }; 
+        };
 
-    public List<CheepViewModel> GetCheeps(){
+    public List<CheepViewModel> GetCheeps()
+    {
         return _cheeps;
     }
 
@@ -27,10 +29,12 @@ public class CheepService : ICheepService
 
     private static string UnixTimeStampToDateTimeString(double unixTimeStamp)
     {
+        CultureInfo cultureInfo = new CultureInfo("en-US"); // Use the "en-US" culture
+
         // Unix timestamp is seconds past epoch
         DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
         dateTime = dateTime.AddSeconds(unixTimeStamp);
-        return dateTime.ToString("MM/dd/yy H:mm:ss");
+        return dateTime.ToString("MM/dd/yy H:mm:ss", cultureInfo);
     }
 
 }
