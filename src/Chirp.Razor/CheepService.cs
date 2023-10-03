@@ -1,4 +1,6 @@
 using System.Globalization;
+using Microsoft.Data.Sqlite;
+
 public record CheepViewModel(string Author, string Message, string Timestamp);
 
 public interface ICheepService
@@ -18,7 +20,24 @@ public class CheepService : ICheepService
 
     public List<CheepViewModel> GetCheeps()
     {
-        return _cheeps;
+        var sqlDBFilePath = "/tmp/chirp.db";
+        var query = @"SELECT U.username, M.text, M.pub_date FROM message M JOIN user U WHERE U.user_id = M.author_id";
+        var connection = new SqliteConnection($"Data Source={sqlDBFilePath}");
+        {
+            connection.Open();
+            var command = connection.CreateCommand();
+            command.CommandText = query;
+            using var reader = command.ExecuteReader();
+            
+            List<CheepViewModel> cheeps = new ();
+
+            while(reader.Read())
+            {
+                cheeps.Add(new CheepViewModel(reader.GetString(0), reader.GetString(1), reader.GetString(2)));
+            }
+
+            return cheeps;
+        }
     }
 
     public List<CheepViewModel> GetCheepsFromAuthor(string author)
