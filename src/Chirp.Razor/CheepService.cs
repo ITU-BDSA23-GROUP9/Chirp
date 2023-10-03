@@ -42,8 +42,25 @@ public class CheepService : ICheepService
 
     public List<CheepViewModel> GetCheepsFromAuthor(string author)
     {
-        // filter by the provided author name
-        return _cheeps.Where(x => x.Author == author).ToList();
+        var sqlDBFilePath = "/tmp/chirp.db";
+        var query = @"SELECT U.username, M.text, M.pub_date FROM message M JOIN user U WHERE U.username = $author";
+        using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
+        {
+            connection.Open();
+            var command = connection.CreateCommand();
+            command.CommandText = query;
+            command.Parameters.AddWithValue("$author", author);
+            using var reader = command.ExecuteReader();
+            
+            List<CheepViewModel> cheeps = new ();
+
+            while(reader.Read())
+            {
+                cheeps.Add(new CheepViewModel(reader.GetString(0), reader.GetString(1), reader.GetString(2)));
+            }
+
+            return cheeps;
+        }
     }
 
     private static string UnixTimeStampToDateTimeString(double unixTimeStamp)
