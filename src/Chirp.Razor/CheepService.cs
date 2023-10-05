@@ -20,7 +20,7 @@ public class CheepService : ICheepService
 
     public List<CheepViewModel> GetCheeps()
     {
-        var sqlDBFilePath = "../../data/chirp.db";
+        var sqlDBFilePath = "tmp/chirp.db";
         var query = @"SELECT U.username, M.text, M.pub_date FROM message M JOIN user U WHERE U.user_id = M.author_id";
         using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
         {
@@ -42,7 +42,7 @@ public class CheepService : ICheepService
 
     public List<CheepViewModel> GetCheepsFromAuthor(string author)
     {
-        var sqlDBFilePath = "../../data/chirp.db";
+        var sqlDBFilePath = "tmp/chirp.db";
         var query = @"SELECT U.username, M.text, M.pub_date FROM message M JOIN user U ON U.user_id = M.author_id WHERE U.username = $author";
         using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
         {

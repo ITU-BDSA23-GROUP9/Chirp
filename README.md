@@ -1,4 +1,20 @@
-# Chirp test
+# Chirp
+
+## How to run locally
+
+First inititialize the sqlite database:
+cd scripts
+
+(if permisison are required):
+chmod +x initDB.sh
+
+./initDB.sh
+
+Run the C# application:
+cd ../src/Chirp.Razor
+dotnet run
+
+Open a browser with the localhost site.
 
 ### Co-authored commit command
 
