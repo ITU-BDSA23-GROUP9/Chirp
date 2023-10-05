@@ -22,6 +22,10 @@ jobs:
           dotnet-version: "7.x"
           include-prerelease: true
 
+      - name: Setup SQLite DB
+        working-directory: scripts
+        run: ./initDB.sh
+
       - name: Build with dotnet
         run: dotnet build src/Chirp.Razor --configuration Release
 
