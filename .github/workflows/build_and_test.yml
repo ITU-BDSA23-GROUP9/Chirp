@@ -28,7 +28,7 @@ jobs:
         run: dotnet restore
       - name: Setup SQLite DB
         working-directory: scripts
-        run: ./scripts/initDB.sh
+        run: ./initDB.sh
       - name: Build
         run: dotnet build --no-restore
       - name: Test
