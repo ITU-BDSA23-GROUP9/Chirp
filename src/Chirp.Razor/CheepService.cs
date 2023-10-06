@@ -20,15 +20,22 @@ public class CheepService : ICheepService
 
     public List<CheepViewModel> GetCheeps()
     {
-        var sqlDBFilePath = "../../data/chirp.db";
+        var sqlDBFilePath = Environment.GetEnvironmentVariable("CHIRPDBPATH") ?? Path.Combine(Path.GetTempPath(), "chirp.db");
+        var initTableScript = File.ReadAllText("../../data/schema.sql");
+        var populateDBScript = File.ReadAllText("../../data/dump.sql");
         var query = @"SELECT U.username, M.text, M.pub_date FROM message M JOIN user U WHERE U.user_id = M.author_id";
         using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
         {
             connection.Open();
+            var initTableCommand = connection.CreateCommand();
+            initTableCommand.CommandText = initTableScript;
+            initTableCommand.ExecuteNonQuery();
+            var populateDBCommand = connection.CreateCommand();
+            populateDBCommand.CommandText = populateDBScript;
+            populateDBCommand.ExecuteNonQuery();
             var command = connection.CreateCommand();
             command.CommandText = query;
             using var reader = command.ExecuteReader();
-
             List<CheepViewModel> cheeps = new();
 
             while (reader.Read())
