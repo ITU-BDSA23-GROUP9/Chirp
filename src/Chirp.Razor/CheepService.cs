@@ -11,31 +11,28 @@ public interface ICheepService
 
 public class CheepService : ICheepService
 {
-    // These would normally be loaded from a database for example
-    private static readonly List<CheepViewModel> _cheeps = new()
-        {
-            new CheepViewModel("Helge", "Hello, BDSA students!", UnixTimeStampToDateTimeString(1690892208)),
-            new CheepViewModel("Rasmus", "Hej, velkommen til kurset.", UnixTimeStampToDateTimeString(1690895308)),
-        };
-
     public List<CheepViewModel> GetCheeps()
     {
         var sqlDBFilePath = Environment.GetEnvironmentVariable("CHIRPDBPATH") ?? Path.Combine(Path.GetTempPath(), "chirp.db");
-        var initTableScript = File.ReadAllText("../../data/schema.sql");
-        var populateDBScript = File.ReadAllText("../../data/dump.sql");
+        var schemaSQL = File.ReadAllText("../../data/schema.sql");
+        var dataDumpSQL = File.ReadAllText("../../data/dump.sql");
         var query = @"SELECT U.username, M.text, M.pub_date FROM message M JOIN user U WHERE U.user_id = M.author_id";
+
         using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
         {
             connection.Open();
-            var initTableCommand = connection.CreateCommand();
-            initTableCommand.CommandText = initTableScript;
-            initTableCommand.ExecuteNonQuery();
-            var populateDBCommand = connection.CreateCommand();
-            populateDBCommand.CommandText = populateDBScript;
-            populateDBCommand.ExecuteNonQuery();
-            var command = connection.CreateCommand();
+
+            SqliteCommand loadSchema = connection.CreateCommand();
+            loadSchema.CommandText = schemaSQL;
+            loadSchema.ExecuteNonQuery();
+
+            SqliteCommand loadDataDump = connection.CreateCommand();
+            loadDataDump.CommandText = dataDumpSQL;
+            loadDataDump.ExecuteNonQuery();
+
+            SqliteCommand command = connection.CreateCommand();
             command.CommandText = query;
-            using var reader = command.ExecuteReader();
+            using SqliteDataReader reader = command.ExecuteReader();
             List<CheepViewModel> cheeps = new();
 
             while (reader.Read())
@@ -51,12 +48,14 @@ public class CheepService : ICheepService
     {
         var sqlDBFilePath = "../../data/chirp.db";
         var query = @"SELECT U.username, M.text, M.pub_date FROM message M JOIN user U ON U.user_id = M.author_id WHERE U.username = $author";
+        
         using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
         {
             connection.Open();
-            var command = connection.CreateCommand();
+            SqliteCommand command = connection.CreateCommand();
             command.CommandText = query;
             command.Parameters.AddWithValue("$author", author);
+
             using var reader = command.ExecuteReader();
 
             List<CheepViewModel> cheeps = new();
@@ -72,10 +71,10 @@ public class CheepService : ICheepService
 
     private static string UnixTimeStampToDateTimeString(double unixTimeStamp)
     {
-        CultureInfo cultureInfo = new CultureInfo("en-US"); // Use the "en-US" culture
+        CultureInfo cultureInfo = new("en-US"); // Use the "en-US" culture
 
         // Unix timestamp is seconds past epoch
-        DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+        DateTime dateTime = new(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
         dateTime = dateTime.AddSeconds(unixTimeStamp);
         return dateTime.ToString("MM/dd/yy H:mm:ss", cultureInfo);
     }
