@@ -1,5 +1,6 @@
 using System.Globalization;
 using Microsoft.Data.Sqlite;
+using Microsoft.VisualBasic;
 
 public record CheepViewModel(string Author, string Message, string Timestamp);
 
@@ -11,12 +12,13 @@ public interface ICheepService
 
 public class CheepService : ICheepService
 {
-    public List<CheepViewModel> GetCheeps()
+    String sqlDBFilePath;
+
+    public CheepService()
     {
-        var sqlDBFilePath = Environment.GetEnvironmentVariable("CHIRPDBPATH") ?? Path.Combine(Path.GetTempPath(), "chirp.db");
+        sqlDBFilePath = Environment.GetEnvironmentVariable("CHIRPDBPATH") ?? Path.Combine(Path.GetTempPath(), "chirp.db");
         var schemaSQL = File.ReadAllText("../../data/schema.sql");
         var dataDumpSQL = File.ReadAllText("../../data/dump.sql");
-        var query = @"SELECT U.username, M.text, M.pub_date FROM message M JOIN user U WHERE U.user_id = M.author_id";
 
         using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
         {
@@ -29,6 +31,16 @@ public class CheepService : ICheepService
             SqliteCommand loadDataDump = connection.CreateCommand();
             loadDataDump.CommandText = dataDumpSQL;
             loadDataDump.ExecuteNonQuery();
+        }
+    }
+
+    public List<CheepViewModel> GetCheeps()
+    {
+        var query = @"SELECT U.username, M.text, M.pub_date FROM message M JOIN user U WHERE U.user_id = M.author_id";
+
+        using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
+        {
+            connection.Open();
 
             SqliteCommand command = connection.CreateCommand();
             command.CommandText = query;
@@ -46,12 +58,12 @@ public class CheepService : ICheepService
 
     public List<CheepViewModel> GetCheepsFromAuthor(string author)
     {
-        var sqlDBFilePath = "../../data/chirp.db";
         var query = @"SELECT U.username, M.text, M.pub_date FROM message M JOIN user U ON U.user_id = M.author_id WHERE U.username = $author";
-        
+
         using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
         {
             connection.Open();
+
             SqliteCommand command = connection.CreateCommand();
             command.CommandText = query;
             command.Parameters.AddWithValue("$author", author);
