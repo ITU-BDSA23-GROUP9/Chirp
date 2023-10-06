@@ -3,11 +3,14 @@ namespace Chirp.Razor.Tests;
 
 public class UnitTests
 {
-    [Fact]
-    public void CheepServiceGetCheepsTest()
+    [Theory]
+    [InlineData("notSet", "notSet")]
+    [InlineData("CHIRPDBPATH", "./mychirp.db")]
+    public void CheepServiceGetCheepsTest(string environmentVariable, string value)
     {
         // Arrange
-        CheepService cheepService = new (); 
+        Environment.SetEnvironmentVariable(environmentVariable, value);
+        CheepService cheepService = new();
 
         // Act
         var cheeps = cheepService.GetCheeps();
@@ -19,11 +22,14 @@ public class UnitTests
         Assert.Equal(657, cheeps.Count);
     }
 
-    [Fact]
-    public void CheepServiceGetCheepsFromAuthorTest()
+    [Theory]
+    [InlineData("notSet", "notSet")]
+    [InlineData("CHIRPDBPATH", "./mychirp.db")]
+    public void CheepServiceGetCheepsFromAuthorTest(string environmentVariable, string value)
     {
         // Arrange
-        CheepService cheepService = new (); 
+        Environment.SetEnvironmentVariable(environmentVariable, value);
+        CheepService cheepService = new();
 
         // Act
         var cheeps = cheepService.GetCheepsFromAuthor("Helge");
