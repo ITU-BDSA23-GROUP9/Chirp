@@ -1,5 +1,7 @@
 using System.Globalization;
+using System.Reflection;
 using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.VisualBasic;
 
 public record CheepViewModel(string Author, string Message, string Timestamp);
@@ -17,8 +19,9 @@ public class CheepService : ICheepService
     public CheepService()
     {
         sqlDBFilePath = Environment.GetEnvironmentVariable("CHIRPDBPATH") ?? Path.Combine(Path.GetTempPath(), "chirp.db");
-        var schemaSQL = File.ReadAllText("../../data/schema.sql");
-        var dataDumpSQL = File.ReadAllText("../../data/dump.sql");
+
+        string schemaSQL = ReadEmbeddedResoruceAsString("schema.sql");
+        string dataDumpSQL = ReadEmbeddedResoruceAsString("dump.sql");
 
         using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
         {
@@ -32,6 +35,15 @@ public class CheepService : ICheepService
             loadDataDump.CommandText = dataDumpSQL;
             loadDataDump.ExecuteNonQuery();
         }
+    }
+
+    public string ReadEmbeddedResoruceAsString(string path)
+    {
+        // Method of reading embedded resource inspired by lecture slides: https://github.com/itu-bdsa/lecture_notes/blob/main/sessions/session_05/Slides.md
+        var embeddedProvider = new EmbeddedFileProvider(Assembly.GetExecutingAssembly(), "Chirp.Razor.data");
+        using var reader = embeddedProvider.GetFileInfo(path).CreateReadStream();
+        using var sr = new StreamReader(reader);
+        return sr.ReadToEnd();
     }
 
     public List<CheepViewModel> GetCheeps()
