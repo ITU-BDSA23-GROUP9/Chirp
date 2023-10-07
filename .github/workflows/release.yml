@@ -54,7 +54,7 @@ jobs:
           release_name="Chirp-$tag-${{ matrix.target }}"
 
           # Build
-          dotnet publish src/Chirp.CLI/Chirp.CLI.csproj -r ${{ matrix.target }} -c Release -o "$release_name"
+          dotnet publish src/Chirp.Razor/Chirp.Razor.csproj -r ${{ matrix.target }} -c Release -o "$release_name"
 
           # Zip files
           zip -r "${release_name}.zip" "$release_name"
