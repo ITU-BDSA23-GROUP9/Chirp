@@ -1,5 +1,8 @@
 using System.Globalization;
+using System.Reflection;
 using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.VisualBasic;
 
 public record CheepViewModel(string Author, string Message, string Timestamp);
 
@@ -11,24 +14,49 @@ public interface ICheepService
 
 public class CheepService : ICheepService
 {
-    // These would normally be loaded from a database for example
-    private static readonly List<CheepViewModel> _cheeps = new()
-        {
-            new CheepViewModel("Helge", "Hello, BDSA students!", UnixTimeStampToDateTimeString(1690892208)),
-            new CheepViewModel("Rasmus", "Hej, velkommen til kurset.", UnixTimeStampToDateTimeString(1690895308)),
-        };
+    String sqlDBFilePath;
 
-    public List<CheepViewModel> GetCheeps()
+    public CheepService()
     {
-        var sqlDBFilePath = "../../data/chirp.db";
-        var query = @"SELECT U.username, M.text, M.pub_date FROM message M JOIN user U WHERE U.user_id = M.author_id";
+        sqlDBFilePath = Environment.GetEnvironmentVariable("CHIRPDBPATH") ?? Path.Combine(Path.GetTempPath(), "chirp.db");
+
+        string schemaSQL = ReadEmbeddedResoruceAsString("schema.sql");
+        string dataDumpSQL = ReadEmbeddedResoruceAsString("dump.sql");
+
         using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
         {
             connection.Open();
-            var command = connection.CreateCommand();
-            command.CommandText = query;
-            using var reader = command.ExecuteReader();
 
+            SqliteCommand loadSchema = connection.CreateCommand();
+            loadSchema.CommandText = schemaSQL;
+            loadSchema.ExecuteNonQuery();
+
+            SqliteCommand loadDataDump = connection.CreateCommand();
+            loadDataDump.CommandText = dataDumpSQL;
+            loadDataDump.ExecuteNonQuery();
+        }
+    }
+
+    public string ReadEmbeddedResoruceAsString(string path)
+    {
+        // Method of reading embedded resource inspired by lecture slides: https://github.com/itu-bdsa/lecture_notes/blob/main/sessions/session_05/Slides.md
+        var embeddedProvider = new EmbeddedFileProvider(Assembly.GetExecutingAssembly(), "Chirp.Razor.data");
+        using var reader = embeddedProvider.GetFileInfo(path).CreateReadStream();
+        using var sr = new StreamReader(reader);
+        return sr.ReadToEnd();
+    }
+
+    public List<CheepViewModel> GetCheeps()
+    {
+        var query = @"SELECT U.username, M.text, M.pub_date FROM message M JOIN user U WHERE U.user_id = M.author_id";
+
+        using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
+        {
+            connection.Open();
+
+            SqliteCommand command = connection.CreateCommand();
+            command.CommandText = query;
+            using SqliteDataReader reader = command.ExecuteReader();
             List<CheepViewModel> cheeps = new();
 
             while (reader.Read())
@@ -42,14 +70,16 @@ public class CheepService : ICheepService
 
     public List<CheepViewModel> GetCheepsFromAuthor(string author)
     {
-        var sqlDBFilePath = "../../data/chirp.db";
         var query = @"SELECT U.username, M.text, M.pub_date FROM message M JOIN user U ON U.user_id = M.author_id WHERE U.username = $author";
+
         using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
         {
             connection.Open();
-            var command = connection.CreateCommand();
+
+            SqliteCommand command = connection.CreateCommand();
             command.CommandText = query;
             command.Parameters.AddWithValue("$author", author);
+
             using var reader = command.ExecuteReader();
 
             List<CheepViewModel> cheeps = new();
@@ -65,10 +95,10 @@ public class CheepService : ICheepService
 
     private static string UnixTimeStampToDateTimeString(double unixTimeStamp)
     {
-        CultureInfo cultureInfo = new CultureInfo("en-US"); // Use the "en-US" culture
+        CultureInfo cultureInfo = new("en-US"); // Use the "en-US" culture
 
         // Unix timestamp is seconds past epoch
-        DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+        DateTime dateTime = new(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
         dateTime = dateTime.AddSeconds(unixTimeStamp);
         return dateTime.ToString("MM/dd/yy H:mm:ss", cultureInfo);
     }
