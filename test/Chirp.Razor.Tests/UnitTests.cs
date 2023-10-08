@@ -1,9 +1,9 @@
 namespace Chirp.Razor.Tests;
 
 
-public class UnitTests : IDisposable
+public class UnitTests
 {
-        // After realizing we needed 1) a singleton for testing purposes and 2) to dispose of the 
+        /*// After realizing we needed 1) a singleton for testing purposes and 2) to dispose of the 
         // singleton after the tests were finished to avoid the "UNIQUE constraint failed" error,
         // ChatGPT was asked on how to actually create that in a testing environment. 
         // Hence, the following lines (until line 28) was taken from ChatGPT.
@@ -25,7 +25,7 @@ public class UnitTests : IDisposable
         public void Dispose()
         {
             app.DisposeAsync();
-        }
+        }*/
 
     [Theory]
     [InlineData("notSet", "notSet")]
@@ -34,7 +34,7 @@ public class UnitTests : IDisposable
     {
         // Arrange
         Environment.SetEnvironmentVariable(environmentVariable, value);
-        CheepService cheepService = new CheepService(facade);
+        CheepService cheepService = new();
 
         // Act
         var cheeps = cheepService.GetCheeps();
@@ -53,7 +53,7 @@ public class UnitTests : IDisposable
     {
         // Arrange
         Environment.SetEnvironmentVariable(environmentVariable, value);
-        CheepService cheepService = new CheepService(facade);
+        CheepService cheepService = new CheepService();
 
         // Act
         var cheeps = cheepService.GetCheepsFromAuthor("Helge");
