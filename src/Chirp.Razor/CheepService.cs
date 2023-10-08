@@ -15,17 +15,16 @@ public interface ICheepService
 public class CheepService : ICheepService
 {
 
-    private readonly DBFacade dbFacade;
-    public CheepService(DBFacade facade) {
-        dbFacade = facade;
+    DBFacade facade = DBFacade.getInstance();
+    public CheepService() {
     }
 
     public List<CheepViewModel> GetCheeps() 
     {
-        return dbFacade.GetCheeps();
+        return facade.GetCheeps();
     }
     public List<CheepViewModel> GetCheepsFromAuthor(string author)
     {
-        return dbFacade.GetCheepsFromAuthor(author);
+        return facade.GetCheepsFromAuthor(author);
     }
 }

@@ -5,7 +5,7 @@ using Microsoft.Extensions.FileProviders;
 public class DBFacade 
 {
     private readonly string sqlDBFilePath;
-
+    private static readonly DBFacade singleton = new();
     public DBFacade()
     {
         sqlDBFilePath = Environment.GetEnvironmentVariable("CHIRPDBPATH") ?? Path.Combine(Path.GetTempPath(), "chirp.db");
@@ -91,6 +91,10 @@ public class DBFacade
         DateTime dateTime = new(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
         dateTime = dateTime.AddSeconds(unixTimeStamp);
         return dateTime.ToString("MM/dd/yy H:mm:ss", cultureInfo);
+    }
+
+    public static DBFacade getInstance() {
+        return singleton;
     }
 
 }
