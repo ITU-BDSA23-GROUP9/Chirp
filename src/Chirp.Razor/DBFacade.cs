@@ -2,10 +2,9 @@ using System.Globalization;
 using System.Reflection;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.VisualBasic;
 public class DBFacade 
 {
-       String sqlDBFilePath;
+    private readonly string sqlDBFilePath;
 
     public DBFacade()
     {

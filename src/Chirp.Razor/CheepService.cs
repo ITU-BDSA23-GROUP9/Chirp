@@ -14,10 +14,18 @@ public interface ICheepService
 
 public class CheepService : ICheepService
 {
-    public CheepService() {
 
+    private readonly DBFacade dbFacade;
+    public CheepService(DBFacade facade) {
+        dbFacade = facade;
     }
 
-    public List<CheepViewModel> GetCheeps() => throw new NotImplementedException();
-    public List<CheepViewModel> GetCheepsFromAuthor(string author) => throw new NotImplementedException();
+    public List<CheepViewModel> GetCheeps() 
+    {
+        return dbFacade.GetCheeps();
+    }
+    public List<CheepViewModel> GetCheepsFromAuthor(string author)
+    {
+        return dbFacade.GetCheepsFromAuthor(author);
+    }
 }
