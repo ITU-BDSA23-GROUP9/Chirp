@@ -2,10 +2,10 @@ using System.Globalization;
 using System.Reflection;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.FileProviders;
-public class DBFacade 
+public class DBFacade
 {
     private readonly string sqlDBFilePath;
-    private static readonly DBFacade singleton = new();
+    private static DBFacade instance = null;
     public DBFacade()
     {
         sqlDBFilePath = Environment.GetEnvironmentVariable("CHIRPDBPATH") ?? Path.Combine(Path.GetTempPath(), "chirp.db");
@@ -93,8 +93,11 @@ public class DBFacade
         return dateTime.ToString("MM/dd/yy H:mm:ss", cultureInfo);
     }
 
-    public static DBFacade getInstance() {
-        return singleton;
+    public static DBFacade getInstance()
+    {
+        instance ??= new();
+
+        return instance;
     }
 
 }
