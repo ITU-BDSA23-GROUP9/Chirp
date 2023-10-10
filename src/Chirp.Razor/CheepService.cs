@@ -20,7 +20,7 @@ public class CheepService : ICheepService
 
         List<CheepDTO> CheepDTOList = new();
 
-        cheeps.ForEach(cheep => CheepDTOList.Add(new CheepDTO(cheep.Text, cheep.Author.Name, cheep.TimeStamp.ToString())));
+        cheeps.ForEach(cheep => CheepDTOList.Add(new CheepDTO(cheep.Text, "Test", cheep.TimeStamp.ToString())));
         return CheepDTOList;
     }
 

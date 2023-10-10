@@ -29,7 +29,7 @@ using (var scope = app.Services.CreateScope())
 
     var context = services.GetRequiredService<ChirpContext>();
     context.Database.EnsureCreated();
-    //DbInitializer.SeedDatabase(context);
+    DbInitializer.SeedDatabase(context);
 }
 
 app.UseHttpsRedirection();
