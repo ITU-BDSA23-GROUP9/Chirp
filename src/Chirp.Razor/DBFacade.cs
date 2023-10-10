@@ -1,30 +1,16 @@
 using System.Globalization;
 using System.Reflection;
 using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 public class DBFacade
 {
+
     private readonly string sqlDBFilePath;
     private static DBFacade instance = null;
     public DBFacade()
     {
         sqlDBFilePath = Environment.GetEnvironmentVariable("CHIRPDBPATH") ?? Path.Combine(Path.GetTempPath(), "chirp.db");
-
-        string schemaSQL = ReadEmbeddedResoruceAsString("schema.sql");
-        string dataDumpSQL = ReadEmbeddedResoruceAsString("dump.sql");
-
-        using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
-        {
-            connection.Open();
-
-            SqliteCommand loadSchema = connection.CreateCommand();
-            loadSchema.CommandText = schemaSQL;
-            loadSchema.ExecuteNonQuery();
-
-            SqliteCommand loadDataDump = connection.CreateCommand();
-            loadDataDump.CommandText = dataDumpSQL;
-            loadDataDump.ExecuteNonQuery();
-        }
     }
 
     public string ReadEmbeddedResoruceAsString(string path)
