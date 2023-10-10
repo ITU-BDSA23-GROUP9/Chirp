@@ -21,21 +21,24 @@ public class CheepRepository : ICheepRepository
         return sr.ReadToEnd();
     }
 
-    public async Task<List<CheepViewModel>> GetCheeps(int limit, int pageNumber)
+    public async Task<List<Cheep>> GetCheeps(int limit, int pageNumber)
     {
         List<Cheep> cheeps = await _db.Cheeps
         .Skip(limit * pageNumber)
         .Take(limit)
         .ToListAsync();
 
-        List<CheepViewModel> CheepVMList = new();
-
-        cheeps.ForEach(cheep => CheepVMList.Add(new CheepViewModel(cheep.Author.Name, cheep.Message, cheep.Timestamp.ToString())));
-
-        return CheepVMList;
+        return cheeps;
     }
 
-    public async Task<List<CheepViewModel>> GetCheepsFromAuthor(string author, int limit, int pageNumber)
+    public async Task<List<Cheep>> GetCheeps()
+    {
+        List<Cheep> cheeps = await _db.Cheeps.ToListAsync();
+
+        return cheeps;
+    }
+
+    public async Task<List<Cheep>> GetCheepsFromAuthor(string author, int limit, int pageNumber)
     {
         List<Cheep> cheeps = await _db.Cheeps
         .Skip(limit * pageNumber)
@@ -43,11 +46,7 @@ public class CheepRepository : ICheepRepository
         .Where(cheep => cheep.Author.Name == author)
         .ToListAsync();
 
-        List<CheepViewModel> CheepVMList = new();
-
-        cheeps.ForEach(cheep => CheepVMList.Add(new CheepViewModel(cheep.Author.Name, cheep.Message, cheep.Timestamp.ToString())));
-
-        return CheepVMList;
+        return cheeps;
     }
 
 }

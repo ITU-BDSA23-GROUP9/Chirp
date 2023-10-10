@@ -6,7 +6,7 @@ namespace Chirp.Razor.Pages;
 public class PublicModel : PageModel
 {
     private readonly ICheepService _service;
-    public List<CheepViewModel> Cheeps { get; set; }
+    public List<CheepDTO> Cheeps { get; set; }
 
     public PublicModel(ICheepService service)
     {
@@ -15,7 +15,7 @@ public class PublicModel : PageModel
 
     public ActionResult OnGet()
     {
-        Cheeps = _service.GetCheeps(32, 0).Result;
+        Cheeps = _service.GetCheeps().Result;
         return Page();
     }
 }
