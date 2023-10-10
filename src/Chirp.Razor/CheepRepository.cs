@@ -23,7 +23,10 @@ public class CheepRepository : ICheepRepository
 
     public async Task<List<CheepViewModel>> GetCheeps(int limit, int pageNumber)
     {
-        List<Cheep> cheeps = await _db.Cheeps.Take(new Range(limit * pageNumber, limit * pageNumber + limit)).ToListAsync();
+        List<Cheep> cheeps = await _db.Cheeps
+        .Skip(limit * pageNumber)
+        .Take(limit)
+        .ToListAsync();
 
         List<CheepViewModel> CheepVMList = new();
 
@@ -35,7 +38,8 @@ public class CheepRepository : ICheepRepository
     public async Task<List<CheepViewModel>> GetCheepsFromAuthor(string author, int limit, int pageNumber)
     {
         List<Cheep> cheeps = await _db.Cheeps
-        .Take(new Range(limit * pageNumber, limit * pageNumber + limit))
+        .Skip(limit * pageNumber)
+        .Take(limit)
         .Where(cheep => cheep.Author.Name == author)
         .ToListAsync();
 

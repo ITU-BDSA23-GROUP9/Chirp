@@ -1,30 +1,26 @@
-using System.Globalization;
-using System.Reflection;
-using Microsoft.Data.Sqlite;
-using Microsoft.Extensions.FileProviders;
-using Microsoft.VisualBasic;
-
 public record CheepViewModel(string Author, string Message, string Timestamp);
 
 public interface ICheepService
 {
-    public List<CheepViewModel> GetCheeps();
-    public List<CheepViewModel> GetCheepsFromAuthor(string author);
+    public Task<List<CheepViewModel>> GetCheeps(int limit, int pageNumber);
+    public List<CheepViewModel> GetCheepsFromAuthor(string author, int limit, int pageNumber);
 }
 
 public class CheepService : ICheepService
 {
-    
-    DBFacade facade = DBFacade.getInstance();
-    public CheepService() {
+
+    ICheepRepository _repository;
+    public CheepService(ICheepRepository repository)
+    {
+        _repository = repository;
     }
 
-    public List<CheepViewModel> GetCheeps() 
+    public async Task<List<CheepViewModel>> GetCheeps(int limit, int pageNumber)
     {
-        return facade.GetCheeps();
+        return await _repository.GetCheeps(limit, pageNumber);
     }
-    public List<CheepViewModel> GetCheepsFromAuthor(string author)
+    public List<CheepViewModel> GetCheepsFromAuthor(string author, int limit, int pageNumber)
     {
-        return facade.GetCheepsFromAuthor(author);
+        return _repository.GetCheepsFromAuthor(author, limit, pageNumber).Result;
     }
 }
