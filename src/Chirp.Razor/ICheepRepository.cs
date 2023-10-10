@@ -1,5 +1,5 @@
 public interface ICheepRepository
 {
-    public List<CheepViewModel> GetCheeps(int? limit = null);
-    public List<CheepViewModel> GetCheepsFromAuthor(string author);
+    public Task<List<CheepViewModel>> GetCheeps(int limit, int pageNumber);
+    public Task<List<CheepViewModel>> GetCheepsFromAuthor(string author, int limit, int pageNumber);
 }

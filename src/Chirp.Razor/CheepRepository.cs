@@ -21,44 +21,29 @@ public class CheepRepository : ICheepRepository
         return sr.ReadToEnd();
     }
 
-    public async Task<List<CheepViewModel>> GetCheeps(int? limit = null)
+    public async Task<List<CheepViewModel>> GetCheeps(int limit, int pageNumber)
     {
-        var cheeps = await _db.Cheeps.ToListAsync();
-        return cheeps;
+        List<Cheep> cheeps = await _db.Cheeps.Take(new Range(limit * pageNumber, limit * pageNumber + limit)).ToListAsync();
+
+        List<CheepViewModel> CheepVMList = new();
+
+        cheeps.ForEach(cheep => CheepVMList.Add(new CheepViewModel(cheep.Author.Name, cheep.Message, cheep.Timestamp.ToString())));
+
+        return CheepVMList;
     }
 
-    public List<CheepViewModel> GetCheepsFromAuthor(string author)
+    public async Task<List<CheepViewModel>> GetCheepsFromAuthor(string author, int limit, int pageNumber)
     {
-        var query = @"SELECT U.username, M.text, M.pub_date FROM message M JOIN user U ON U.user_id = M.author_id WHERE U.username = $author";
+        List<Cheep> cheeps = await _db.Cheeps
+        .Take(new Range(limit * pageNumber, limit * pageNumber + limit))
+        .Where(cheep => cheep.Author.Name == author)
+        .ToListAsync();
 
-        using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
-        {
-            connection.Open();
+        List<CheepViewModel> CheepVMList = new();
 
-            SqliteCommand command = connection.CreateCommand();
-            command.CommandText = query;
-            command.Parameters.AddWithValue("$author", author);
+        cheeps.ForEach(cheep => CheepVMList.Add(new CheepViewModel(cheep.Author.Name, cheep.Message, cheep.Timestamp.ToString())));
 
-            using var reader = command.ExecuteReader();
-
-            List<CheepViewModel> cheeps = new();
-
-            while (reader.Read())
-            {
-                cheeps.Add(new CheepViewModel(reader.GetString(0), reader.GetString(1), UnixTimeStampToDateTimeString(reader.GetDouble(2))));
-            }
-
-            return cheeps;
-        }
+        return CheepVMList;
     }
 
-    private static string UnixTimeStampToDateTimeString(double unixTimeStamp)
-    {
-        CultureInfo cultureInfo = new("en-US"); // Use the "en-US" culture
-
-        // Unix timestamp is seconds past epoch
-        DateTime dateTime = new(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-        dateTime = dateTime.AddSeconds(unixTimeStamp);
-        return dateTime.ToString("MM/dd/yy H:mm:ss", cultureInfo);
-    }
 }
