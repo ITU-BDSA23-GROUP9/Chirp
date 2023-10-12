@@ -15,8 +15,8 @@ public class UnitTests
         using var context = new ChirpContext(builder.Options);
         await context.Database.EnsureCreatedAsync();
         var repository = new CheepRepository(context);
-
-        context.Cheeps.Add(new Cheep() { CheepId = 1, AuthorId = 1, Author = new Author() { AuthorId = 1, Name = "Anton", Email = "anlf@itu.dk" }, Text = "Hej, velkommen til kurset.", TimeStamp = DateTime.Parse("2023-08-01 13:08:28") });
+        var authorGuid = Guid.NewGuid();
+        context.Cheeps.Add(new Cheep() { CheepId = 1, AuthorId = authorGuid, Author = new Author() { AuthorId = authorGuid, Name = "Anton", Email = "anlf@itu.dk" }, Text = "Hej, velkommen til kurset.", TimeStamp = DateTime.Parse("2023-08-01 13:08:28") });
         context.SaveChanges();
 
         // Act
