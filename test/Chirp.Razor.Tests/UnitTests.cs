@@ -1,43 +1,30 @@
-namespace Chirp.Razor.Tests;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 
+namespace Chirp.Razor.Tests;
 
 public class UnitTests
 {
-    [Theory]
-    [InlineData("notSet", "notSet")]
-    [InlineData("CHIRPDBPATH", "./mychirp.db")]
-    public void CheepServiceGetCheepsTest(string environmentVariable, string value)
+    [Fact]
+    public async void CheepRepositoryGetCheepsTest()
     {
         // Arrange
-        Environment.SetEnvironmentVariable(environmentVariable, value);
-        CheepService cheepService = new();
+        using var connection = new SqliteConnection("Filename=:memory:");
+        connection.Open();
+        var builder = new DbContextOptionsBuilder<ChirpContext>().UseSqlite(connection);
+        using var context = new ChirpContext(builder.Options);
+        await context.Database.EnsureCreatedAsync();
+        var repository = new CheepRepository(context);
+        var authorGuid = Guid.NewGuid();
+        context.Cheeps.Add(new Cheep() { CheepId = 1, AuthorId = authorGuid, Author = new Author() { AuthorId = authorGuid, Name = "Anton", Email = "anlf@itu.dk" }, Text = "Hej, velkommen til kurset.", TimeStamp = DateTime.Parse("2023-08-01 13:08:28") });
+        context.SaveChanges();
 
         // Act
-        var cheeps = cheepService.GetCheeps();
+        var result = await repository.GetCheeps();
 
-        // Assert 
-        Assert.Equal("Jacqualine Gilcoine", cheeps[0].Author);
-        Assert.Equal("They were married in Chicago, with old Smith, and was expected aboard every day; meantime, the two went past me.", cheeps[0].Message);
-        Assert.Equal("08/01/23 13:14:37", cheeps[0].Timestamp);
-        Assert.Equal(657, cheeps.Count);
-    }
-
-    [Theory]
-    [InlineData("notSet", "notSet")]
-    [InlineData("CHIRPDBPATH", "./mychirp.db")]
-    public void CheepServiceGetCheepsFromAuthorTest(string environmentVariable, string value)
-    {
-        // Arrange
-        Environment.SetEnvironmentVariable(environmentVariable, value);
-        CheepService cheepService = new();
-
-        // Act
-        var cheeps = cheepService.GetCheepsFromAuthor("Helge");
-
-        // Assert 
-        Assert.Equal("Helge", cheeps[0].Author);
-        Assert.Equal("Hello, BDSA students!", cheeps[0].Message);
-        Assert.Equal("08/01/23 12:16:48", cheeps[0].Timestamp);
-        Assert.Equal(1, cheeps.Count);
+        // Assert
+        Assert.Equal("Anton", result[0].author);
+        Assert.Equal("Hej, velkommen til kurset.", result[0].message);
+        Assert.Equal("2023-08-01 13:08:28", result[0].timestamp);
     }
 }
