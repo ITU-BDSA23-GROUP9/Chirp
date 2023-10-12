@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chirp.Razor.Migrations
 {
     [DbContext(typeof(ChirpContext))]
-    partial class ChirpContextModelSnapshot : ModelSnapshot
+    [Migration("20231010174854_FixedCheeps")]
+    partial class FixedCheeps
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.11");
@@ -32,7 +35,7 @@ namespace Chirp.Razor.Migrations
 
                     b.HasKey("AuthorId");
 
-                    b.ToTable("Authors");
+                    b.ToTable("user", (string)null);
                 });
 
             modelBuilder.Entity("Cheep", b =>
@@ -46,7 +49,6 @@ namespace Chirp.Razor.Migrations
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasMaxLength(160)
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("TimeStamp")
@@ -56,7 +58,7 @@ namespace Chirp.Razor.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Cheeps");
+                    b.ToTable("message", (string)null);
                 });
 
             modelBuilder.Entity("Cheep", b =>

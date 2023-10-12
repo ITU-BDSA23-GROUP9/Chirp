@@ -5,12 +5,13 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddDbContext<ChirpContext>(option => option.UseSqlite($"Data Source={"./mychirp.db"}"));
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddTransient<ICheepRepository, CheepRepository>();
-builder.Services.AddTransient<ICheepService, CheepService>();
+
+builder.Services.AddDbContext<ChirpContext>(option => option.UseSqlite($"Data Source={"./mychirp.db"}"));
+
+builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 
 
 var app = builder.Build();

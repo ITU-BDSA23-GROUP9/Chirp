@@ -1,12 +1,9 @@
-using System.Globalization;
 using System.Reflection;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
-using System.Linq;
 public class CheepRepository : ICheepRepository
 {
-    ChirpContext _db;
+    private readonly ChirpContext _db;
     public CheepRepository(ChirpContext db)
     {
         _db = db;
@@ -21,29 +18,35 @@ public class CheepRepository : ICheepRepository
         return sr.ReadToEnd();
     }
 
-    public async Task<List<Cheep>> GetCheeps(int limit, int pageNumber)
+    public async Task<List<CheepDTO>> GetCheeps(int limit, int pageNumber)
     {
-        List<Cheep> cheeps = await _db.Cheeps
+        List<CheepDTO> cheeps = await _db.Cheeps
+        .OrderByDescending(cheep => cheep.TimeStamp)
         .Skip(limit * pageNumber)
         .Take(limit)
+        .Select(cheep => new CheepDTO(cheep.Text, cheep.Author.Name, cheep.TimeStamp.ToString()))
         .ToListAsync();
 
         return cheeps;
     }
 
-    public async Task<List<Cheep>> GetCheeps()
+    public async Task<List<CheepDTO>> GetCheeps()
     {
-        List<Cheep> cheeps = await _db.Cheeps.ToListAsync();
+        List<CheepDTO> cheeps = await _db.Cheeps
+        .OrderByDescending(cheep => cheep.TimeStamp)
+        .Select(cheep => new CheepDTO(cheep.Text, cheep.Author.Name, cheep.TimeStamp.ToString()))
+        .ToListAsync();
 
         return cheeps;
     }
 
-    public async Task<List<Cheep>> GetCheepsFromAuthor(string author, int limit, int pageNumber)
+    public async Task<List<CheepDTO>> GetCheepsFromAuthor(string author, int limit, int pageNumber)
     {
-        List<Cheep> cheeps = await _db.Cheeps
+        List<CheepDTO> cheeps = await _db.Cheeps
         .Skip(limit * pageNumber)
         .Take(limit)
         .Where(cheep => cheep.Author.Name == author)
+        .Select(cheep => new CheepDTO(cheep.Text, cheep.Author.Name, cheep.TimeStamp.ToString()))
         .ToListAsync();
 
         return cheeps;
