@@ -22,7 +22,7 @@ public class CheepRepository : ICheepRepository
     {
         List<CheepDTO> cheeps = await _db.Cheeps
         .OrderByDescending(cheep => cheep.TimeStamp)
-        .Skip(limit * pageNumber)
+        .Skip(limit * (pageNumber - 1))
         .Take(limit)
         .Select(cheep => new CheepDTO(cheep.Text, cheep.Author.Name, cheep.TimeStamp.ToString()))
         .ToListAsync();
@@ -30,7 +30,7 @@ public class CheepRepository : ICheepRepository
         return cheeps;
     }
 
-    public async Task<List<CheepDTO>> GetCheeps()
+    public async Task<List<CheepDTO>> GetAllCheeps()
     {
         List<CheepDTO> cheeps = await _db.Cheeps
         .OrderByDescending(cheep => cheep.TimeStamp)
@@ -43,13 +43,26 @@ public class CheepRepository : ICheepRepository
     public async Task<List<CheepDTO>> GetCheepsFromAuthor(string author, int limit, int pageNumber)
     {
         List<CheepDTO> cheeps = await _db.Cheeps
-        .Skip(limit * pageNumber)
+        .OrderByDescending(cheep => cheep.TimeStamp)
+        .Skip(limit * (pageNumber - 1))
         .Take(limit)
         .Where(cheep => cheep.Author.Name == author)
         .Select(cheep => new CheepDTO(cheep.Text, cheep.Author.Name, cheep.TimeStamp.ToString()))
         .ToListAsync();
 
         return cheeps;
+    }
+
+    public async Task<int> GetTotalCheepCount()
+    {
+        return await _db.Cheeps.CountAsync();
+    }
+
+    public async Task<int> GetTotalCheepCountFromAuthor(string author)
+    {
+        return await _db.Cheeps
+        .Where(cheep => cheep.Author.Name == author)
+        .CountAsync();
     }
 
 }

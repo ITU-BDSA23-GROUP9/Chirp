@@ -6,7 +6,7 @@ namespace Chirp.Razor.Tests;
 public class UnitTests
 {
     [Fact]
-    public async void CheepRepositoryGetCheepsTest()
+    public async void CheepRepositoryGetAllCheepsTest()
     {
         // Arrange
         using var connection = new SqliteConnection("Filename=:memory:");
@@ -20,7 +20,7 @@ public class UnitTests
         context.SaveChanges();
 
         // Act
-        var result = await repository.GetCheeps();
+        var result = await repository.GetAllCheeps();
 
         // Assert
         Assert.Equal("Anton", result[0].author);

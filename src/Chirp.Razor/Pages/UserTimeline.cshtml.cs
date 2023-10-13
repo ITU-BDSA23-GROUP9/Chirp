@@ -6,16 +6,27 @@ namespace Chirp.Razor.Pages;
 public class UserTimelineModel : PageModel
 {
     private readonly ICheepRepository _service;
-    public List<CheepDTO> Cheeps { get; set; }
+    public List<CheepDTO>? Cheeps { get; set; }
+    public int TotalCheeps { get; set; }
+    public int PageNumber { get; set; }
+    public int CheepsPerPage { get; set; }
 
     public UserTimelineModel(ICheepRepository service)
     {
         _service = service;
+        PageNumber = 1; // Default to page 1
+        CheepsPerPage = 32; // Set the number of cheeps per page
     }
 
-    public ActionResult OnGet(string author)
+    public async Task<ActionResult> OnGet(string author, int? pageNumber)
     {
-        Cheeps = _service.GetCheepsFromAuthor(author, 32, 0).Result;
+        if (pageNumber.HasValue)
+        {
+            PageNumber = pageNumber.Value;
+        }
+
+        TotalCheeps = await _service.GetTotalCheepCountFromAuthor(author);
+        Cheeps = await _service.GetCheepsFromAuthor(author, CheepsPerPage, PageNumber);
         return Page();
     }
 }
