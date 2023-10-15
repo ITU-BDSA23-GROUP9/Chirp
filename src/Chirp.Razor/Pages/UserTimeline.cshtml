@@ -25,6 +25,19 @@
                 </li>
             }
         </ul>
+
+        <!-- Pagination links (horizontal) -->
+        <nav aria-label="Cheep Pagination">
+            <ul class="pagination justify-content-center">
+                @for (var i = 1; i <= Math.Ceiling((double)Model.TotalCheeps / Model.CheepsPerPage); i++)
+                {
+                    <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                        <a class="page-link" href="/@routeName?pageNumber=@i">Page @i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+
     }
     else
     {
