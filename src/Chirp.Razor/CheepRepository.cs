@@ -1,3 +1,4 @@
+using System.Net.Sockets;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
@@ -80,5 +81,22 @@ public class CheepRepository : ICheepRepository
         var author = new Author() { AuthorId = Guid.NewGuid(), Name = name, Email = email, Cheeps = new List<Cheep>() };
         _db.Authors.AddRange(author);
         _db.SaveChanges();
+    }
+
+    public void CreateCheep(int id, Author author, string text, DateTime timestamp)
+    {
+        if (DoesAuthorExist(author) == null)
+        {
+            CreateAuthor(author.Name, author.Email);
+        }
+        //CheepId is temporary!!! We need to make this GUID, so it's unique no matter what, right?
+        var cheep = new Cheep() { CheepId = 999999, AuthorId = author.AuthorId, Author = author, Text = text, TimeStamp = DateTime.Parse("2023-08-01 13:14:37") };
+        _db.Cheeps.AddRange(cheep);
+        _db.SaveChanges();
+    }
+
+    public Author? DoesAuthorExist(Author author)
+    {
+        return _db.Authors.Find((Author a) => a.AuthorId == author.AuthorId);
     }
 }

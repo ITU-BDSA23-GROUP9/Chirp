@@ -8,4 +8,5 @@ public interface ICheepRepository
     public Task<Author?> FindAuthorByName(string author);
     public Task<Author?> FindAuthorByEmail(string email);
     public void CreateAuthor(string name, string email);
+    public void CreateCheep(int id, Author author, string text, DateTime timestamp);
 }
