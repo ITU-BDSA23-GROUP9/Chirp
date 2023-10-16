@@ -65,4 +65,13 @@ public class CheepRepository : ICheepRepository
         .CountAsync();
     }
 
+    public async Task<Author?> FindAuthorByName(string author)
+    {
+        return await _db.Authors.FirstOrDefaultAsync(a => a.Name == author);
+    }
+
+    public async Task<Author?> FindAuthorByEmail(string email)
+    {
+        return await _db.Authors.FirstOrDefaultAsync(a => a.Email == email);
+    }
 }
