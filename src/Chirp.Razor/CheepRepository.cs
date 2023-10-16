@@ -74,4 +74,11 @@ public class CheepRepository : ICheepRepository
     {
         return await _db.Authors.FirstOrDefaultAsync(a => a.Email == email);
     }
+
+    public void CreateAuthor(string name, string email)
+    {
+        var author = new Author() { AuthorId = Guid.NewGuid(), Name = name, Email = email, Cheeps = new List<Cheep>() };
+        _db.Authors.AddRange(author);
+        _db.SaveChanges();
+    }
 }

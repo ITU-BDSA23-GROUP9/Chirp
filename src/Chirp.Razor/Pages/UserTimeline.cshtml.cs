@@ -7,6 +7,8 @@ public class UserTimelineModel : PageModel
 {
     private readonly ICheepRepository _service;
     public List<CheepDTO>? Cheeps { get; set; }
+
+    public Author? author { get; set; }
     public int TotalCheeps { get; set; }
     public int PageNumber { get; set; }
     public int CheepsPerPage { get; set; }
