@@ -32,7 +32,7 @@
                     @for (var i = 1; i <= Math.Ceiling((double)Model.TotalCheeps / Model.CheepsPerPage); i++)
                     {
                         <li style="display: inline;" class="page-item @(i == Model.PageNumber ? "active" : "")">
-                            <a class="page-link" href="/?pageNumber=@i"> @i</a>
+                            <a class="page-link" href="/@routeName?pageNumber=@i"> @i</a>
                         </li>
                     }
                 </ul>
