@@ -23,10 +23,10 @@ jobs:
           include-prerelease: true
 
       - name: Build with dotnet
-        run: dotnet build src/Chirp.Razor --configuration Release
+        run: dotnet build src/Chirp.Razor/ --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish src/Chirp.Razor -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish src/Chirp.Razor/ -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'bdsagroup9chirprazor'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8452FB596CCC4D2C8E4433C44854DBC2 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D7A45102AF654651ACD664B2B35CB78B }}
           package: .
