@@ -26,15 +26,15 @@
             }
         </ul>
 
-            <!-- Pagination links (horizontal) -->
-            <nav aria-label="Cheep Pagination">
-            <ul class="pagination justify-content-center">
-                @for (var i = 1; i <= Math.Ceiling((double)Model.TotalCheeps / Model.CheepsPerPage); i++)
-                {
-                            <li class="page-item @(i == Model.PageNumber ? "active" : "")">
-                                <a class="page-link" href="/@routeName?pageNumber=@i">Page @i</a>
-                            </li>
-                }
+         <!-- Pagination links (horizontal-list)-->
+            <nav aria-label="Cheep Pagination" class="justify-content-start">
+                <ul class="pagination justify-content-left" style="list-style: none; padding: 0; margin: 0;">
+                    @for (var i = 1; i <= Math.Ceiling((double)Model.TotalCheeps / Model.CheepsPerPage); i++)
+                    {
+                        <li style="display: inline;" class="page-item @(i == Model.PageNumber ? "active" : "")">
+                            <a class="page-link" href="/?pageNumber=@i"> @i</a>
+                        </li>
+                    }
                 </ul>
             </nav>
 
