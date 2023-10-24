@@ -10,15 +10,6 @@ public class CheepRepository : ICheepRepository
         _db = db;
     }
 
-    public string ReadEmbeddedResoruceAsString(string path)
-    {
-        // Method of reading embedded resource inspired by lecture slides: https://github.com/itu-bdsa/lecture_notes/blob/main/sessions/session_05/Slides.md
-        var embeddedProvider = new EmbeddedFileProvider(Assembly.GetExecutingAssembly(), "Chirp.Razor.data");
-        using var reader = embeddedProvider.GetFileInfo(path).CreateReadStream();
-        using var sr = new StreamReader(reader);
-        return sr.ReadToEnd();
-    }
-
     public async Task<List<CheepDTO>> GetCheeps(int limit, int pageNumber)
     {
         List<CheepDTO> cheeps = await _db.Cheeps
