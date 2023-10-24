@@ -6,13 +6,14 @@ namespace Chirp.Razor.Pages;
 public class PublicModel : PageModel
 {
     private readonly ICheepRepository _service;
-    public List<CheepDTO>? Cheeps { get; set; }
+    public List<CheepDTO> Cheeps { get; set; }
     public int TotalCheeps { get; set; }
     public int PageNumber { get; set; }
     public int CheepsPerPage { get; set; }
 
     public PublicModel(ICheepRepository service)
     {
+        Cheeps = new();
         _service = service;
         PageNumber = 1; // Default to page 1
         CheepsPerPage = 32; // Set the number of cheeps per page
