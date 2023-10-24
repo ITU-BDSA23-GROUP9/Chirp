@@ -42,19 +42,15 @@ public class CheepRepository : ICheepRepository
 
     public async Task<List<CheepDTO>> GetCheepsFromAuthor(string author, int limit, int pageNumber)
     {
-        List<CheepDTO> cheeps = new List<CheepDTO>();
-
         int cheepsToSkip = (pageNumber - 1) * limit;
 
-        var cheepDTOs = await _db.Cheeps
+        List<CheepDTO> cheeps = await _db.Cheeps
             .Where(cheep => cheep.Author.Name == author)
             .OrderByDescending(cheep => cheep.TimeStamp)
             .Skip(cheepsToSkip)
             .Take(limit)
             .Select(cheep => new CheepDTO(cheep.Text, cheep.Author.Name, cheep.TimeStamp.ToString()))
             .ToListAsync();
-
-        cheeps.AddRange(cheepDTOs);
 
         return cheeps;
     }
