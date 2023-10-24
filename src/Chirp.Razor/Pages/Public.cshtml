@@ -26,16 +26,24 @@
         </ul>
 
         <!-- Pagination links (horizontal-list)-->
-            <nav aria-label="Cheep Pagination" class="justify-content-start">
-                <ul class="pagination justify-content-left" style="list-style: none; padding: 0; margin: 0;">
-                    @for (var i = 1; i <= Math.Ceiling((double)Model.TotalCheeps / Model.CheepsPerPage); i++)
-                    {
-                        <li style="display: inline;" class="page-item @(i == Model.PageNumber ? "active" : "")">
-                            <a class="page-link" href="/?pageNumber=@i"> @i</a>
-                        </li>
-                    }
-                </ul>
-            </nav>
+        <nav aria-label="Cheep Pagination">
+            <div class="pagination justify-content-center">
+                <span class="page-item">
+                    <a class="page-link"
+                        href="/?pageNumber=@(Model.PageNumber - 1 > 0 ? Model.PageNumber - 1 : Model.PageNumber)">&lt;</a>
+                </span>
+                @for (var i = 1; i <= Math.Ceiling((double)Model.TotalCheeps / Model.CheepsPerPage); i++)
+                {
+                    <span class="page-item @(i == Model.PageNumber ? "active" : "")">
+                        <a class="page-link" href="/?pageNumber=@i">@i</a>
+                    </span>
+                }
+                <span class="page-item">
+                    <a class="page-link"
+                        href="/?pageNumber=@(Model.PageNumber + 1 <= Math.Ceiling((double)Model.TotalCheeps / Model.CheepsPerPage) ? Model.PageNumber + 1 : Model.PageNumber)">&gt;</a>
+                </span>
+            </div>
+        </nav>
     }
     else
     {
