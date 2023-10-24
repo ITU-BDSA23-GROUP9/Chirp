@@ -6,7 +6,7 @@ namespace Chirp.Razor.Pages;
 public class UserTimelineModel : PageModel
 {
     private readonly ICheepRepository _service;
-    public List<CheepDTO>? Cheeps { get; set; }
+    public List<CheepDTO> Cheeps { get; set; }
 
     public Author? author { get; set; }
     public int TotalCheeps { get; set; }
@@ -15,6 +15,7 @@ public class UserTimelineModel : PageModel
 
     public UserTimelineModel(ICheepRepository service)
     {
+        Cheeps = new();
         _service = service;
         PageNumber = 1; // Default to page 1
         CheepsPerPage = 32; // Set the number of cheeps per page
