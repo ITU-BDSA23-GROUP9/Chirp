@@ -60,26 +60,28 @@ public class CheepRepository : ICheepRepository
         .CountAsync();
     }
 
-    public async Task<Author?> FindAuthorByName(string author)
+    public async Task<AuthorDTO?> FindAuthorByName(string author)
     {
-        return await _db.Authors.FirstOrDefaultAsync(a => a.Name == author);
+        var authorObject = await _db.Authors.FirstOrDefaultAsync(a => a.Name == author);
+        return new AuthorDTO(authorObject.Name, authorObject.Email);
     }
 
-    public async Task<Author?> FindAuthorByEmail(string email)
+    public async Task<AuthorDTO?> FindAuthorByEmail(string email)
     {
-        return await _db.Authors.FirstOrDefaultAsync(a => a.Email == email);
+        var author = await _db.Authors.FirstOrDefaultAsync(a => a.Email == email);
+        return new AuthorDTO(author.Name, author.Email);
     }
 
     public void CreateAuthor(string name, string email)
     {
-        var author = new Author() { AuthorId = Guid.NewGuid(), Name = name, Email = email, Cheeps = new List<Cheep>() };
+        var author = new AuthorDTO(name, email);
         _db.Authors.AddRange(author);
         _db.SaveChanges();
     }
 
-    public void CreateCheep(Author author, string text, DateTime timestamp)
+    public async void CreateCheep(AuthorDTO author, string text, DateTime timestamp)
     {
-        var cheep = new Cheep() { CheepId = Guid.NewGuid(), AuthorId = author.AuthorId, Author = author, Text = text, TimeStamp = timestamp };
+        var cheep = new Cheep() { CheepId = Guid.NewGuid(), AuthorId = Guid.NewGuid(), Author = await FindAuthorByName(author.name), Text = text, TimeStamp = timestamp };
         _db.Cheeps.AddRange(cheep);
         _db.SaveChanges();
     }
