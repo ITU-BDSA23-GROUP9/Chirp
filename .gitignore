@@ -478,3 +478,6 @@ $RECYCLE.BIN/
 
 # Csv file
 chirp_cli_db.csv
+
+# Database file
+mychirp.db
