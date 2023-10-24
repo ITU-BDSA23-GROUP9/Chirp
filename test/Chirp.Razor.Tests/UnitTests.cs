@@ -44,6 +44,10 @@ public class UnitTests
 
         // Act
         var result = await repository.FindAuthorByName("Anton");
+        if (result == null) 
+        {
+            Assert.True(false);
+        }
         var authorCheepsList = result.Cheeps;
 
         // Assert
@@ -68,11 +72,43 @@ public class UnitTests
 
         // Act
         var result = await repository.FindAuthorByEmail("anlf@itu.dk");
+        if (result == null) 
+        {
+            Assert.True(false);
+        }
         var authorCheepsList = result.Cheeps;
 
         // Assert
         Assert.Equal("Anton", result.Name);
         Assert.Equal("anlf@itu.dk", result.Email);
         Assert.Single(authorCheepsList);
+    }
+
+    [Fact]
+    public async void CreateAuthorTest()
+    {
+        // Arrange
+        using var connection = new SqliteConnection("Filename=:memory:");
+        connection.Open();
+        var builder = new DbContextOptionsBuilder<ChirpContext>().UseSqlite(connection);
+        using var context = new ChirpContext(builder.Options);
+        await context.Database.EnsureCreatedAsync();
+        var repository = new CheepRepository(context);
+        var authorGuid = Guid.NewGuid();
+        context.SaveChanges();
+
+        // Act
+        repository.CreateAuthor("Anton", "anlf@itu.dk");
+        Author? result = await repository.FindAuthorByEmail("anlf@itu.dk");
+        if (result == null) 
+        {
+            Assert.True(false);
+        }
+        List<Cheep> authorCheepsList = result.Cheeps;
+
+        // Assert
+        Assert.Equal("Anton", result.Name);
+        Assert.Equal("anlf@itu.dk", result.Email);
+        Assert.Empty(authorCheepsList);
     }
 }
