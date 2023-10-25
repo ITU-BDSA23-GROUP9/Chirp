@@ -481,3 +481,5 @@ chirp_cli_db.csv
 
 # Database file
 mychirp.db
+mychirp.db-wal
+mychirp.db-shm
