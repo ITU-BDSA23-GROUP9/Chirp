@@ -1,8 +1,5 @@
-using System.Net.Sockets;
-using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileProviders;
-using 
+
 public class CheepRepository : ICheepRepository
 {
     private readonly ChirpContext _db;
@@ -74,7 +71,12 @@ public class CheepRepository : ICheepRepository
 
     public void CreateAuthor(string name, string email)
     {
-        var author = new AuthorDTO(name, email);
+        var author = new Author()
+        {
+            AuthorId = Guid.NewGuid(),
+            Name = name,
+            Email = email
+        };
         _db.Authors.AddRange(author);
         _db.SaveChanges();
     }
