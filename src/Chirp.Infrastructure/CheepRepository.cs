@@ -30,12 +30,14 @@ public class CheepRepository : ICheepRepository
         return cheeps;
     }
 
-    public async Task<List<CheepDTO>> GetCheepsFromAuthor(string author, int limit, int pageNumber)
+    public async Task<List<CheepDTO>> GetCheepsFromAuthor(AuthorDTO author, int limit, int pageNumber)
     {
         int cheepsToSkip = (pageNumber - 1) * limit;
 
+        var authorModel = await FindAuthorModelByName(author.name);
+
         List<CheepDTO> cheeps = await _db.Cheeps
-            .Where(cheep => cheep.Author.Name == author)
+            .Where(cheep => cheep.Author.AuthorId == authorModel.AuthorId)
             .OrderByDescending(cheep => cheep.TimeStamp)
             .Skip(cheepsToSkip)
             .Take(limit)
