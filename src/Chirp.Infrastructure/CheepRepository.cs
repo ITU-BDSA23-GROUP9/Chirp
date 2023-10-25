@@ -59,14 +59,32 @@ public class CheepRepository : ICheepRepository
 
     public async Task<AuthorDTO?> FindAuthorByName(string author)
     {
-        var authorObject = await _db.Authors.FirstOrDefaultAsync(a => a.Name == author);
-        return new AuthorDTO(authorObject.Name, authorObject.Email);
+        Author? authorModel = await _db.Authors.FirstOrDefaultAsync(a => a.Name == author);
+        if (authorModel == null)
+        {
+            throw new Exception("Author does not exist");
+        }
+        return new AuthorDTO(authorModel.Name, authorModel.Email);
     }
 
     public async Task<AuthorDTO?> FindAuthorByEmail(string email)
     {
-        var author = await _db.Authors.FirstOrDefaultAsync(a => a.Email == email);
-        return new AuthorDTO(author.Name, author.Email);
+        Author? authorModel = await _db.Authors.FirstOrDefaultAsync(a => a.Email == email);
+        if (authorModel == null)
+        {
+            throw new Exception("Author does not exist");
+        }
+        return new AuthorDTO(authorModel.Name, authorModel.Email);
+    }
+
+    private async Task<Author> FindAuthorModelByName(string author)
+    {
+        Author? authorModel = await _db.Authors.FirstOrDefaultAsync(a => a.Name == author);
+        if (authorModel == null)
+        {
+            throw new Exception("Author does not exist");
+        }
+        return authorModel;
     }
 
     public void CreateAuthor(string name, string email)
@@ -81,9 +99,11 @@ public class CheepRepository : ICheepRepository
         _db.SaveChanges();
     }
 
-    public async void CreateCheep(AuthorDTO author, string text, DateTime timestamp)
+    public async void CreateCheep(AuthorDTO authorDTO, string text, DateTime timestamp)
     {
-        var cheep = new Cheep() { CheepId = Guid.NewGuid(), AuthorId = Guid.NewGuid(), Author = await FindAuthorByName(author.name), Text = text, TimeStamp = timestamp };
+        var author = await FindAuthorModelByName(authorDTO.name);
+
+        var cheep = new Cheep() { CheepId = Guid.NewGuid(), AuthorId = Guid.NewGuid(), Author = author, Text = text, TimeStamp = timestamp };
         _db.Cheeps.AddRange(cheep);
         _db.SaveChanges();
     }
