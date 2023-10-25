@@ -26,9 +26,6 @@ jobs:
           dotnet-version: 7.0.x
       - name: Restore dependencies
         run: dotnet restore
-      - name: Setup SQLite DB
-        working-directory: scripts
-        run: ./initDB.sh
       - name: Build
         run: dotnet build --no-restore
       - name: Test
