@@ -1,17 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Chirp.Razor.Pages;
+namespace Chirp.Web.Pages;
 
-public class PublicModel : PageModel
+public class UserTimelineModel : PageModel
 {
     private readonly ICheepRepository _service;
     public List<CheepDTO> Cheeps { get; set; }
+
+    public AuthorDTO? author { get; set; }
     public int TotalCheeps { get; set; }
     public int PageNumber { get; set; }
     public int CheepsPerPage { get; set; }
 
-    public PublicModel(ICheepRepository service)
+    public UserTimelineModel(ICheepRepository service)
     {
         Cheeps = new();
         _service = service;
@@ -19,15 +21,15 @@ public class PublicModel : PageModel
         CheepsPerPage = 32; // Set the number of cheeps per page
     }
 
-    public async Task<ActionResult> OnGet(int? pageNumber)
+    public async Task<ActionResult> OnGet(string author, int? pageNumber)
     {
         if (pageNumber.HasValue)
         {
             PageNumber = pageNumber.Value;
         }
 
-        TotalCheeps = await _service.GetTotalCheepCount();
-        Cheeps = await _service.GetCheeps(CheepsPerPage, PageNumber);
+        TotalCheeps = await _service.GetTotalCheepCountFromAuthor(author);
+        Cheeps = await _service.GetCheepsFromAuthor(author, CheepsPerPage, PageNumber);
         return Page();
     }
 }

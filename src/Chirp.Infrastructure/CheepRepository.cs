@@ -1,7 +1,5 @@
-using System.Net.Sockets;
-using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileProviders;
+
 public class CheepRepository : ICheepRepository
 {
     private readonly ChirpContext _db;
@@ -36,8 +34,10 @@ public class CheepRepository : ICheepRepository
     {
         int cheepsToSkip = (pageNumber - 1) * limit;
 
+        var authorModel = await FindAuthorModelByName(author);
+
         List<CheepDTO> cheeps = await _db.Cheeps
-            .Where(cheep => cheep.Author.Name == author)
+            .Where(cheep => cheep.Author.AuthorId == authorModel.AuthorId)
             .OrderByDescending(cheep => cheep.TimeStamp)
             .Skip(cheepsToSkip)
             .Take(limit)
@@ -59,26 +59,53 @@ public class CheepRepository : ICheepRepository
         .CountAsync();
     }
 
-    public async Task<Author?> FindAuthorByName(string author)
+    public async Task<AuthorDTO?> FindAuthorByName(string author)
     {
-        return await _db.Authors.FirstOrDefaultAsync(a => a.Name == author);
+        Author? authorModel = await _db.Authors.FirstOrDefaultAsync(a => a.Name == author);
+        if (authorModel == null)
+        {
+            throw new Exception("Author does not exist");
+        }
+        return new AuthorDTO(authorModel.Name, authorModel.Email);
     }
 
-    public async Task<Author?> FindAuthorByEmail(string email)
+    public async Task<AuthorDTO?> FindAuthorByEmail(string email)
     {
-        return await _db.Authors.FirstOrDefaultAsync(a => a.Email == email);
+        Author? authorModel = await _db.Authors.FirstOrDefaultAsync(a => a.Email == email);
+        if (authorModel == null)
+        {
+            throw new Exception("Author does not exist");
+        }
+        return new AuthorDTO(authorModel.Name, authorModel.Email);
+    }
+
+    private async Task<Author> FindAuthorModelByName(string author)
+    {
+        Author? authorModel = await _db.Authors.FirstOrDefaultAsync(a => a.Name == author);
+        if (authorModel == null)
+        {
+            throw new Exception("Author does not exist");
+        }
+        return authorModel;
     }
 
     public void CreateAuthor(string name, string email)
     {
-        var author = new Author() { AuthorId = Guid.NewGuid(), Name = name, Email = email, Cheeps = new List<Cheep>() };
+        var author = new Author()
+        {
+            AuthorId = Guid.NewGuid(),
+            Name = name,
+            Email = email
+        };
         _db.Authors.AddRange(author);
         _db.SaveChanges();
     }
 
-    public void CreateCheep(Author author, string text, DateTime timestamp)
+    public async void CreateCheep(AuthorDTO authorDTO, string text, DateTime timestamp)
     {
-        var cheep = new Cheep() { CheepId = Guid.NewGuid(), AuthorId = author.AuthorId, Author = author, Text = text, TimeStamp = timestamp };
+        var author = await FindAuthorModelByName(authorDTO.name);
+
+        var cheep = new Cheep() { CheepId = Guid.NewGuid(), AuthorId = Guid.NewGuid(), Author = author, Text = text, TimeStamp = timestamp };
         _db.Cheeps.AddRange(cheep);
         _db.SaveChanges();
     }

@@ -1,4 +1,4 @@
-namespace Chirp.Razor.Tests;
+namespace Chirp.Web.Tests;
 using Microsoft.AspNetCore.Mvc.Testing;
 
 //Code taken from lecture-slides-05 and small parts adapted by: Oline <okre@itu.dk>, Anton <anlf@itu.dk> & Clara <clwj@itu.dk>

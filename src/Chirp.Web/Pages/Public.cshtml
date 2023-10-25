@@ -1,13 +1,12 @@
-﻿@page "/{author}"
-@model Chirp.Razor.Pages.UserTimelineModel
+﻿@page "/"
+@model Chirp.Web.Pages.PublicModel
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
-    var routeName = HttpContext.GetRouteValue("author");
 }
 
 <div>
-    <h2> @routeName's Timeline </h2>
+    <h2> Public Timeline </h2>
 
     @if (Model.Cheeps.Count > 0)
     {
@@ -26,29 +25,28 @@
             }
         </ul>
 
-         <!-- Pagination links (horizontal-list)-->
-            <nav aria-label="Cheep Pagination">
+        <!-- Pagination links (horizontal-list)-->
+        <nav aria-label="Cheep Pagination">
             <div class="pagination justify-content-center">
                 <span class="page-item">
                     <a class="page-link"
-                        href="/@routeName?pageNumber=@(Model.PageNumber - 1 > 0 ? Model.PageNumber - 1 : Model.PageNumber)">&lt;</a>
+                        href="/?pageNumber=@(Model.PageNumber - 1 > 0 ? Model.PageNumber - 1 : Model.PageNumber)">&lt;</a>
                 </span>
                 @for (var i = 1; i <= Math.Ceiling((double)Model.TotalCheeps / Model.CheepsPerPage); i++)
                 {
                     <span class="page-item @(i == Model.PageNumber ? "active" : "")">
-                        <a class="page-link" href="/@routeName?pageNumber=@i">@i</a>
+                        <a class="page-link" href="/?pageNumber=@i">@i</a>
                     </span>
                 }
                 <span class="page-item">
                     <a class="page-link"
-                        href="/@routeName?pageNumber=@(Model.PageNumber + 1 <= Math.Ceiling((double)Model.TotalCheeps / Model.CheepsPerPage) ? Model.PageNumber + 1 : Model.PageNumber)">&gt;</a>
+                        href="/?pageNumber=@(Model.PageNumber + 1 <= Math.Ceiling((double)Model.TotalCheeps / Model.CheepsPerPage) ? Model.PageNumber + 1 : Model.PageNumber)">&gt;</a>
                 </span>
             </div>
         </nav>
-
     }
     else
     {
-            <em>There are no cheeps so far.</em>
+        <em>There are no cheeps so far.</em>
     }
 </div>
