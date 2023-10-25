@@ -106,7 +106,19 @@ public class UnitTests
         await context.Database.EnsureCreatedAsync();
         var repository = new CheepRepository(context);
         var authorGuid = Guid.NewGuid();
-        context.Cheeps.Add(new Cheep() { CheepId = Guid.NewGuid(), AuthorId = authorGuid, Author = new Author() { AuthorId = authorGuid, Name = "Anton", Email = "anlf@itu.dk" }, Text = "Hej, velkommen til kurset.", TimeStamp = DateTime.Parse("2023-08-01 13:08:28") });
+        context.Cheeps.Add(new Cheep()
+        {
+            CheepId = Guid.NewGuid(),
+            AuthorId = authorGuid,
+            Author = new Author()
+            {
+                AuthorId = authorGuid,
+                Name = "Anton",
+                Email = "anlf@itu.dk"
+            },
+            Text = "Hej, velkommen til kurset.",
+            TimeStamp = DateTime.Parse("2023-08-01 13:08:28")
+        });
         context.SaveChanges();
 
         // Act
@@ -127,20 +139,32 @@ public class UnitTests
         await context.Database.EnsureCreatedAsync();
         var repository = new CheepRepository(context);
         var authorGuid = Guid.NewGuid();
-        context.Cheeps.Add(new Cheep() { CheepId = Guid.NewGuid(), AuthorId = authorGuid, Author = new Author() { AuthorId = authorGuid, Name = "Anton", Email = "anlf@itu.dk" }, Text = "Hej, velkommen til kurset.", TimeStamp = DateTime.Parse("2023-08-01 13:08:28") });
+        context.Cheeps.Add(new Cheep()
+        {
+            CheepId = Guid.NewGuid(),
+            AuthorId = authorGuid,
+            Author = new Author()
+            {
+                AuthorId = authorGuid,
+                Name = "Anton",
+                Email = "anlf@itu.dk"
+            },
+            Text = "Hej, velkommen til kurset.",
+            TimeStamp = DateTime.Parse("2023-08-01 13:08:28")
+        });
         context.SaveChanges();
 
         // Act
         var result = await repository.FindAuthorByName("Anton");
-        if (result == null) 
+        if (result == null)
         {
             Assert.True(false);
         }
-        var authorCheepsList = result.Cheeps;
+        var authorCheepsList = await repository.GetCheepsFromAuthor("Anton", 1, 1);
 
         // Assert
-        Assert.Equal("Anton", result.Name);
-        Assert.Equal("anlf@itu.dk", result.Email);
+        Assert.Equal("Anton", result.name);
+        Assert.Equal("anlf@itu.dk", result.email);
         Assert.Single(authorCheepsList);
     }
 
@@ -160,15 +184,15 @@ public class UnitTests
 
         // Act
         var result = await repository.FindAuthorByEmail("anlf@itu.dk");
-        if (result == null) 
+        if (result == null)
         {
             Assert.True(false);
         }
-        var authorCheepsList = result.Cheeps;
+        var authorCheepsList = await repository.GetCheepsFromAuthor("Anton", 1, 1);
 
         // Assert
-        Assert.Equal("Anton", result.Name);
-        Assert.Equal("anlf@itu.dk", result.Email);
+        Assert.Equal("Anton", result.name);
+        Assert.Equal("anlf@itu.dk", result.email);
         Assert.Single(authorCheepsList);
     }
 
@@ -187,20 +211,20 @@ public class UnitTests
 
         // Act
         repository.CreateAuthor("Anton", "anlf@itu.dk");
-        Author? result = await repository.FindAuthorByEmail("anlf@itu.dk");
-        if (result == null) 
+        AuthorDTO? result = await repository.FindAuthorByEmail("anlf@itu.dk");
+        if (result == null)
         {
             Assert.True(false);
         }
-        List<Cheep> authorCheepsList = result.Cheeps;
+        var authorCheepsList = await repository.GetCheepsFromAuthor("Anton", 1, 1);
 
         // Assert
-        Assert.Equal("Anton", result.Name);
-        Assert.Equal("anlf@itu.dk", result.Email);
+        Assert.Equal("Anton", result.name);
+        Assert.Equal("anlf@itu.dk", result.email);
         Assert.Empty(authorCheepsList);
     }
 
-     [Fact]
+    [Fact]
     public async void CreateCheepTest()
     {
         // Arrange
@@ -215,8 +239,8 @@ public class UnitTests
 
         // Act
         repository.CreateAuthor("Anton", "anlf@itu.dk");
-        Author? author = await repository.FindAuthorByName("Anton");
-        if (author == null) 
+        AuthorDTO? author = await repository.FindAuthorByName("Anton");
+        if (author == null)
         {
             Assert.True(false);
         }
