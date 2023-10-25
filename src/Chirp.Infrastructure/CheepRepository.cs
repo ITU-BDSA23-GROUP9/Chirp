@@ -30,11 +30,11 @@ public class CheepRepository : ICheepRepository
         return cheeps;
     }
 
-    public async Task<List<CheepDTO>> GetCheepsFromAuthor(AuthorDTO author, int limit, int pageNumber)
+    public async Task<List<CheepDTO>> GetCheepsFromAuthor(string author, int limit, int pageNumber)
     {
         int cheepsToSkip = (pageNumber - 1) * limit;
 
-        var authorModel = await FindAuthorModelByName(author.name);
+        var authorModel = await FindAuthorModelByName(author);
 
         List<CheepDTO> cheeps = await _db.Cheeps
             .Where(cheep => cheep.Author.AuthorId == authorModel.AuthorId)
