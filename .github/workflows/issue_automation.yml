@@ -1,17 +1,20 @@
 #This action is from: https://docs.github.com/en/actions/managing-issues-and-pull-requests/moving-assigned-issues-on-project-boards
-
-name: Issue Automation
 on:
-  issues:
-    types:
-      - assigned
+  project_card:
+    types: [created, edited, moved]
+
+permissions:
+  repository-projects: read
+  issues: write
+  pull-requests: write
+
 jobs:
-  move-assigned-card:
+  action:
     runs-on: ubuntu-latest
     steps:
-      - name: Move issue to In Progress when a developer is assigned
-        uses: alex-page/github-project-automation-plus@7ffb872c64bd809d23563a130a0a97d01dfa8f43
+      - uses: dessant/issue-states@v3
         with:
-          project: Chirp
-          column: 🏗 In progress
-          repo-token: ${{ secrets.ISSUE_AUTOMATION }}
+          github-token: ${{ secrets.ISSUE_AUTOMATION }}
+          open-issue-columns: ""
+          closed-issue-columns: "Closed, Done"
+          log-output: false
