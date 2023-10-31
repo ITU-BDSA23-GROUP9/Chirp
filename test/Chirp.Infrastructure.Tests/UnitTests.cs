@@ -96,7 +96,7 @@ public class UnitTests
     }
 
     [Fact]
-    public async void CheepRepositoryGetTotalCheepCountFromAuthorTest()
+    public async void AuthorRepositoryGetTotalCheepCountFromAuthorTest()
     {
         // Arrange
         using var connection = new SqliteConnection("Filename=:memory:");
@@ -104,7 +104,7 @@ public class UnitTests
         var builder = new DbContextOptionsBuilder<ChirpContext>().UseSqlite(connection);
         using var context = new ChirpContext(builder.Options);
         await context.Database.EnsureCreatedAsync();
-        var repository = new CheepRepository(context);
+        var repository = new AuthorRepository(context);
         var authorGuid = Guid.NewGuid();
         context.Cheeps.Add(new Cheep()
         {
@@ -137,7 +137,8 @@ public class UnitTests
         var builder = new DbContextOptionsBuilder<ChirpContext>().UseSqlite(connection);
         using var context = new ChirpContext(builder.Options);
         await context.Database.EnsureCreatedAsync();
-        var repository = new CheepRepository(context);
+        var authorRepository = new AuthorRepository(context);
+        var cheepRepository = new CheepRepository(context);
         var authorGuid = Guid.NewGuid();
         context.Cheeps.Add(new Cheep()
         {
@@ -155,12 +156,12 @@ public class UnitTests
         context.SaveChanges();
 
         // Act
-        var result = await repository.FindAuthorByName("Anton");
+        var result = await authorRepository.FindAuthorByName("Anton");
         if (result == null)
         {
             Assert.True(false);
         }
-        var authorCheepsList = await repository.GetCheepsFromAuthor("Anton", 1, 1);
+        var authorCheepsList = await cheepRepository.GetCheepsFromAuthor("Anton", 1, 1);
 
         // Assert
         Assert.Equal("Anton", result.name);
@@ -177,18 +178,19 @@ public class UnitTests
         var builder = new DbContextOptionsBuilder<ChirpContext>().UseSqlite(connection);
         using var context = new ChirpContext(builder.Options);
         await context.Database.EnsureCreatedAsync();
-        var repository = new CheepRepository(context);
+        var authorRepository = new AuthorRepository(context);
+        var cheepRepository = new CheepRepository(context);
         var authorGuid = Guid.NewGuid();
         context.Cheeps.Add(new Cheep() { CheepId = Guid.NewGuid(), AuthorId = authorGuid, Author = new Author() { AuthorId = authorGuid, Name = "Anton", Email = "anlf@itu.dk" }, Text = "Hej, velkommen til kurset.", TimeStamp = DateTime.Parse("2023-08-01 13:08:28") });
         context.SaveChanges();
 
         // Act
-        var result = await repository.FindAuthorByEmail("anlf@itu.dk");
+        var result = await authorRepository.FindAuthorByEmail("anlf@itu.dk");
         if (result == null)
         {
             Assert.True(false);
         }
-        var authorCheepsList = await repository.GetCheepsFromAuthor("Anton", 1, 1);
+        var authorCheepsList = await cheepRepository.GetCheepsFromAuthor("Anton", 1, 1);
 
         // Assert
         Assert.Equal("Anton", result.name);
@@ -205,18 +207,19 @@ public class UnitTests
         var builder = new DbContextOptionsBuilder<ChirpContext>().UseSqlite(connection);
         using var context = new ChirpContext(builder.Options);
         await context.Database.EnsureCreatedAsync();
-        var repository = new CheepRepository(context);
+        var authorRepository = new AuthorRepository(context);
+        var cheepRepository = new CheepRepository(context);
         var authorGuid = Guid.NewGuid();
         context.SaveChanges();
 
         // Act
-        repository.CreateAuthor("Anton", "anlf@itu.dk");
-        AuthorDTO? result = await repository.FindAuthorByEmail("anlf@itu.dk");
+        authorRepository.CreateAuthor("Anton", "anlf@itu.dk");
+        AuthorDTO? result = await authorRepository.FindAuthorByEmail("anlf@itu.dk");
         if (result == null)
         {
             Assert.True(false);
         }
-        var authorCheepsList = await repository.GetCheepsFromAuthor("Anton", 1, 1);
+        var authorCheepsList = await cheepRepository.GetCheepsFromAuthor("Anton", 1, 1);
 
         // Assert
         Assert.Equal("Anton", result.name);
@@ -233,19 +236,20 @@ public class UnitTests
         var builder = new DbContextOptionsBuilder<ChirpContext>().UseSqlite(connection);
         using var context = new ChirpContext(builder.Options);
         await context.Database.EnsureCreatedAsync();
-        var repository = new CheepRepository(context);
+        var authorRepository = new AuthorRepository(context);
+        var cheepRepository = new CheepRepository(context);
         var authorGuid = Guid.NewGuid();
         context.SaveChanges();
 
         // Act
-        repository.CreateAuthor("Anton", "anlf@itu.dk");
-        AuthorDTO? author = await repository.FindAuthorByName("Anton");
+        authorRepository.CreateAuthor("Anton", "anlf@itu.dk");
+        AuthorDTO? author = await authorRepository.FindAuthorByName("Anton");
         if (author == null)
         {
             Assert.True(false);
         }
-        repository.CreateCheep(author, "Clara er sej", DateTime.Parse("2023-08-01 13:08:28"));
-        var result = await repository.GetCheeps(1, 1);
+        cheepRepository.CreateCheep(author, "Clara er sej", DateTime.Parse("2023-08-01 13:08:28"));
+        var result = await cheepRepository.GetCheeps(1, 1);
 
         // Assert
         Assert.Equal("Anton", result[0].author);
