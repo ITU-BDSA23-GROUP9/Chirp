@@ -1,22 +1,22 @@
-#This action is from: https://docs.github.com/en/actions/managing-issues-and-pull-requests/moving-assigned-issues-on-project-boards
-name: "Issue States"
-
+name: Close Issues on "Done" Column
 on:
   project_card:
-    types: [created, edited, moved]
-
-permissions:
-  repository-projects: read
-  issues: write
-  pull-requests: write
-
+    types:
+      - moved
 jobs:
-  action:
+  close-issues:
     runs-on: ubuntu-latest
     steps:
-      - uses: dessant/issue-states@v3
-        with:
-          github-token: ${{ secrets.ISSUE_AUTOMATION }}
-          open-issue-columns: ""
-          closed-issue-columns: "Closed, Done"
-          log-output: false
+      - name: Install GitHub CLI
+        run: |
+          brew install gh
+        if: runner.os == 'Mac OS X'
+
+      - name: Check if card is in "Done" column
+        if: github.event.project_card.column_name == 'Done'
+        run: |
+          issue_number=$(echo "${{ github.event.project_card.content_url }}" | awk -F'/' '{print $NF}')
+          echo "Closing issue $issue_number"
+          gh issue close $issue_number
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
