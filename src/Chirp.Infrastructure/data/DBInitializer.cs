@@ -6,18 +6,18 @@ public static class DbInitializer
     {
         if (!(chirpContext.Authors.Any() && chirpContext.Cheeps.Any()))
         {
-            var a1 = new Author() { AuthorId = Guid.NewGuid(), Name = "Roger Histand", Mail = "Roger+Histand@hotmail.com", Cheeps = new List<Cheep>() };
-            var a2 = new Author() { AuthorId = Guid.NewGuid(), Name = "Luanna Muro", Mail = "Luanna-Muro@ku.dk", Cheeps = new List<Cheep>() };
-            var a3 = new Author() { AuthorId = Guid.NewGuid(), Name = "Wendell Ballan", Mail = "Wendell-Ballan@gmail.com", Cheeps = new List<Cheep>() };
-            var a4 = new Author() { AuthorId = Guid.NewGuid(), Name = "Nathan Sirmon", Mail = "Nathan+Sirmon@dtu.dk", Cheeps = new List<Cheep>() };
-            var a5 = new Author() { AuthorId = Guid.NewGuid(), Name = "Quintin Sitts", Mail = "Quintin+Sitts@itu.dk", Cheeps = new List<Cheep>() };
-            var a6 = new Author() { AuthorId = Guid.NewGuid(), Name = "Mellie Yost", Mail = "Mellie+Yost@ku.dk", Cheeps = new List<Cheep>() };
-            var a7 = new Author() { AuthorId = Guid.NewGuid(), Name = "Malcolm Janski", Mail = "Malcolm-Janski@gmail.com", Cheeps = new List<Cheep>() };
-            var a8 = new Author() { AuthorId = Guid.NewGuid(), Name = "Octavio Wagganer", Mail = "Octavio.Wagganer@dtu.dk", Cheeps = new List<Cheep>() };
-            var a9 = new Author() { AuthorId = Guid.NewGuid(), Name = "Johnnie Calixto", Mail = "Johnnie+Calixto@itu.dk", Cheeps = new List<Cheep>() };
-            var a10 = new Author() { AuthorId = Guid.NewGuid(), Name = "Jacqualine Gilcoine", Mail = "Jacqualine.Gilcoine@gmail.com", Cheeps = new List<Cheep>() };
-            var a11 = new Author() { AuthorId = Guid.NewGuid(), Name = "Helge", Mail = "ropf@itu.dk", Cheeps = new List<Cheep>() };
-            var a12 = new Author() { AuthorId = Guid.NewGuid(), Name = "Rasmus", Mail = "rnie@itu.dk", Cheeps = new List<Cheep>() };
+            var a1 = new Author() { AuthorId = Guid.NewGuid(), UserName = "Roger Histand", Email = "Roger+Histand@hotmail.com", Cheeps = new List<Cheep>() };
+            var a2 = new Author() { AuthorId = Guid.NewGuid(), UserName = "Luanna Muro", Email = "Luanna-Muro@ku.dk", Cheeps = new List<Cheep>() };
+            var a3 = new Author() { AuthorId = Guid.NewGuid(), UserName = "Wendell Ballan", Email = "Wendell-Ballan@gmail.com", Cheeps = new List<Cheep>() };
+            var a4 = new Author() { AuthorId = Guid.NewGuid(), UserName = "Nathan Sirmon", Email = "Nathan+Sirmon@dtu.dk", Cheeps = new List<Cheep>() };
+            var a5 = new Author() { AuthorId = Guid.NewGuid(), UserName = "Quintin Sitts", Email = "Quintin+Sitts@itu.dk", Cheeps = new List<Cheep>() };
+            var a6 = new Author() { AuthorId = Guid.NewGuid(), UserName = "Mellie Yost", Email = "Mellie+Yost@ku.dk", Cheeps = new List<Cheep>() };
+            var a7 = new Author() { AuthorId = Guid.NewGuid(), UserName = "Malcolm Janski", Email = "Malcolm-Janski@gmail.com", Cheeps = new List<Cheep>() };
+            var a8 = new Author() { AuthorId = Guid.NewGuid(), UserName = "Octavio Wagganer", Email = "Octavio.Wagganer@dtu.dk", Cheeps = new List<Cheep>() };
+            var a9 = new Author() { AuthorId = Guid.NewGuid(), UserName = "Johnnie Calixto", Email = "Johnnie+Calixto@itu.dk", Cheeps = new List<Cheep>() };
+            var a10 = new Author() { AuthorId = Guid.NewGuid(), UserName = "Jacqualine Gilcoine", Email = "Jacqualine.Gilcoine@gmail.com", Cheeps = new List<Cheep>() };
+            var a11 = new Author() { AuthorId = Guid.NewGuid(), UserName = "Helge", Email = "ropf@itu.dk", Cheeps = new List<Cheep>() };
+            var a12 = new Author() { AuthorId = Guid.NewGuid(), UserName = "Rasmus", Email = "rnie@itu.dk", Cheeps = new List<Cheep>() };
 
             var authors = new List<Author>() { a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12 };
 

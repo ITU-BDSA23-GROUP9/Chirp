@@ -16,7 +16,7 @@ public class UnitTests
         await context.Database.EnsureCreatedAsync();
         var repository = new CheepRepository(context);
         var authorGuid = Guid.NewGuid();
-        context.Cheeps.Add(new Cheep() { CheepId = Guid.NewGuid(), AuthorId = authorGuid, Author = new Author() { AuthorId = authorGuid, Name = "Anton", Mail = "anlf@itu.dk" }, Text = "Hej, velkommen til kurset.", TimeStamp = DateTime.Parse("2023-08-01 13:08:28") });
+        context.Cheeps.Add(new Cheep() { CheepId = Guid.NewGuid(), AuthorId = authorGuid, Author = new Author() { AuthorId = authorGuid, UserName = "Anton", Email = "anlf@itu.dk" }, Text = "Hej, velkommen til kurset.", TimeStamp = DateTime.Parse("2023-08-01 13:08:28") });
         context.SaveChanges();
 
         // Act
@@ -39,7 +39,7 @@ public class UnitTests
         await context.Database.EnsureCreatedAsync();
         var repository = new CheepRepository(context);
         var authorGuid = Guid.NewGuid();
-        context.Cheeps.Add(new Cheep() { CheepId = Guid.NewGuid(), AuthorId = authorGuid, Author = new Author() { AuthorId = authorGuid, Name = "Anton", Mail = "anlf@itu.dk" }, Text = "Hej, velkommen til kurset.", TimeStamp = DateTime.Parse("2023-08-01 13:08:28") });
+        context.Cheeps.Add(new Cheep() { CheepId = Guid.NewGuid(), AuthorId = authorGuid, Author = new Author() { AuthorId = authorGuid, UserName = "Anton", Email = "anlf@itu.dk" }, Text = "Hej, velkommen til kurset.", TimeStamp = DateTime.Parse("2023-08-01 13:08:28") });
         context.SaveChanges();
 
         // Act
@@ -62,7 +62,7 @@ public class UnitTests
         await context.Database.EnsureCreatedAsync();
         var repository = new CheepRepository(context);
         var authorGuid = Guid.NewGuid();
-        context.Cheeps.Add(new Cheep() { CheepId = Guid.NewGuid(), AuthorId = authorGuid, Author = new Author() { AuthorId = authorGuid, Name = "Anton", Mail = "anlf@itu.dk" }, Text = "Hej, velkommen til kurset.", TimeStamp = DateTime.Parse("2023-08-01 13:08:28") });
+        context.Cheeps.Add(new Cheep() { CheepId = Guid.NewGuid(), AuthorId = authorGuid, Author = new Author() { AuthorId = authorGuid, UserName = "Anton", Email = "anlf@itu.dk" }, Text = "Hej, velkommen til kurset.", TimeStamp = DateTime.Parse("2023-08-01 13:08:28") });
         context.SaveChanges();
 
         // Act
@@ -85,7 +85,7 @@ public class UnitTests
         await context.Database.EnsureCreatedAsync();
         var repository = new CheepRepository(context);
         var authorGuid = Guid.NewGuid();
-        context.Cheeps.Add(new Cheep() { CheepId = Guid.NewGuid(), AuthorId = authorGuid, Author = new Author() { AuthorId = authorGuid, Name = "Anton", Mail = "anlf@itu.dk" }, Text = "Hej, velkommen til kurset.", TimeStamp = DateTime.Parse("2023-08-01 13:08:28") });
+        context.Cheeps.Add(new Cheep() { CheepId = Guid.NewGuid(), AuthorId = authorGuid, Author = new Author() { AuthorId = authorGuid, UserName = "Anton", Email = "anlf@itu.dk" }, Text = "Hej, velkommen til kurset.", TimeStamp = DateTime.Parse("2023-08-01 13:08:28") });
         context.SaveChanges();
 
         // Act
@@ -113,8 +113,8 @@ public class UnitTests
             Author = new Author()
             {
                 AuthorId = authorGuid,
-                Name = "Anton",
-                Mail = "anlf@itu.dk"
+                UserName = "Anton",
+                Email = "anlf@itu.dk"
             },
             Text = "Hej, velkommen til kurset.",
             TimeStamp = DateTime.Parse("2023-08-01 13:08:28")
@@ -147,8 +147,8 @@ public class UnitTests
             Author = new Author()
             {
                 AuthorId = authorGuid,
-                Name = "Anton",
-                Mail = "anlf@itu.dk"
+                UserName = "Anton",
+                Email = "anlf@itu.dk"
             },
             Text = "Hej, velkommen til kurset.",
             TimeStamp = DateTime.Parse("2023-08-01 13:08:28")
@@ -181,7 +181,7 @@ public class UnitTests
         var authorRepository = new AuthorRepository(context);
         var cheepRepository = new CheepRepository(context);
         var authorGuid = Guid.NewGuid();
-        context.Cheeps.Add(new Cheep() { CheepId = Guid.NewGuid(), AuthorId = authorGuid, Author = new Author() { AuthorId = authorGuid, Name = "Anton", Mail = "anlf@itu.dk" }, Text = "Hej, velkommen til kurset.", TimeStamp = DateTime.Parse("2023-08-01 13:08:28") });
+        context.Cheeps.Add(new Cheep() { CheepId = Guid.NewGuid(), AuthorId = authorGuid, Author = new Author() { AuthorId = authorGuid, UserName = "Anton", Email = "anlf@itu.dk" }, Text = "Hej, velkommen til kurset.", TimeStamp = DateTime.Parse("2023-08-01 13:08:28") });
         context.SaveChanges();
 
         // Act

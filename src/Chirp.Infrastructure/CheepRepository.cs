@@ -14,7 +14,7 @@ public class CheepRepository : ICheepRepository
         .OrderByDescending(cheep => cheep.TimeStamp)
         .Skip(limit * (pageNumber - 1))
         .Take(limit)
-        .Select(cheep => new CheepDTO(cheep.Text, cheep.Author.Name, cheep.TimeStamp.ToString()))
+        .Select(cheep => new CheepDTO(cheep.Text, cheep.Author.UserName, cheep.TimeStamp.ToString()))
         .ToListAsync();
 
         return cheeps;
@@ -24,7 +24,7 @@ public class CheepRepository : ICheepRepository
     {
         List<CheepDTO> cheeps = await _db.Cheeps
         .OrderByDescending(cheep => cheep.TimeStamp)
-        .Select(cheep => new CheepDTO(cheep.Text, cheep.Author.Name, cheep.TimeStamp.ToString()))
+        .Select(cheep => new CheepDTO(cheep.Text, cheep.Author.UserName, cheep.TimeStamp.ToString()))
         .ToListAsync();
 
         return cheeps;
@@ -41,7 +41,7 @@ public class CheepRepository : ICheepRepository
             .OrderByDescending(cheep => cheep.TimeStamp)
             .Skip(cheepsToSkip)
             .Take(limit)
-            .Select(cheep => new CheepDTO(cheep.Text, cheep.Author.Name, cheep.TimeStamp.ToString()))
+            .Select(cheep => new CheepDTO(cheep.Text, cheep.Author.UserName, cheep.TimeStamp.ToString()))
             .ToListAsync();
 
         return cheeps;
@@ -54,7 +54,7 @@ public class CheepRepository : ICheepRepository
 
     private async Task<Author> FindAuthorModelByName(string author)
     {
-        Author? authorModel = await _db.Authors.FirstOrDefaultAsync(a => a.Name == author);
+        Author? authorModel = await _db.Authors.FirstOrDefaultAsync(a => a.UserName == author);
         if (authorModel == null)
         {
             throw new Exception("Author does not exist");

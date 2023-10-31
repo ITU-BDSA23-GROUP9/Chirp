@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Chirp.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
