@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-public class AuthorRepository : IAuthorRepository 
+public class AuthorRepository : IAuthorRepository
 {
     private readonly ChirpContext _db;
     public AuthorRepository(ChirpContext db)
@@ -20,17 +20,17 @@ public class AuthorRepository : IAuthorRepository
         {
             throw new Exception("Author does not exist");
         }
-        return new AuthorDTO(authorModel.Name, authorModel.Email);
+        return new AuthorDTO(authorModel.Name, authorModel.Mail);
     }
 
     public async Task<AuthorDTO?> FindAuthorByEmail(string email)
     {
-        Author? authorModel = await _db.Authors.FirstOrDefaultAsync(a => a.Email == email);
+        Author? authorModel = await _db.Authors.FirstOrDefaultAsync(a => a.Mail == email);
         if (authorModel == null)
         {
             throw new Exception("Author does not exist");
         }
-        return new AuthorDTO(authorModel.Name, authorModel.Email);
+        return new AuthorDTO(authorModel.Name, authorModel.Mail);
     }
 
     public void CreateAuthor(string name, string email)
@@ -39,7 +39,7 @@ public class AuthorRepository : IAuthorRepository
         {
             AuthorId = Guid.NewGuid(),
             Name = name,
-            Email = email
+            Mail = email
         };
         _db.Authors.AddRange(author);
         _db.SaveChanges();
