@@ -5,7 +5,8 @@ namespace Chirp.Web.Pages;
 
 public class UserTimelineModel : PageModel
 {
-    private readonly ICheepRepository _service;
+    private readonly ICheepRepository _cheepService;
+    private readonly IAuthorRepository _authorService;
     public List<CheepDTO> Cheeps { get; set; }
 
     public AuthorDTO? author { get; set; }
@@ -13,10 +14,11 @@ public class UserTimelineModel : PageModel
     public int PageNumber { get; set; }
     public int CheepsPerPage { get; set; }
 
-    public UserTimelineModel(ICheepRepository service)
+    public UserTimelineModel(ICheepRepository cheepService, IAuthorRepository authorService)
     {
         Cheeps = new();
-        _service = service;
+        _cheepService = cheepService;
+        _authorService = authorService;
         PageNumber = 1; // Default to page 1
         CheepsPerPage = 32; // Set the number of cheeps per page
     }
@@ -28,8 +30,8 @@ public class UserTimelineModel : PageModel
             PageNumber = pageNumber.Value;
         }
 
-        TotalCheeps = await _service.GetTotalCheepCountFromAuthor(author);
-        Cheeps = await _service.GetCheepsFromAuthor(author, CheepsPerPage, PageNumber);
+        TotalCheeps = await _authorService.GetTotalCheepCountFromAuthor(author);
+        Cheeps = await _cheepService.GetCheepsFromAuthor(author, CheepsPerPage, PageNumber);
         return Page();
     }
 }
