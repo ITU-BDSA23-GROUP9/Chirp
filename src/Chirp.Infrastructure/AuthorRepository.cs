@@ -37,7 +37,7 @@ public class AuthorRepository : IAuthorRepository
     {
         var author = new Author()
         {
-            AuthorId = Guid.NewGuid(),
+            Id = Guid.NewGuid().ToString().ToString(),
             UserName = name,
             Email = email
         };

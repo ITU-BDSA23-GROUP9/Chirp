@@ -37,7 +37,7 @@ public class CheepRepository : ICheepRepository
         var authorModel = await FindAuthorModelByName(author);
 
         List<CheepDTO> cheeps = await _db.Cheeps
-            .Where(cheep => cheep.Author.AuthorId == authorModel.AuthorId)
+            .Where(cheep => cheep.Author.Id == authorModel.Id)
             .OrderByDescending(cheep => cheep.TimeStamp)
             .Skip(cheepsToSkip)
             .Take(limit)
@@ -66,7 +66,7 @@ public class CheepRepository : ICheepRepository
     {
         var author = await FindAuthorModelByName(authorDTO.name);
 
-        var cheep = new Cheep() { CheepId = Guid.NewGuid(), AuthorId = Guid.NewGuid(), Author = author, Text = text, TimeStamp = timestamp };
+        var cheep = new Cheep() { CheepId = Guid.NewGuid().ToString(), Author = author, Text = text, TimeStamp = timestamp };
         _db.Cheeps.AddRange(cheep);
         _db.SaveChanges();
     }
