@@ -15,13 +15,12 @@ public class ChirpContext : ApiAuthorizationDbContext<Author>
     private static IOptions<OperationalStoreOptions> CreateOperationalStoreOptions()
     {
         var operationalStoreOptions = new OperationalStoreOptions();
-        // Set the options as needed
         return Options.Create(operationalStoreOptions);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder); // Call the base OnModelCreating method
+        base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Cheep>().Property(cheep => cheep.Text).HasMaxLength(160);
     }
 }
