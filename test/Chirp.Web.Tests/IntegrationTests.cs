@@ -59,7 +59,7 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         // Act
         int cheepCount = 0;
 
-        int listStart = content.IndexOf("<ul class=\"cheeps\">");
+        int listStart = content.IndexOf("<ul id=\"messagelist\" class=\"cheeps\">");
         if (listStart >= 0)
         {
             int listEnd = content.IndexOf("</ul>", listStart);
