@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-public class AuthorRepository : IAuthorRepository 
+public class AuthorRepository : IAuthorRepository
 {
     private readonly ChirpContext _db;
     public AuthorRepository(ChirpContext db)
@@ -9,18 +9,18 @@ public class AuthorRepository : IAuthorRepository
     public async Task<int> GetTotalCheepCountFromAuthor(string author)
     {
         return await _db.Cheeps
-        .Where(cheep => cheep.Author.Name == author)
+        .Where(cheep => cheep.Author.UserName == author)
         .CountAsync();
     }
 
     public async Task<AuthorDTO?> FindAuthorByName(string author)
     {
-        Author? authorModel = await _db.Authors.FirstOrDefaultAsync(a => a.Name == author);
+        Author? authorModel = await _db.Authors.FirstOrDefaultAsync(a => a.UserName == author);
         if (authorModel == null)
         {
             throw new Exception("Author does not exist");
         }
-        return new AuthorDTO(authorModel.Name, authorModel.Email);
+        return new AuthorDTO(authorModel.UserName, authorModel.Email);
     }
 
     public async Task<AuthorDTO?> FindAuthorByEmail(string email)
@@ -30,15 +30,15 @@ public class AuthorRepository : IAuthorRepository
         {
             throw new Exception("Author does not exist");
         }
-        return new AuthorDTO(authorModel.Name, authorModel.Email);
+        return new AuthorDTO(authorModel.UserName, authorModel.Email);
     }
 
     public void CreateAuthor(string name, string email)
     {
         var author = new Author()
         {
-            AuthorId = Guid.NewGuid(),
-            Name = name,
+            Id = Guid.NewGuid().ToString().ToString(),
+            UserName = name,
             Email = email
         };
         _db.Authors.AddRange(author);
