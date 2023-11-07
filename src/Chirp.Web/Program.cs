@@ -14,8 +14,8 @@ builder.Services.AddDefaultIdentity<Author>(options => options.SignIn.RequireCon
 
 builder.Services.AddAuthentication().AddGitHub(options =>
 {
-    options.ClientId = builder.Configuration["github.client_id"];
-    options.ClientSecret = builder.Configuration["github.client_secret"];
+    options.ClientId = builder.Configuration["GITHUB_CLIENT_ID"] ?? Environment.GetEnvironmentVariable("GITHUB_CLIENT_ID");
+    options.ClientSecret = builder.Configuration["GITHUB_CLIENT_SECRET"] ?? Environment.GetEnvironmentVariable("GITHUB_CLIENT_SECRET");
 });
 builder.Services.AddRazorPages();
 var app = builder.Build();
