@@ -1,8 +1,11 @@
 namespace Chirp.Web.Tests;
 using Microsoft.AspNetCore.Mvc.Testing;
+using HtmlAgilityPack;
+using System.Text.RegularExpressions;
+
 
 //Code taken from lecture-slides-05 and small parts adapted by: Oline <okre@itu.dk>, Anton <anlf@itu.dk> & Clara <clwj@itu.dk>
-/*public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
+public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly WebApplicationFactory<Program> _fixture;
     private readonly HttpClient _client;
@@ -16,10 +19,14 @@ using Microsoft.AspNetCore.Mvc.Testing;
     [Fact]
     public async void CanSeePublicTimeline()
     {
+        // Arrange
         var response = await _client.GetAsync("/");
         response.EnsureSuccessStatusCode();
+
+        // Act
         var content = await response.Content.ReadAsStringAsync();
 
+        // Assert
         Assert.Contains("Chirp!", content);
         Assert.Contains("Public Timeline", content);
     }
@@ -29,11 +36,62 @@ using Microsoft.AspNetCore.Mvc.Testing;
     [InlineData("Rasmus")]
     public async void CanSeePrivateTimeline(string author)
     {
+        // Arrange
         var response = await _client.GetAsync($"/{author}");
         response.EnsureSuccessStatusCode();
+
+        // Act
         var content = await response.Content.ReadAsStringAsync();
 
+        // Assert
         Assert.Contains("Chirp!", content);
         Assert.Contains($"{author}'s Timeline", content);
     }
-}*/
+
+    [Fact]
+    public async void PageContainsMax32Cheeps()
+    {
+        // Arrange
+        var response = await _client.GetAsync("/");
+        response.EnsureSuccessStatusCode();
+        var content = await response.Content.ReadAsStringAsync();
+
+        // Act
+        int cheepCount = 0;
+
+        int listStart = content.IndexOf("<ul id=\"messagelist\" class=\"cheeps\">");
+        if (listStart >= 0)
+        {
+            int listEnd = content.IndexOf("</ul>", listStart);
+
+            if (listEnd >= 0)
+            {
+                string listContent = content.Substring(listStart, listEnd - listStart);
+
+                // Count the number of list items (list items are represented as "<li>")
+                cheepCount = Regex.Matches(listContent, "<li>").Count;
+            }
+        }
+
+        // Assert
+        Assert.Equal(32, cheepCount);
+
+    }
+
+    [Fact]
+    public async void HomePageIsEqualToPage1()
+    {
+        // Arrange
+        var homePage = await _client.GetAsync("/");
+        homePage.EnsureSuccessStatusCode();
+        var HPContent = await homePage.Content.ReadAsStringAsync();
+
+        var pageOne = await _client.GetAsync("/?pageNumber=1");
+        pageOne.EnsureSuccessStatusCode();
+        var pageOneContent = await pageOne.Content.ReadAsStringAsync();
+
+        // Assert
+        Assert.Equal(HPContent, pageOneContent);
+
+    }
+}
