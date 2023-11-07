@@ -77,4 +77,21 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         Assert.Equal(32, cheepCount);
 
     }
+
+    [Fact]
+    public async void HomePageIsEqualToPage1()
+    {
+        // Arrange
+        var homePage = await _client.GetAsync("/");
+        homePage.EnsureSuccessStatusCode();
+        var HPContent = await homePage.Content.ReadAsStringAsync();
+
+        var pageOne = await _client.GetAsync("/?pageNumber=1");
+        pageOne.EnsureSuccessStatusCode();
+        var pageOneContent = await pageOne.Content.ReadAsStringAsync();
+
+        // Assert
+        Assert.Equal(HPContent, pageOneContent);
+
+    }
 }
