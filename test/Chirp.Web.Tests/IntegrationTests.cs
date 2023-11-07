@@ -1,6 +1,7 @@
 namespace Chirp.Web.Tests;
 using Microsoft.AspNetCore.Mvc.Testing;
 using HtmlAgilityPack;
+using System.Text.RegularExpressions;
 
 
 //Code taken from lecture-slides-05 and small parts adapted by: Oline <okre@itu.dk>, Anton <anlf@itu.dk> & Clara <clwj@itu.dk>
@@ -34,7 +35,7 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     [InlineData("Helge")]
     [InlineData("Rasmus")]
     public async void CanSeePrivateTimeline(string author)
-    {   
+    {
         // Arrange
         var response = await _client.GetAsync($"/{author}");
         response.EnsureSuccessStatusCode();
@@ -48,7 +49,7 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     }
 
     [Fact]
-    public async void PageContainsMax32Cheeps() 
+    public async void PageContainsMax32Cheeps()
     {
         // Arrange
         var response = await _client.GetAsync("/");
@@ -56,8 +57,21 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         var content = await response.Content.ReadAsStringAsync();
 
         // Act
-        int cheepCount = content.Split("cheeps").Length;
-        var parser = ;
+        int cheepCount = 0;
+
+        int listStart = content.IndexOf("<ul class=\"cheeps\">");
+        if (listStart >= 0)
+        {
+            int listEnd = content.IndexOf("</ul>", listStart);
+
+            if (listEnd >= 0)
+            {
+                string listContent = content.Substring(listStart, listEnd - listStart);
+
+                // Count the number of list items (list items are represented as "<li>")
+                cheepCount = Regex.Matches(listContent, "<li>").Count;
+            }
+        }
 
         // Assert
         Assert.Equal(32, cheepCount);
