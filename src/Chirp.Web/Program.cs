@@ -11,11 +11,11 @@ builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 
 builder.Services.AddDefaultIdentity<Author>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ChirpContext>();
-var config = new ConfigurationBuilder().AddUserSecrets<Program>().Build();
-builder.Services.AddAuthentication().AddGitHub(options => 
+
+builder.Services.AddAuthentication().AddGitHub(options =>
 {
-    options.ClientId = "731d6c33e6157e4ffdcd";
-    options.ClientSecret = config["githubAuthCliSecret"];
+    options.ClientId = Environment.GetEnvironmentVariable("github.client_id");
+    options.ClientSecret = Environment.GetEnvironmentVariable("github.client_secret");
 });
 builder.Services.AddRazorPages();
 var app = builder.Build();
