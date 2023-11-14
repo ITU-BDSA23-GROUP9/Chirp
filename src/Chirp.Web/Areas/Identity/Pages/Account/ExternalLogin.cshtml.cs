@@ -64,7 +64,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
         [TempData]
         public string ErrorMessage { get; set; }
 
-        public IActionResult OnGet() => RedirectToPage("./Login");
+        public IActionResult OnGet() => RedirectToPage("./Login", new { returnUrl = ReturnUrl });
 
         public IActionResult OnPost(string provider, string returnUrl = null)
         {
@@ -102,14 +102,14 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             }
             else
             {
-                await OnPostConfirmationAsync(returnUrl);
-                return RedirectToPage(returnUrl);
+                await OnPostConfirmationAsync(null);
+                return RedirectToPage(new { ReturnUrl = returnUrl });
             }
         }
 
         public async Task<IActionResult> OnPostConfirmationAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            returnUrl ??= Url.Content("~/");
             // Get the information about the user from the external login provider
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
