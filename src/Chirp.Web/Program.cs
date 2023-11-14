@@ -1,3 +1,5 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,7 +12,7 @@ builder.Services.AddDbContext<ChirpContext>(option => option.UseSqlite(connectio
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 
-builder.Services.AddDefaultIdentity<Author>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<Author>()
     .AddEntityFrameworkStores<ChirpContext>();
 
 builder.Services.AddAuthentication()
@@ -18,6 +20,7 @@ builder.Services.AddAuthentication()
 {
     options.ClientId = Environment.GetEnvironmentVariable("GITHUB_CLIENT_ID") ?? "Something";
     options.ClientSecret = Environment.GetEnvironmentVariable("GITHUB_CLIENT_SECRET") ?? "Something";
+    options.ClaimActions.MapJsonKey(ClaimTypes.Name, "username");
 });
 
 builder.Services.AddRazorPages();
