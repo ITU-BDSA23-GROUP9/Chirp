@@ -85,7 +85,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             [EmailAddress]
             public string Email { get; set; }
         }
-        
+
         public IActionResult OnGet() => RedirectToPage("./Login");
 
         public IActionResult OnPost(string provider, string returnUrl = null)
@@ -153,7 +153,14 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
 
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Name))
+                {
+                    await _userManager.SetUserNameAsync(user, info.Principal.FindFirstValue(ClaimTypes.Name));
+                }
+                if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
+                {
+                    await _userManager.SetEmailAsync(user, info.Principal.FindFirstValue(ClaimTypes.Email));
+                }
 
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
@@ -162,10 +169,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                     if (result.Succeeded)
                     {
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
-                        if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Name))
-                        {
-                            await _userManager.AddClaimAsync(user, info.Principal.FindFirst(ClaimTypes.Name));
-                        }
+
                         var userId = await _userManager.GetUserIdAsync(user);
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));

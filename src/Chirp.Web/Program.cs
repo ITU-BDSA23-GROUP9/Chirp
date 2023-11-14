@@ -21,6 +21,7 @@ builder.Services.AddAuthentication()
     options.ClientId = Environment.GetEnvironmentVariable("GITHUB_CLIENT_ID") ?? "Something";
     options.ClientSecret = Environment.GetEnvironmentVariable("GITHUB_CLIENT_SECRET") ?? "Something";
     options.ClaimActions.MapJsonKey(ClaimTypes.Name, "username");
+    options.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
 });
 
 builder.Services.AddRazorPages();
