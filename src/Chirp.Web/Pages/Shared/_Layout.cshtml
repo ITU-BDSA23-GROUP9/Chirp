@@ -16,16 +16,7 @@
                 <img src="/images/icon1.png" alt="Icon1" />
                 Chirp!
         </h1>
-        <button>
-            <a class=page-link href="/Identity/Account/Login" style="text-decoration: none;">
-                Login
-            </a>
-        </button>
-        <button>
-            <a class=page-link href="/?pageNumber=1" style="text-decoration: none;">
-                Logout
-            </a>
-        </button>
+        <partial name="_LoginPartial.cshtml" />
 
         <div class=body>
             @RenderSection("Scripts", required: false)
@@ -34,6 +25,7 @@
         <div class=footer>
             Chirp &mdash; An ASP.NET Application
         </div>
+
     </div>
 
 </body>
