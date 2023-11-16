@@ -64,7 +64,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
         [TempData]
         public string ErrorMessage { get; set; }
 
-        public IActionResult OnGet() => RedirectToPage("./Login", new { returnUrl = ReturnUrl });
+        public IActionResult OnGet() => LocalRedirect(ReturnUrl ?? Url.Content("~/"));
 
         public IActionResult OnPost(string provider, string returnUrl = null)
         {
