@@ -1,13 +1,18 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<ChirpContext>(option => option.UseSqlServer(connectionString));
+if (builder.Environment.IsProduction())
+{
+    var connectionString = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+    builder.Services.AddDbContext<ChirpContext>(option => option.UseSqlServer(connectionString));
+}
+else if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddDbContext<ChirpContext>(option => option.UseSqlite("Data Source=mychirp.db"));
+}
 
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
@@ -18,8 +23,8 @@ builder.Services.AddDefaultIdentity<Author>()
 builder.Services.AddAuthentication()
 .AddGitHub(options =>
 {
-    options.ClientId = Environment.GetEnvironmentVariable("GITHUB_CLIENT_ID") ?? "Something";
-    options.ClientSecret = Environment.GetEnvironmentVariable("GITHUB_CLIENT_SECRET") ?? "Something";
+    options.ClientId = Environment.GetEnvironmentVariable("GITHUB_CLIENT_ID") ?? "No_Client_Id_Set";
+    options.ClientSecret = Environment.GetEnvironmentVariable("GITHUB_CLIENT_SECRET") ?? "No_Client_Secret_Set";
     options.ClaimActions.MapJsonKey(ClaimTypes.Name, "username");
     options.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
 });
@@ -40,9 +45,18 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
 
     var context = services.GetRequiredService<ChirpContext>();
-    context.Database.EnsureDeleted();
-    context.Database.EnsureCreated();
-    DbInitializer.SeedDatabase(context);
+
+    if (app.Environment.IsDevelopment())
+    {
+        context.Database.EnsureDeleted();
+        context.Database.EnsureCreated();
+        DbInitializer.SeedDatabase(context);
+    }
+    else if (app.Environment.IsProduction())
+    {
+        context.Database.EnsureCreated();
+        DbInitializer.SeedDatabase(context);
+    }
 }
 
 app.UseHttpsRedirection();
