@@ -17,7 +17,7 @@ public class PublicModel : PageModel
     public int TotalCheeps { get; set; }
     public int PageNumber { get; set; }
     public int CheepsPerPage { get; set; }
-    
+    private readonly UserManager<Author> _userManager;
 
     
     [BindProperty]
@@ -45,10 +45,11 @@ public class PublicModel : PageModel
 
     public async Task<IActionResult> OnPost() 
     {
-        var user = await _userManager.GetUserAsync(User);
+        //var user = await _userManager.GetUserAsync(User);
         var author = _authorRepo.FindAuthorByName(User.Identity.Name);
         if (author == null) {
-            _authorRepo.CreateAuthor(User.Identity.Name, User.Identity.Email);
+            string userEmail = User.Claims.FirstOrDefault(c => c.Type == "emails")!.Value;
+            _authorRepo.CreateAuthor(User.Identity.Name, userEmail);
         }       
         var cheepToPost = new CheepDTO(newCheep.Message, User.Identity.Name, DateTime.UtcNow.ToString());
         await _service.AddCheep(cheepToPost, DateTime.UtcNow);
