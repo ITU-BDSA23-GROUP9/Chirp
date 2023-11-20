@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using NuGet.Packaging.Signing;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Duende.IdentityServer.Extensions;
 
 namespace Chirp.Web.Pages;
 
@@ -12,14 +13,14 @@ namespace Chirp.Web.Pages;
 public class PublicModel : PageModel
 {
     private readonly ICheepRepository _service;
-    private readonly IAuthorRepository _authorRepo; 
+    private readonly IAuthorRepository _authorRepo;
     public List<CheepDTO> Cheeps { get; set; }
     public int TotalCheeps { get; set; }
     public int PageNumber { get; set; }
     public int CheepsPerPage { get; set; }
     private readonly UserManager<Author> _userManager;
 
-    
+
     [BindProperty]
     public NewCheep newCheep { get; set; }
 
@@ -43,20 +44,15 @@ public class PublicModel : PageModel
         return Page();
     }
 
-    public async Task<IActionResult> OnPost() 
+    public async Task<IActionResult> OnPost()
     {
-        //var user = await _userManager.GetUserAsync(User);
-        var author = _authorRepo.FindAuthorByName(User.Identity.Name);
-        if (author == null) {
-            string userEmail = User.Claims.FirstOrDefault(c => c.Type == "emails")!.Value;
-            _authorRepo.CreateAuthor(User.Identity.Name, userEmail);
-        }       
         var cheepToPost = new CheepDTO(newCheep.Message, User.Identity.Name, DateTime.UtcNow.ToString());
         await _service.AddCheep(cheepToPost, DateTime.UtcNow);
         return RedirectToPage("/"); //Go to profile after posting a cheep
     }
 
-    public class NewCheep {
-        public string? Message {get; set;}
+    public class NewCheep
+    {
+        public string? Message { get; set; }
     }
 }
