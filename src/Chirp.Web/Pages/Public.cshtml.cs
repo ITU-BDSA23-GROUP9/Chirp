@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using NuGet.Packaging.Signing;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Chirp.Web.Pages;
 
@@ -10,10 +12,13 @@ namespace Chirp.Web.Pages;
 public class PublicModel : PageModel
 {
     private readonly ICheepRepository _service;
+    private readonly IAuthorRepository _authorRepo; 
     public List<CheepDTO> Cheeps { get; set; }
     public int TotalCheeps { get; set; }
     public int PageNumber { get; set; }
     public int CheepsPerPage { get; set; }
+    
+
     
     [BindProperty]
     public NewCheep newCheep { get; set; }
@@ -38,13 +43,17 @@ public class PublicModel : PageModel
         return Page();
     }
 
-    public async Task<IActionResult> OnPost() {
-            var cheepToPost = new CheepDTO(newCheep.Message, User.Identity.Name, DateTime.UtcNow.ToString());
-
-            await _service.AddCheep(cheepToPost, DateTime.UtcNow);
-
-            return RedirectToPage("/Profile"); //Go to profile after posting a cheep
-        }
+    public async Task<IActionResult> OnPost() 
+    {
+        var user = await _userManager.GetUserAsync(User);
+        var author = _authorRepo.FindAuthorByName(User.Identity.Name);
+        if (author == null) {
+            _authorRepo.CreateAuthor(User.Identity.Name, User.Identity.Email);
+        }       
+        var cheepToPost = new CheepDTO(newCheep.Message, User.Identity.Name, DateTime.UtcNow.ToString());
+        await _service.AddCheep(cheepToPost, DateTime.UtcNow);
+        return RedirectToPage("/"); //Go to profile after posting a cheep
+    }
 
     public class NewCheep {
         public string? Message {get; set;}
