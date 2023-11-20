@@ -55,7 +55,6 @@ using (var scope = app.Services.CreateScope())
     else if (app.Environment.IsProduction())
     {
         context.Database.EnsureCreated();
-        DbInitializer.SeedDatabase(context);
     }
 }
 
