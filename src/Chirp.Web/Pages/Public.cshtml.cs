@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.ComponentModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -12,6 +13,9 @@ public class PublicModel : PageModel
     public int TotalCheeps { get; set; }
     public int PageNumber { get; set; }
     public int CheepsPerPage { get; set; }
+    
+    [BindProperty]
+    public NewCheep newCheep { get; set; }
 
     public PublicModel(ICheepRepository service)
     {
@@ -31,5 +35,17 @@ public class PublicModel : PageModel
         TotalCheeps = await _service.GetTotalCheepCount();
         Cheeps = await _service.GetCheeps(CheepsPerPage, PageNumber);
         return Page();
+    }
+
+    public async Task<IActionResult> OnPost() {
+            var cheepToPost = new CheepDTO(NewCheep.Message, User.Identity)
+
+            await _service.CreateCheep(cheepToPost);
+
+            return RedirectToPage("/Profile"); //Go to profile after posting a cheep
+        }
+
+    public class NewCheep {
+        public string Message {get; set;}
     }
 }
