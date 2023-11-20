@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using NuGet.Packaging.Signing;
 
 namespace Chirp.Web.Pages;
 
@@ -38,14 +39,14 @@ public class PublicModel : PageModel
     }
 
     public async Task<IActionResult> OnPost() {
-            var cheepToPost = new CheepDTO(NewCheep.Message, User.Identity)
+            var cheepToPost = new CheepDTO(NewCheep.Message, User.Identity.Name, DateTime.UtcNow.ToString());
 
-            await _service.CreateCheep(cheepToPost);
+            await _service.AddCheep(cheepToPost);
 
             return RedirectToPage("/Profile"); //Go to profile after posting a cheep
         }
 
     public class NewCheep {
-        public string Message {get; set;}
+        public static string? Message {get; set;}
     }
 }

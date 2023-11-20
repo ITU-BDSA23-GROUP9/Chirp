@@ -70,4 +70,11 @@ public class CheepRepository : ICheepRepository
         _db.Cheeps.AddRange(cheep);
         _db.SaveChanges();
     }
+
+    public async Task AddCheep(CheepDTO cheep, DateTime timestamp) {
+        var author = await FindAuthorModelByName(cheep.author);
+        var newCheep = new Cheep { CheepId = "693", Author = author, Text = cheep.message, TimeStamp = timestamp };
+        _db.Cheeps.AddRange(newCheep);
+        _db.SaveChanges();
+    }
 }
