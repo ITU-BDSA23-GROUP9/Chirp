@@ -48,7 +48,7 @@ public class PublicModel : PageModel
     {
         var cheepToPost = new CheepDTO(newCheep.Message, User.Identity.Name, DateTime.UtcNow.ToString());
         await _service.AddCheep(cheepToPost, DateTime.UtcNow);
-        return RedirectToPage("/"); //Go to profile after posting a cheep
+        return LocalRedirect(Url.Content("~/")); //Go to profile after posting a cheep
     }
 
     public class NewCheep
