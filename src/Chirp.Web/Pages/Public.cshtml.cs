@@ -39,14 +39,14 @@ public class PublicModel : PageModel
     }
 
     public async Task<IActionResult> OnPost() {
-            var cheepToPost = new CheepDTO(NewCheep.Message, User.Identity.Name, DateTime.UtcNow.ToString());
+            var cheepToPost = new CheepDTO(newCheep.Message, User.Identity.Name, DateTime.UtcNow.ToString());
 
-            await _service.AddCheep(cheepToPost);
+            await _service.AddCheep(cheepToPost, DateTime.UtcNow);
 
             return RedirectToPage("/Profile"); //Go to profile after posting a cheep
         }
 
     public class NewCheep {
-        public static string? Message {get; set;}
+        public string? Message {get; set;}
     }
 }
