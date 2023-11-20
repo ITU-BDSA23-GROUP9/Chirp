@@ -8,7 +8,14 @@
 
 <div>
     <h2> @routeName's Timeline </h2>
-    
+    <div class="cheepbox">
+        <h3>What's on your mind @(User.Identity.Name)?</h3>
+        <form method="post">
+            <input style="float: left" type="text">
+            <input type="submit" value="Share">
+        </form>
+    </div>
+
     @if (Model.Cheeps.Count > 0)
     {
         <ul id="messagelist" class="cheeps">
@@ -26,8 +33,8 @@
             }
         </ul>
 
-         <!-- Pagination links (horizontal-list)-->
-            <nav aria-label="Cheep Pagination">
+        <!-- Pagination links (horizontal-list)-->
+        <nav aria-label="Cheep Pagination">
             <div class="pagination justify-content-center">
                 <span class="page-item">
                     <a class="page-link"
@@ -49,6 +56,6 @@
     }
     else
     {
-            <em>There are no cheeps so far.</em>
+        <em>There are no cheeps so far.</em>
     }
 </div>
