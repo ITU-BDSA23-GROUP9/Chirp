@@ -16,6 +16,9 @@ public class UserTimelineModel : PageModel
     public int PageNumber { get; set; }
     public int CheepsPerPage { get; set; }
 
+    [BindProperty]
+    public NewCheep newCheep { get; set; }
+
     public UserTimelineModel(ICheepRepository cheepService, IAuthorRepository authorService)
     {
         Cheeps = new();
@@ -35,5 +38,17 @@ public class UserTimelineModel : PageModel
         TotalCheeps = await _authorService.GetTotalCheepCountFromAuthor(author);
         Cheeps = await _cheepService.GetCheepsFromAuthor(author, CheepsPerPage, PageNumber);
         return Page();
+    }
+
+    public async Task<IActionResult> OnPost()
+    {
+        var cheepToPost = new CheepDTO(newCheep.Message, User.Identity.Name, DateTime.UtcNow.ToString());
+        await _cheepService.AddCheep(cheepToPost, DateTime.UtcNow);
+        return LocalRedirect(Url.Content("~/")); //Go to profile after posting a cheep
+    }
+
+    public class NewCheep
+    {
+        public string? Message { get; set; }
     }
 }
