@@ -6,6 +6,8 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 
 //Code taken from lecture-slides-05 and small parts adapted by: Oline <okre@itu.dk>, Anton <anlf@itu.dk> & Clara <clwj@itu.dk>
@@ -102,7 +104,7 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     }
 
     [Fact]
-    public async void WhenLoggedInUserFollowsNone()
+    public async void NewlyCreatedAuthorIsFollowingNone()
     {
         // Arrange
         using var connection = new SqliteConnection("Filename=:memory:");
@@ -110,7 +112,6 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         var builder = new DbContextOptionsBuilder<ChirpContext>().UseSqlite(connection);
         using var context = new ChirpContext(builder.Options);
         await context.Database.EnsureCreatedAsync();
-
         var cheepRepo = new CheepRepository(context);
         var authorRepo = new AuthorRepository(context);
         var author = new Author() { UserName = "Anna", Email = "anna@itu.dk" };
@@ -118,16 +119,31 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         context.SaveChanges();
 
         // Act
-        var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.NameIdentifier, author.UserName),
-            new Claim(ClaimTypes.Name, author.UserName),
-            new Claim(ClaimTypes.Email, author.Email)
-        };
-
-        var identity = new ClaimsIdentity(claims, "TestAuth");
-        var principal = new ClaimsPrincipal(identity);
+        var result = authorRepo.FindAuthorByName("Anna");
 
         // Assert
+        Assert.Equal(result.Following.Count == 0);
+    }
+
+    [Fact]
+    public async void NewlyCreatedAuthorHasNoFollowers()
+    {
+        // Arrange
+        using var connection = new SqliteConnection("Filename=:memory:");
+        connection.Open();
+        var builder = new DbContextOptionsBuilder<ChirpContext>().UseSqlite(connection);
+        using var context = new ChirpContext(builder.Options);
+        await context.Database.EnsureCreatedAsync();
+        var cheepRepo = new CheepRepository(context);
+        var authorRepo = new AuthorRepository(context);
+        var author = new Author() { UserName = "Anna", Email = "anna@itu.dk" };
+        context.Authors.Add(author);
+        context.SaveChanges();
+
+        // Act
+        var result = authorRepo.FindAuthorByName("Anna");
+
+        // Assert
+        Assert.Equal(result.Followers.Count == 0);
     }
 }
