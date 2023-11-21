@@ -44,4 +44,15 @@ public class AuthorRepository : IAuthorRepository
         _db.Authors.AddRange(author);
         _db.SaveChanges();
     }
+
+    public void Follow(Author authorWhoWantsToFollow, Author authorToFollow)
+    {
+        authorWhoWantsToFollow.Following.Add(authorToFollow);
+        AddFollower(authorWhoWantsToFollow, authorToFollow);
+    }
+
+    private void AddFollower(Author authorWhoWantsToFollow, Author authorToFollow)
+    {
+        authorToFollow.Followers.Add(authorWhoWantsToFollow);
+    }
 }
