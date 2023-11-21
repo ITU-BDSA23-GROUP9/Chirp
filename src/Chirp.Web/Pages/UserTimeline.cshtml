@@ -8,7 +8,20 @@
 
 <div>
     <h2> @routeName's Timeline </h2>
-
+    @if (User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        <div class="cheepbox"
+            style="background-color: #ffe6e6; padding: 15px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+            <h3 style="margin-bottom: 10px; font-size: 1.2em; color: #ff6667;">What's on your mind @(User.Identity.Name)?
+            </h3>
+            <form method="post" style="overflow: hidden;">
+                <input type="text" asp-for="newCheep.Message" placeholder="They don't chirp. They chirrup."
+                    style="width: calc(100% - 80px); padding: 8px; border: 1px solid #ff9999; border-radius: 4px; margin-right: 10px; float: left;">
+                <input type="submit" value="Share"
+                    style="background-color: #ff6667; color: #fff; margin: 5px; padding: 8px; border: none; border-radius: 2px; cursor: pointer;">
+            </form>
+        </div>
+    }
     @if (Model.Cheeps.Count > 0)
     {
         <ul id="messagelist" class="cheeps">
@@ -26,8 +39,8 @@
             }
         </ul>
 
-         <!-- Pagination links (horizontal-list)-->
-            <nav aria-label="Cheep Pagination">
+        <!-- Pagination links (horizontal-list)-->
+        <nav aria-label="Cheep Pagination">
             <div class="pagination justify-content-center">
                 <span class="page-item">
                     <a class="page-link"
@@ -49,6 +62,6 @@
     }
     else
     {
-            <em>There are no cheeps so far.</em>
+        <em>There are no cheeps so far.</em>
     }
 </div>
