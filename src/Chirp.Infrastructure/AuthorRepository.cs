@@ -55,4 +55,21 @@ public class AuthorRepository : IAuthorRepository
     {
         authorToFollow.Followers.Add(authorWhoWantsToFollow);
     }
+
+    public async Task<Author> FindAuthorModelByName(string author)
+    {
+        Author? authorModel = await _db.Authors.FirstOrDefaultAsync(a => a.UserName == author);
+        if (authorModel == null)
+        {
+            throw new Exception("Author does not exist");
+        }
+        return authorModel;
+    }
+
+    public async Task<bool> IsUserFollowingAuthor(string authorUsername, string username)
+    {
+        var user = await FindAuthorModelByName(username);
+        var author = await FindAuthorModelByName(authorUsername);
+        return user.Following.Contains(author);
+    }
 }
