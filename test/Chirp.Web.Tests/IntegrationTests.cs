@@ -4,6 +4,8 @@ using HtmlAgilityPack;
 using System.Text.RegularExpressions;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using System.Collections.Generic;
 
 
 //Code taken from lecture-slides-05 and small parts adapted by: Oline <okre@itu.dk>, Anton <anlf@itu.dk> & Clara <clwj@itu.dk>
@@ -111,12 +113,20 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
 
         var cheepRepo = new CheepRepository(context);
         var authorRepo = new AuthorRepository(context);
-
-        context.Authors.Add(new Author() { UserName = "Anna", Email = "anna@itu.dk" });
+        var author = new Author() { UserName = "Anna", Email = "anna@itu.dk" };
+        context.Authors.Add(author);
         context.SaveChanges();
 
         // Act
-        
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.NameIdentifier, author.UserName),
+            new Claim(ClaimTypes.Name, author.UserName),
+            new Claim(ClaimTypes.Email, author.Email)
+        };
+
+        var identity = new ClaimsIdentity(claims, "TestAuth");
+        var principal = new ClaimsPrincipal(identity);
 
         // Assert
     }

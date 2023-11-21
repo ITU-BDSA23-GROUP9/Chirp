@@ -44,7 +44,7 @@ public class UserTimelineModel : PageModel
     {
         var cheepToPost = new CheepDTO(newCheep.Message, User.Identity.Name, DateTime.UtcNow.ToString());
         await _cheepService.AddCheep(cheepToPost, DateTime.UtcNow);
-        return LocalRedirect(Url.Content("~/")); //Go to profile after posting a cheep
+        return LocalRedirect(Url.Content("~/"));
     }
 
     public class NewCheep
