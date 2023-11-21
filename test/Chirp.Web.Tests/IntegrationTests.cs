@@ -1,13 +1,9 @@
 namespace Chirp.Web.Tests;
 using Microsoft.AspNetCore.Mvc.Testing;
-using HtmlAgilityPack;
+using Bogus;
 using System.Text.RegularExpressions;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 
 
 //Code taken from lecture-slides-05 and small parts adapted by: Oline <okre@itu.dk>, Anton <anlf@itu.dk> & Clara <clwj@itu.dk>
@@ -103,8 +99,12 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
 
     }
 
-    [Fact]
-    public async void NewlyCreatedAuthorIsFollowingNone()
+    [Theory]
+    [InlineData(0)]
+    [InlineData(1)]
+    [InlineData(5)]
+    [InlineData(10)]
+    public async void NewlyCreatedAuthorIsFollowingGivenAmount(int followingAmount)
     {
         // Arrange
         using var connection = new SqliteConnection("Filename=:memory:");
@@ -114,7 +114,8 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         await context.Database.EnsureCreatedAsync();
         var cheepRepo = new CheepRepository(context);
         var authorRepo = new AuthorRepository(context);
-        var author = new Author() { UserName = "Anna", Email = "anna@itu.dk" };
+        UserFaker.Init(followingAmount);
+        var author = new Author() { UserName = "Anna", Email = "anna@itu.dk", Following = UserFaker.authors };
         context.Authors.Add(author);
         context.SaveChanges();
 
@@ -125,8 +126,12 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         Assert.Equal(result.Following.Count == 0);
     }
 
-    [Fact]
-    public async void NewlyCreatedAuthorHasNoFollowers()
+    [Theory]
+    [InlineData(0)]
+    [InlineData(1)]
+    [InlineData(5)]
+    [InlineData(10)]
+    public async void NewlyCreatedAuthorHasGivenAmountOfFollowers(int followersAmount)
     {
         // Arrange
         using var connection = new SqliteConnection("Filename=:memory:");
@@ -136,7 +141,8 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         await context.Database.EnsureCreatedAsync();
         var cheepRepo = new CheepRepository(context);
         var authorRepo = new AuthorRepository(context);
-        var author = new Author() { UserName = "Anna", Email = "anna@itu.dk" };
+        UserFaker.Init(followersAmount);
+        var author = new Author() { UserName = "Anna", Email = "anna@itu.dk", Followers = UserFaker.authors };
         context.Authors.Add(author);
         context.SaveChanges();
 
@@ -145,5 +151,21 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
 
         // Assert
         Assert.Equal(result.Followers.Count == 0);
+    }
+}
+
+public static class UserFaker
+{
+    public static List<Author> authors = new();
+
+    public static void Init(int count)
+    {
+        var authorFaker = new Faker<Author>()
+        .RuleFor(a => a.UserName, u => u.Person.UserName)
+        .RuleFor(a => a.Email, e => e.Person.Email);
+
+        var users = authorFaker.Generate(count);
+
+        UserFaker.authors.AddRange(users);
     }
 }
