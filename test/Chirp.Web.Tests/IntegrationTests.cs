@@ -1,7 +1,9 @@
 namespace Chirp.Web.Tests;
 using Microsoft.AspNetCore.Mvc.Testing;
-using HtmlAgilityPack;
+using Bogus;
 using System.Text.RegularExpressions;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 
 
 //Code taken from lecture-slides-05 and small parts adapted by: Oline <okre@itu.dk>, Anton <anlf@itu.dk> & Clara <clwj@itu.dk>
@@ -36,7 +38,7 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     [Theory]
     [InlineData("Helge")]
     [InlineData("Rasmus")]
-    public async void CanSeePrivateTimeline(string author)
+    public async void CanSeeUserTimeline(string author)
     {
         // Arrange
         var response = await _client.GetAsync($"/{author}");
@@ -95,5 +97,75 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         // Assert
         Assert.Equal(HPContent, pageOneContent);
 
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(1)]
+    [InlineData(5)]
+    [InlineData(10)]
+    public async void NewlyCreatedAuthorIsFollowingGivenAmount(int followingAmount)
+    {
+        // Arrange
+        using var connection = new SqliteConnection("Filename=:memory:");
+        connection.Open();
+        var builder = new DbContextOptionsBuilder<ChirpContext>().UseSqlite(connection);
+        using var context = new ChirpContext(builder.Options);
+        await context.Database.EnsureCreatedAsync();
+        var cheepRepo = new CheepRepository(context);
+        var authorRepo = new AuthorRepository(context);
+        UserFaker.Init(followingAmount);
+        var author = new Author() { UserName = "Anna", Email = "anna@itu.dk", Following = UserFaker.authors };
+        context.Authors.Add(author);
+        context.SaveChanges();
+
+        // Act
+        var result = authorRepo.FindAuthorByName("Anna");
+
+        // Assert
+        Assert.Equal(result.Following.Count == 0);
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(1)]
+    [InlineData(5)]
+    [InlineData(10)]
+    public async void NewlyCreatedAuthorHasGivenAmountOfFollowers(int followersAmount)
+    {
+        // Arrange
+        using var connection = new SqliteConnection("Filename=:memory:");
+        connection.Open();
+        var builder = new DbContextOptionsBuilder<ChirpContext>().UseSqlite(connection);
+        using var context = new ChirpContext(builder.Options);
+        await context.Database.EnsureCreatedAsync();
+        var cheepRepo = new CheepRepository(context);
+        var authorRepo = new AuthorRepository(context);
+        UserFaker.Init(followersAmount);
+        var author = new Author() { UserName = "Anna", Email = "anna@itu.dk", Followers = UserFaker.authors };
+        context.Authors.Add(author);
+        context.SaveChanges();
+
+        // Act
+        var result = authorRepo.FindAuthorByName("Anna");
+
+        // Assert
+        Assert.Equal(result.Followers.Count == 0);
+    }
+}
+
+public static class UserFaker
+{
+    public static List<Author> authors = new();
+
+    public static void Init(int count)
+    {
+        var authorFaker = new Faker<Author>()
+        .RuleFor(a => a.UserName, u => u.Person.UserName)
+        .RuleFor(a => a.Email, e => e.Person.Email);
+
+        var users = authorFaker.Generate(count);
+
+        UserFaker.authors.AddRange(users);
     }
 }
