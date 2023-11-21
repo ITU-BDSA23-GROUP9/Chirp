@@ -2,6 +2,8 @@ namespace Chirp.Web.Tests;
 using Microsoft.AspNetCore.Mvc.Testing;
 using HtmlAgilityPack;
 using System.Text.RegularExpressions;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 
 
 //Code taken from lecture-slides-05 and small parts adapted by: Oline <okre@itu.dk>, Anton <anlf@itu.dk> & Clara <clwj@itu.dk>
@@ -95,5 +97,27 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         // Assert
         Assert.Equal(HPContent, pageOneContent);
 
+    }
+
+    [Fact]
+    public async void WhenLoggedInUserFollowsNone()
+    {
+        // Arrange
+        using var connection = new SqliteConnection("Filename=:memory:");
+        connection.Open();
+        var builder = new DbContextOptionsBuilder<ChirpContext>().UseSqlite(connection);
+        using var context = new ChirpContext(builder.Options);
+        await context.Database.EnsureCreatedAsync();
+
+        var cheepRepo = new CheepRepository(context);
+        var authorRepo = new AuthorRepository(context);
+
+        context.Authors.Add(new Author() { UserName = "Anna", Email = "anna@itu.dk" });
+        context.SaveChanges();
+
+        // Act
+        
+
+        // Assert
     }
 }
