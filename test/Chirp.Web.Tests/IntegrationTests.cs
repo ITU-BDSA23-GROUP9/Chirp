@@ -40,7 +40,7 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     [Theory]
     [InlineData("Helge")]
     [InlineData("Rasmus")]
-    public async void CanSeePrivateTimeline(string author)
+    public async void CanSeeUserTimeline(string author)
     {
         // Arrange
         var response = await _client.GetAsync($"/{author}");
