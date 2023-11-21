@@ -55,4 +55,9 @@ public class PublicModel : PageModel
     {
         public string? Message { get; set; }
     }
+
+    public async Task<bool> IsUserFollowingAuthor(string authorUsername, string username)
+    {
+        return await _authorRepo.IsUserFollowingAuthor(authorUsername, username);
+    }
 }
