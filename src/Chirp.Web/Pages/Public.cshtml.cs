@@ -73,8 +73,8 @@ public class PublicModel : PageModel
         return await _authorRepo.IsUserFollowingAuthor(authorUsername, username);
     }
 
-    public async void FollowAuthor(string authorUsername, string username)
+    public async void FollowAuthor(string username, string authorUsername)
     {
-        await _authorRepo.Follow(authorUsername, username);
+        await _authorRepo.Follow(username, authorUsername);
     }
 }
