@@ -114,16 +114,17 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         await context.Database.EnsureCreatedAsync();
         var cheepRepo = new CheepRepository(context);
         var authorRepo = new AuthorRepository(context);
-        UserFaker.Init(followingAmount);
-        var author = new Author() { UserName = "Anna", Email = "anna@itu.dk", Following = UserFaker.authors };
+        UserFaker faker = new();
+        faker.Init(followingAmount);
+        var author = new Author() { UserName = "Anna", Email = "anna@itu.dk", Following = faker.authors };
         context.Authors.Add(author);
         context.SaveChanges();
 
         // Act
-        var result = authorRepo.FindAuthorByName("Anna");
+        var result = await authorRepo.FindAuthorModelByName("Anna");
 
         // Assert
-        Assert.Equal(result.Following.Count == 0);
+        Assert.Equal(0, result.Following.Count);
     }
 
     [Theory]
@@ -141,24 +142,25 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         await context.Database.EnsureCreatedAsync();
         var cheepRepo = new CheepRepository(context);
         var authorRepo = new AuthorRepository(context);
-        UserFaker.Init(followersAmount);
-        var author = new Author() { UserName = "Anna", Email = "anna@itu.dk", Followers = UserFaker.authors };
+        UserFaker faker = new();
+        faker.Init(followersAmount);
+        var author = new Author() { UserName = "Anna", Email = "anna@itu.dk", Followers = faker.authors };
         context.Authors.Add(author);
         context.SaveChanges();
 
         // Act
-        var result = authorRepo.FindAuthorByName("Anna");
+        var result = await authorRepo.FindAuthorModelByName("Anna");
 
         // Assert
-        Assert.Equal(result.Followers.Count == 0);
+        Assert.Equal(0, result.Followers.Count);
     }
 }
 
-public static class UserFaker
+public class UserFaker
 {
-    public static List<Author> authors = new();
+    public List<Author> authors = new();
 
-    public static void Init(int count)
+    public void Init(int count)
     {
         var authorFaker = new Faker<Author>()
         .RuleFor(a => a.UserName, u => u.Person.UserName)
@@ -166,6 +168,6 @@ public static class UserFaker
 
         var users = authorFaker.Generate(count);
 
-        UserFaker.authors.AddRange(users);
+        authors.AddRange(users);
     }
 }

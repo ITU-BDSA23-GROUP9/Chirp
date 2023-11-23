@@ -33,13 +33,13 @@
                             <a href="/@cheep.author">@cheep.author</a>
                             @if (User.Identity.IsAuthenticated)
                             {
-                                @if (await Model.IsUserFollowingAuthor(cheep.author, User.Identity.Name))
+                                @if (Model.IsUserFollowingAuthor[cheep.author])
                                 {
                                     <a>Unfollow</a>
                                 }
-                                else 
+                                else
                                 {
-                                    <a>Follow</a>
+                                    <a asp-action="Model.FollowAuthor(cheep.author, User.Identity.Name)">Follow</a>
                                 }
                             }
                         </strong>

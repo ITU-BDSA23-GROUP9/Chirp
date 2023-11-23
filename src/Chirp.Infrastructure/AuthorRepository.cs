@@ -45,10 +45,33 @@ public class AuthorRepository : IAuthorRepository
         _db.SaveChanges();
     }
 
-    public void Follow(Author authorWhoWantsToFollow, Author authorToFollow)
+    public async Task Follow(string authorWhoWantsToFollow, string authorToFollow)
     {
-        authorWhoWantsToFollow.Following.Add(authorToFollow);
-        AddFollower(authorWhoWantsToFollow, authorToFollow);
+        Author authorWhoWantsToFollowModel = await FindAuthorModelByName(authorWhoWantsToFollow);
+        Author authorToFollowModel = await FindAuthorModelByName(authorToFollow);
+        authorWhoWantsToFollowModel.Following.Add(authorToFollowModel);
+        AddFollower(authorWhoWantsToFollowModel, authorToFollowModel);
+        try
+        {
+            await _db.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException ex)
+        {
+            foreach (var entry in ex.Entries)
+            {
+                if (entry.Entity is Author)
+                {
+                    var proposedValues = entry.CurrentValues;
+                    var databaseValues = entry.GetDatabaseValues();
+
+                    foreach (var property in proposedValues.Properties)
+                    {
+                        var proposedValue = proposedValues[property];
+                        var databaseValue = databaseValues[property];
+                    }
+                }
+            }
+        }
     }
 
     private void AddFollower(Author authorWhoWantsToFollow, Author authorToFollow)
@@ -61,7 +84,7 @@ public class AuthorRepository : IAuthorRepository
         Author? authorModel = await _db.Authors.FirstOrDefaultAsync(a => a.UserName == author);
         if (authorModel == null)
         {
-            throw new Exception("Author does not exist");
+            throw new Exception("Author does not exist: " + author);
         }
         return authorModel;
     }
