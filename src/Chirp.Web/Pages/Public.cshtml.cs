@@ -48,9 +48,9 @@ public class PublicModel : PageModel
 
     public async Task<IActionResult> OnPost()
     {
-        var user = await _userManager.GetUserAsync(User);
-        var author = new AuthorDTO(user.UserName, user.Email);
-        var cheepToPost = new CheepCreateDTO(newCheep.Message, author, DateTime.UtcNow.ToString());
+        //var user = await _userManager.GetUserAsync(User);
+        //var author = new AuthorDTO(user.UserName, user.Email);
+        var cheepToPost = new CheepDTO(newCheep.Message, User.Identity.Name, DateTime.UtcNow.ToString());
         await _service.CreateCheep(cheepToPost);
         return LocalRedirect(Url.Content("~/")); //Go to profile after posting a cheep
     }

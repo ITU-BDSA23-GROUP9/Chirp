@@ -64,7 +64,7 @@ public class CheepRepository : ICheepRepository
         return authorModel;
     }
 
-    public async Task CreateCheep(CheepCreateDTO cheep)
+    public async Task CreateCheep(CheepDTO cheep)
     {
         var validationResult = await _validator.ValidateAsync(cheep);
 
@@ -72,7 +72,7 @@ public class CheepRepository : ICheepRepository
         {
             throw new Exception("The cheep can be no more than 160 characters long!");
         }
-        var author = await FindAuthorModelByName(cheep.author.name);
+        var author = await FindAuthorModelByName(cheep.author);
         var newCheep = new Cheep { CheepId = Guid.NewGuid().ToString(), Author = author, Text = cheep.message, TimeStamp = DateTime.Parse(cheep.timestamp) };
         _db.Cheeps.AddRange(newCheep);
         _db.SaveChanges();
