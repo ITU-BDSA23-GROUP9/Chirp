@@ -1,5 +1,6 @@
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Chirp.Core;
 
 namespace Chirp.Web.Tests;
 
@@ -246,7 +247,7 @@ public class UnitTests
         {
             Assert.True(false);
         }
-        cheepRepository.CreateCheep(author, "Clara er sej", DateTime.Parse("2023-08-01 13:08:28"));
+        await cheepRepository.CreateCheep(author, "Clara er sej", DateTime.Parse("2023-08-01 13:08:28"));
         var result = await cheepRepository.GetCheeps(1, 1);
 
         // Assert
