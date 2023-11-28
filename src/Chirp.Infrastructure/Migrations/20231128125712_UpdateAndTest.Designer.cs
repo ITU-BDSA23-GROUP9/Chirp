@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chirp.Infrastructure.Migrations
 {
     [DbContext(typeof(ChirpContext))]
-    [Migration("20231122071342_NotNullFollowingFollower")]
-    partial class NotNullFollowingFollower
+    [Migration("20231128125712_UpdateAndTest")]
+    partial class UpdateAndTest
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

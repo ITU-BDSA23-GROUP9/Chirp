@@ -1,3 +1,4 @@
+@using Chirp.Infrastructure
 @inject SignInManager<Author> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();

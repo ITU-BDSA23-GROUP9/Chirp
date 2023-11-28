@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.Extensions.Options;
 using Duende.IdentityServer.EntityFramework.Options;
 
+namespace Chirp.Infrastructure;
 public class ChirpContext : ApiAuthorizationDbContext<Author>
 {
     public DbSet<Cheep> Cheeps => Set<Cheep>();
