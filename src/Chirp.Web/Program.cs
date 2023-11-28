@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
+using Chirp.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 

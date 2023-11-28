@@ -1,3 +1,5 @@
+namespace Chirp.Core;
+
 public interface ICheepRepository
 {
     public Task<List<CheepDTO>> GetCheeps(int limit, int pageNumber);
@@ -6,5 +8,5 @@ public interface ICheepRepository
     public Task<int> GetTotalCheepCount();
     public void CreateCheep(AuthorDTO author, string text, DateTime timestamp);
 
-    public Task AddCheep(CheepDTO cheep, DateTime timestamp); 
+    public Task AddCheep(CheepDTO cheep, DateTime timestamp);
 }

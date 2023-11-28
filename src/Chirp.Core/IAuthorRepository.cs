@@ -1,4 +1,4 @@
-
+namespace Chirp.Core;
 public interface IAuthorRepository
 {
     public Task<int> GetTotalCheepCountFromAuthor(string author);
