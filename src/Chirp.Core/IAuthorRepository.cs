@@ -7,4 +7,6 @@ public interface IAuthorRepository
     public void CreateAuthor(string name, string email);
     public Task<bool> IsUserFollowingAuthor(string authorUsername, string username);
     public Task Follow(string authorWhoWantsToFollow, string authorToFollow);
+    public Task Unfollow(string authorWhoWantsToFollow, string authorToFollow);
+
 }

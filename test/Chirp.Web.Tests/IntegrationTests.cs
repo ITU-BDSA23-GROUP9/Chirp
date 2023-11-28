@@ -4,6 +4,7 @@ using Bogus;
 using System.Text.RegularExpressions;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Chirp.Infrastructure;
 
 
 //Code taken from lecture-slides-05 and small parts adapted by: Oline <okre@itu.dk>, Anton <anlf@itu.dk> & Clara <clwj@itu.dk>
@@ -124,7 +125,7 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         var result = await authorRepo.FindAuthorModelByName("Anna");
 
         // Assert
-        Assert.Equal(0, result.Following.Count);
+        Assert.Equal(followingAmount, result.Following.Count);
     }
 
     [Theory]
@@ -152,7 +153,7 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         var result = await authorRepo.FindAuthorModelByName("Anna");
 
         // Assert
-        Assert.Equal(0, result.Followers.Count);
+        Assert.Equal(followersAmount, result.Followers.Count);
     }
 }
 
