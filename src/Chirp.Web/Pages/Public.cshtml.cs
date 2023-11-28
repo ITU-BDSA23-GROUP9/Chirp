@@ -23,7 +23,6 @@ public class PublicModel : PageModel
 
 
     [BindProperty]
-    [Required, StringLength(160)]
     public NewCheep newCheep { get; set; }
 
     public PublicModel(ICheepRepository service)
@@ -55,6 +54,7 @@ public class PublicModel : PageModel
 
     public class NewCheep
     {
+        [Required, StringLength(160)]
         public string? Message { get; set; }
     }
 }
