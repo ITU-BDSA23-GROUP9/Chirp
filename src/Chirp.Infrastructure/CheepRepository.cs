@@ -3,9 +3,11 @@ using Microsoft.EntityFrameworkCore;
 public class CheepRepository : ICheepRepository
 {
     private readonly ChirpContext _db;
-    public CheepRepository(ChirpContext db)
+    private readonly CheepCreateValidator _validator;
+    public CheepRepository(ChirpContext db, CheepCreateValidator validator)
     {
         _db = db;
+        _validator = validator;
     }
 
     public async Task<List<CheepDTO>> GetCheeps(int limit, int pageNumber)
@@ -62,20 +64,18 @@ public class CheepRepository : ICheepRepository
         return authorModel;
     }
 
-    public async void CreateCheep(AuthorDTO authorDTO, string text, DateTime timestamp)
+    public async Task CreateCheep(CheepCreateDTO cheep)
     {
-        var author = await FindAuthorModelByName(authorDTO.name);
+        var validationResult = await _validator.ValidateAsync(cheep);
 
-        var cheep = new Cheep() { CheepId = Guid.NewGuid().ToString(), Author = author, Text = text, TimeStamp = timestamp };
-        _db.Cheeps.AddRange(cheep);
-        _db.SaveChanges();
-    }
-
-    public async Task AddCheep(CheepDTO cheep, DateTime timestamp)
-    {
-        var author = await FindAuthorModelByName(cheep.author);
-        var newCheep = new Cheep { CheepId = Guid.NewGuid().ToString(), Author = author, Text = cheep.message, TimeStamp = timestamp };
+        if (!validationResult.IsValid)
+        {
+            throw new Exception("The cheep can be no more than 160 characters long!");
+        }
+        var author = await FindAuthorModelByName(cheep.author.name);
+        var newCheep = new Cheep { CheepId = Guid.NewGuid().ToString(), Author = author, Text = cheep.message, TimeStamp = DateTime.Parse(cheep.timestamp) };
         _db.Cheeps.AddRange(newCheep);
         _db.SaveChanges();
+
     }
 }
