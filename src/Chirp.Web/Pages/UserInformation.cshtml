@@ -3,11 +3,25 @@
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
-    var routeName = HttpContext.GetRouteValue("aboutMe");
+    //var routeName = HttpContext.GetRouteValue("aboutMe");
+}
+
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<Author> SignInManager
+@inject UserManager<Author> UserManager
+@{
+    var user = await UserManager.GetUserAsync(User);
 }
 
 <div>
-    <span>
-        hej
-    </span>
+    <p>
+        Name: @UserManager.GetUserName(User)
+    </p>
+    <p>
+        Email: @(await UserManager.GetEmailAsync(user))
+    </p>
 </div>
+<button style="color: red;">
+    Forget me!
+</button>
