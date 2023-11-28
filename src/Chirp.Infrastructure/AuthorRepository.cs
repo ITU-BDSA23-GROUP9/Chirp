@@ -56,14 +56,28 @@ public class AuthorRepository : IAuthorRepository
         authorWhoWantsToFollowModel.Following.Add(authorToFollowModel);
         authorToFollowModel.Followers.Add(authorWhoWantsToFollowModel);
 
-        // await _db.SaveChangesAsync();
+        await _db.SaveChangesAsync();
+    }
+
+    public async Task Unfollow(string authorWhoWantsToUnfollow, string authorToUnfollow)
+    {
+        Author authorWhoWantsToFollowModel = await FindAuthorModelByName(authorWhoWantsToUnfollow);
+        Author authorToFollowModel = await FindAuthorModelByName(authorToUnfollow);
+
+        authorWhoWantsToFollowModel.Following.Remove(authorToFollowModel);
+        authorToFollowModel.Followers.Remove(authorWhoWantsToFollowModel);
+
+        await _db.SaveChangesAsync();
     }
 
 
 
     public async Task<Author> FindAuthorModelByName(string author)
     {
-        Author? authorModel = await _db.Authors.FirstOrDefaultAsync(a => a.UserName == author);
+        Author? authorModel = await _db.Authors
+                                    .Include(f => f.Following)
+                                    .Include(f => f.Followers)
+                                    .FirstOrDefaultAsync(a => a.UserName == author);
         if (authorModel == null)
         {
             throw new Exception("Author does not exist: " + author);
