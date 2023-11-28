@@ -1,4 +1,5 @@
 using System;
+using Chirp.Infrastructure;
 
 public static class DbInitializer
 {

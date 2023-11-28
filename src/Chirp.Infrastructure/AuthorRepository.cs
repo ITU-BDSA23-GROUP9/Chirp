@@ -1,4 +1,7 @@
+using Chirp.Core;
 using Microsoft.EntityFrameworkCore;
+
+namespace Chirp.Infrastructure;
 public class AuthorRepository : IAuthorRepository
 {
     private readonly ChirpContext _db;
@@ -49,35 +52,14 @@ public class AuthorRepository : IAuthorRepository
     {
         Author authorWhoWantsToFollowModel = await FindAuthorModelByName(authorWhoWantsToFollow);
         Author authorToFollowModel = await FindAuthorModelByName(authorToFollow);
+
         authorWhoWantsToFollowModel.Following.Add(authorToFollowModel);
-        AddFollower(authorWhoWantsToFollowModel, authorToFollowModel);
-        try
-        {
-            await _db.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException ex)
-        {
-            foreach (var entry in ex.Entries)
-            {
-                if (entry.Entity is Author)
-                {
-                    var proposedValues = entry.CurrentValues;
-                    var databaseValues = entry.GetDatabaseValues();
+        authorToFollowModel.Followers.Add(authorWhoWantsToFollowModel);
 
-                    foreach (var property in proposedValues.Properties)
-                    {
-                        var proposedValue = proposedValues[property];
-                        var databaseValue = databaseValues[property];
-                    }
-                }
-            }
-        }
+        // await _db.SaveChangesAsync();
     }
 
-    private void AddFollower(Author authorWhoWantsToFollow, Author authorToFollow)
-    {
-        authorToFollow.Followers.Add(authorWhoWantsToFollow);
-    }
+
 
     public async Task<Author> FindAuthorModelByName(string author)
     {

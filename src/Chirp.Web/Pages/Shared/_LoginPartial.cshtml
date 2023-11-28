@@ -1,4 +1,5 @@
 @using Microsoft.AspNetCore.Identity
+@using Chirp.Infrastructure
 
 @inject SignInManager<Author> SignInManager
 @inject UserManager<Author> UserManager
@@ -6,7 +7,7 @@
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
-        <div class="nav-item" >
+        <div class="nav-item">
             <button>
                 <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index"
                     title="Manage">Hello @UserManager.GetUserName(User)!</a>

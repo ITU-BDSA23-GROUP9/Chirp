@@ -1,11 +1,9 @@
-﻿using System.ComponentModel;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using NuGet.Packaging.Signing;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Duende.IdentityServer.Extensions;
+using Chirp.Core;
+using Chirp.Infrastructure;
 
 namespace Chirp.Web.Pages;
 
@@ -73,8 +71,9 @@ public class PublicModel : PageModel
         return await _authorRepo.IsUserFollowingAuthor(authorUsername, username);
     }
 
-    public async void FollowAuthor(string username, string authorUsername)
+    public async Task<IActionResult> OnPostFollowAuthor(string author)
     {
-        await _authorRepo.Follow(username, authorUsername);
+        await _authorRepo.Follow(User.Identity.Name, author);
+        return LocalRedirect(Url.Content("~/"));
     }
 }

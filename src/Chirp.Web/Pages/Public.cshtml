@@ -39,7 +39,9 @@
                                 }
                                 else
                                 {
-                                    <a asp-action="Model.FollowAuthor(User.Identity.Name, cheep.author)">Follow</a>
+                                    <form method="post" asp-page-handler="FollowAuthor" asp-route-author="@cheep.author">
+                                        <button type="submit">Follow</button>
+                                    </form>
                                 }
                             }
                         </strong>

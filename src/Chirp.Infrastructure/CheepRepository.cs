@@ -1,5 +1,7 @@
+using Chirp.Core;
 using Microsoft.EntityFrameworkCore;
 
+namespace Chirp.Infrastructure;
 public class CheepRepository : ICheepRepository
 {
     private readonly ChirpContext _db;
@@ -62,7 +64,7 @@ public class CheepRepository : ICheepRepository
         return authorModel;
     }
 
-    public async void CreateCheep(AuthorDTO authorDTO, string text, DateTime timestamp)
+    public async Task CreateCheep(AuthorDTO authorDTO, string text, DateTime timestamp)
     {
         var author = await FindAuthorModelByName(authorDTO.name);
 
