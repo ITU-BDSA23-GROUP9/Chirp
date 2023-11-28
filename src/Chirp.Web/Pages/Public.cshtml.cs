@@ -6,6 +6,7 @@ using NuGet.Packaging.Signing;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Duende.IdentityServer.Extensions;
+using System.ComponentModel.DataAnnotations;
 
 namespace Chirp.Web.Pages;
 
@@ -22,6 +23,7 @@ public class PublicModel : PageModel
 
 
     [BindProperty]
+    [Required, StringLength(160)]
     public NewCheep newCheep { get; set; }
 
     public PublicModel(ICheepRepository service)
