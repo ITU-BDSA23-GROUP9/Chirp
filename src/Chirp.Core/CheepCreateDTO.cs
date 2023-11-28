@@ -1,0 +1,1 @@
+public record CheepCreateDTO(string message, AuthorDTO author, string timestamp);
