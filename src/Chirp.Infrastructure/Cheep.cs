@@ -1,3 +1,4 @@
+namespace Chirp.Infrastructure;
 public class Cheep
 {
     public required string CheepId { get; set; }

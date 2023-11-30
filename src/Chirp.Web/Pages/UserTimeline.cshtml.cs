@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Chirp.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Identity;
@@ -16,17 +17,15 @@ public class UserTimelineModel : PageModel
     public int TotalCheeps { get; set; }
     public int PageNumber { get; set; }
     public int CheepsPerPage { get; set; }
-    private readonly UserManager<Author> _userManager;
 
     [BindProperty]
     public NewCheep newCheep { get; set; }
 
-    public UserTimelineModel(ICheepRepository cheepService, IAuthorRepository authorService, UserManager<Author> userManager)
+    public UserTimelineModel(ICheepRepository cheepService, IAuthorRepository authorService)
     {
         Cheeps = new();
         _cheepService = cheepService;
         _authorService = authorService;
-        _userManager = userManager;
         PageNumber = 1; // Default to page 1
         CheepsPerPage = 32; // Set the number of cheeps per page
     }
@@ -43,13 +42,13 @@ public class UserTimelineModel : PageModel
         return Page();
     }
 
-     public async Task<IActionResult> OnPost()
+    public async Task<IActionResult> OnPost()
     {
         //var user = await _userManager.GetUserAsync(User);
         //var author = new AuthorDTO(user.UserName, user.Email);
         var cheepToPost = new CheepDTO(newCheep.Message, User.Identity.Name, DateTime.UtcNow.ToString());
         await _cheepService.CreateCheep(cheepToPost);
-        return LocalRedirect(Url.Content("~/")); //Go to profile after posting a cheep
+        return LocalRedirect(Url.Content("~/"));
     }
 
     public class NewCheep
