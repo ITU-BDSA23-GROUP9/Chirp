@@ -1,4 +1,4 @@
-﻿@page 
+﻿@page
 @model MyApp.Namespace.UserInformationModel
 @{
     ViewData["Title"] = "Chirp!";
@@ -22,6 +22,8 @@
         Email: @(await UserManager.GetEmailAsync(user))
     </p>
 </div>
-<button style="color: red;">
-    Forget me!
-</button>
+<form method="post" asp-page-handler="ForgetUser">
+    <button style="color: red;">
+        Forget me!
+    </button>
+</form>
