@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Chirp.Infrastructure;
 
-namespace MyApp.Namespace
-{
+namespace Chirp.Web.Pages;
+
     public class UserInformationModel : PageModel
     {
         private readonly UserManager<Author> _userManager;
@@ -25,4 +26,4 @@ namespace MyApp.Namespace
             return LocalRedirect(Url.Content("~/"));
         }
     }
-}
+
