@@ -9,8 +9,8 @@
     {
         <div class="form-group" style="display: horizontal;">
             <button class="form-group">
-                <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index"
-                    title="Manage">Hello @UserManager.GetUserName(User)!</a>
+                <a id="manage" class="nav-link text-dark" href="/@UserManager.GetUserName(User)"
+                    title="Manage">@UserManager.GetUserName(User)'s Timeline</a>
             </button>
             <button class="form-group">
                 <a id="UserInformation" class="nav-link text-dark" href="/UserInformation">

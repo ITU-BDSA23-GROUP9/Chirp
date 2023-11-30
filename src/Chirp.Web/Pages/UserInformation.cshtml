@@ -22,6 +22,10 @@
     <p>
         Email: @(await UserManager.GetEmailAsync(user))
     </p>
+    <button class="form-group">
+        <a id="manage" class="nav-link text-dark" href="/@UserManager.GetUserName(User)"
+        title="Manage">@UserManager.GetUserName(User)'s Timeline</a>
+    </button>
 </div>
 <form method="post" asp-page-handler="ForgetUser">
     <button style="color: red;">
