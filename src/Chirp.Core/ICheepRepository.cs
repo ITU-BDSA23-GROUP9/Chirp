@@ -1,3 +1,5 @@
+namespace Chirp.Core;
+
 public interface ICheepRepository
 {
     public Task<List<CheepDTO>> GetCheeps(int limit, int pageNumber);

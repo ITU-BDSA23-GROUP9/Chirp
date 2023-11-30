@@ -1,10 +1,11 @@
-using Microsoft.EntityFrameworkCore;
+using Chirp.Core;
 using FluentValidation;
 
 public class CheepCreateValidator : AbstractValidator<CheepDTO>
 {
 
-    public CheepCreateValidator() {
+    public CheepCreateValidator()
+    {
         RuleFor(x => x.message).NotEmpty().MaximumLength(160);
     }
 

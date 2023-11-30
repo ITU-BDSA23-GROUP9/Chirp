@@ -1,4 +1,7 @@
+using Chirp.Core;
 using Microsoft.EntityFrameworkCore;
+
+namespace Chirp.Infrastructure;
 public class AuthorRepository : IAuthorRepository
 {
     private readonly ChirpContext _db;
@@ -43,5 +46,49 @@ public class AuthorRepository : IAuthorRepository
         };
         _db.Authors.AddRange(author);
         _db.SaveChanges();
+    }
+
+    public async Task Follow(string authorWhoWantsToFollow, string authorToFollow)
+    {
+        Author authorWhoWantsToFollowModel = await FindAuthorModelByName(authorWhoWantsToFollow);
+        Author authorToFollowModel = await FindAuthorModelByName(authorToFollow);
+
+        authorWhoWantsToFollowModel.Following.Add(authorToFollowModel);
+        authorToFollowModel.Followers.Add(authorWhoWantsToFollowModel);
+
+        await _db.SaveChangesAsync();
+    }
+
+    public async Task Unfollow(string authorWhoWantsToUnfollow, string authorToUnfollow)
+    {
+        Author authorWhoWantsToFollowModel = await FindAuthorModelByName(authorWhoWantsToUnfollow);
+        Author authorToFollowModel = await FindAuthorModelByName(authorToUnfollow);
+
+        authorWhoWantsToFollowModel.Following.Remove(authorToFollowModel);
+        authorToFollowModel.Followers.Remove(authorWhoWantsToFollowModel);
+
+        await _db.SaveChangesAsync();
+    }
+
+
+
+    public async Task<Author> FindAuthorModelByName(string author)
+    {
+        Author? authorModel = await _db.Authors
+                                    .Include(f => f.Following)
+                                    .Include(f => f.Followers)
+                                    .FirstOrDefaultAsync(a => a.UserName == author);
+        if (authorModel == null)
+        {
+            throw new Exception("Author does not exist: " + author);
+        }
+        return authorModel;
+    }
+
+    public async Task<bool> IsUserFollowingAuthor(string authorUsername, string username)
+    {
+        var user = await FindAuthorModelByName(username);
+        var author = await FindAuthorModelByName(authorUsername);
+        return user.Following.Contains(author);
     }
 }
