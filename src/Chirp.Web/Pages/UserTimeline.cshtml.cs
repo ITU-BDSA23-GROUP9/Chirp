@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Identity;
 
 namespace Chirp.Web.Pages;
 
@@ -43,8 +44,10 @@ public class UserTimelineModel : PageModel
 
     public async Task<IActionResult> OnPost()
     {
+        //var user = await _userManager.GetUserAsync(User);
+        //var author = new AuthorDTO(user.UserName, user.Email);
         var cheepToPost = new CheepDTO(newCheep.Message, User.Identity.Name, DateTime.UtcNow.ToString());
-        await _cheepService.AddCheep(cheepToPost, DateTime.UtcNow);
+        await _cheepService.CreateCheep(cheepToPost);
         return LocalRedirect(Url.Content("~/"));
     }
 

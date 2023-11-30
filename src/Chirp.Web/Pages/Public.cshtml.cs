@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Identity;
 using Chirp.Core;
 using Chirp.Infrastructure;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Duende.IdentityServer.Extensions;
+using System.ComponentModel.DataAnnotations;
 
 namespace Chirp.Web.Pages;
 
@@ -56,13 +59,16 @@ public class PublicModel : PageModel
 
     public async Task<IActionResult> OnPost()
     {
+        //var user = await _userManager.GetUserAsync(User);
+        //var author = new AuthorDTO(user.UserName, user.Email);
         var cheepToPost = new CheepDTO(newCheep.Message, User.Identity.Name, DateTime.UtcNow.ToString());
-        await _service.AddCheep(cheepToPost, DateTime.UtcNow);
-        return LocalRedirect(Url.Content("~/"));
+        await _service.CreateCheep(cheepToPost);
+        return LocalRedirect(Url.Content("~/")); //Go to profile after posting a cheep
     }
 
     public class NewCheep
     {
+        [Required, StringLength(160)]
         public string? Message { get; set; }
     }
 

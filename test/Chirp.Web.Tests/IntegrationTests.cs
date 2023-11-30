@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Chirp.Infrastructure;
+using System.Runtime.Intrinsics.Arm;
 
 
 //Code taken from lecture-slides-05 and small parts adapted by: Oline <okre@itu.dk>, Anton <anlf@itu.dk> & Clara <clwj@itu.dk>
@@ -113,7 +114,7 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         var builder = new DbContextOptionsBuilder<ChirpContext>().UseSqlite(connection);
         using var context = new ChirpContext(builder.Options);
         await context.Database.EnsureCreatedAsync();
-        var cheepRepo = new CheepRepository(context);
+        var cheepRepo = new CheepRepository(context, new CheepCreateValidator());
         var authorRepo = new AuthorRepository(context);
         UserFaker faker = new();
         faker.Init(followingAmount);
@@ -141,7 +142,7 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         var builder = new DbContextOptionsBuilder<ChirpContext>().UseSqlite(connection);
         using var context = new ChirpContext(builder.Options);
         await context.Database.EnsureCreatedAsync();
-        var cheepRepo = new CheepRepository(context);
+        var cheepRepo = new CheepRepository(context, new CheepCreateValidator());
         var authorRepo = new AuthorRepository(context);
         UserFaker faker = new();
         faker.Init(followersAmount);

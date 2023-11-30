@@ -18,6 +18,7 @@ else if (builder.Environment.IsDevelopment())
 
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
+builder.Services.AddScoped<CheepCreateValidator>();
 
 builder.Services.AddDefaultIdentity<Author>()
     .AddEntityFrameworkStores<ChirpContext>();
@@ -66,7 +67,10 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseCookiePolicy(new CookiePolicyOptions()
+{
+    MinimumSameSitePolicy = SameSiteMode.Lax
+});
 app.MapRazorPages();
 
 app.Run();
