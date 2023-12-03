@@ -40,10 +40,14 @@ public class PrivateTimelineModel : PageModel
             PageNumber = pageNumber.Value;
         }
 
-        TotalCheeps = await _authorRepo.GetTotalCheepCountFromAuthor(username);
         Cheeps = await _cheepRepo.GetCheepsFromAuthor(username, CheepsPerPage, PageNumber);
-        
-        //Cheeps = await _cheepRepo.GetCheeps(CheepsPerPage, PageNumber);
+        var following = await _authorRepo.GetFollowers(username);
+        foreach (AuthorDTO author in following)
+        {
+            Cheeps.AddRange(await _cheepRepo.GetCheepsFromAuthor(author.name, CheepsPerPage, PageNumber));
+        }
+        Cheeps = Cheeps.OrderByDescending(c => c.timestamp).ToList();
+        TotalCheeps = Cheeps.Count;
         return Page();
     }
 
