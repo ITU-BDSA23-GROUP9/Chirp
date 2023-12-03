@@ -22,6 +22,7 @@ public class PrivateTimelineModel : PageModel
     public NewCheep newCheep { get; set; }
     private readonly UserManager<Author> _userManager;
     private readonly SignInManager<Author> _signInManager;
+
     public PrivateTimelineModel(ICheepRepository cheepRepo, IAuthorRepository authorRepo)
     {
         Cheeps = new();
@@ -33,14 +34,17 @@ public class PrivateTimelineModel : PageModel
 
     public async Task<ActionResult> OnGet(int? pageNumber)
     {
+        string username = User.Identity.Name;
         if (pageNumber.HasValue)
         {
             PageNumber = pageNumber.Value;
         }
 
-        //TotalCheeps = await _authorRepo.GetTotalCheepCountFromAuthor(author);
-        Cheeps = await _cheepRepo.GetCheeps(CheepsPerPage, PageNumber);
-         return Page();
+        TotalCheeps = await _authorRepo.GetTotalCheepCountFromAuthor(username);
+        Cheeps = await _cheepRepo.GetCheepsFromAuthor(username, CheepsPerPage, PageNumber);
+        
+        //Cheeps = await _cheepRepo.GetCheeps(CheepsPerPage, PageNumber);
+        return Page();
     }
 
     public async Task<IActionResult> OnPost()
