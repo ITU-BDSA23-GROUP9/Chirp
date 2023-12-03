@@ -8,5 +8,6 @@ public interface IAuthorRepository
     public Task<bool> IsUserFollowingAuthor(string authorUsername, string username);
     public Task Follow(string authorWhoWantsToFollow, string authorToFollow);
     public Task Unfollow(string authorWhoWantsToFollow, string authorToFollow);
+    public Task<List<AuthorDTO>> GetFollowers(string authorUsername);
 
 }

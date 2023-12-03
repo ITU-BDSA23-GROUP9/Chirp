@@ -91,4 +91,10 @@ public class AuthorRepository : IAuthorRepository
         var author = await FindAuthorModelByName(authorUsername);
         return user.Following.Contains(author);
     }
+
+    public async Task<List<AuthorDTO>> GetFollowers(string authorUsername)
+    {
+        var authorModel = await FindAuthorModelByName(authorUsername);
+        return authorModel.Following.Select(author => new AuthorDTO(author.UserName, author.Email)).ToList();
+    }
 }
