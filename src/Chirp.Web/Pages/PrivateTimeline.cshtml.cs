@@ -1,14 +1,14 @@
-﻿using Chirp.Core;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Identity;
+using Chirp.Infrastructure;
+using Chirp.Core;
 
 namespace Chirp.Web.Pages;
 
-[AllowAnonymous]
-public class UserTimelineModel : PageModel
+public class PrivateTimelineModel : PageModel
 {
+
     private readonly ICheepRepository _cheepRepo;
     private readonly IAuthorRepository _authorRepo;
     public List<CheepDTO> Cheeps { get; set; }
@@ -20,26 +20,27 @@ public class UserTimelineModel : PageModel
 
     [BindProperty]
     public NewCheep newCheep { get; set; }
-
-    public UserTimelineModel(ICheepRepository cheepRepo, IAuthorRepository authorRepo)
+    private readonly UserManager<Author> _userManager;
+    private readonly SignInManager<Author> _signInManager;
+    public PrivateTimelineModel(ICheepRepository cheepRepo, IAuthorRepository authorRepo)
     {
         Cheeps = new();
-         _cheepRepo = cheepRepo;
+        _cheepRepo = cheepRepo;
         _authorRepo = authorRepo;
         PageNumber = 1; // Default to page 1
         CheepsPerPage = 32; // Set the number of cheeps per page
     }
 
-    public async Task<ActionResult> OnGet(string author, int? pageNumber)
+    public async Task<ActionResult> OnGet(int? pageNumber)
     {
         if (pageNumber.HasValue)
         {
             PageNumber = pageNumber.Value;
         }
 
-        TotalCheeps = await _authorRepo.GetTotalCheepCountFromAuthor(author);
-        Cheeps = await _cheepRepo.GetCheepsFromAuthor(author, CheepsPerPage, PageNumber);
-        return Page();
+        //TotalCheeps = await _authorRepo.GetTotalCheepCountFromAuthor(author);
+        Cheeps = await _cheepRepo.GetCheeps(CheepsPerPage, PageNumber);
+         return Page();
     }
 
     public async Task<IActionResult> OnPost()
@@ -50,9 +51,9 @@ public class UserTimelineModel : PageModel
         await _cheepRepo.CreateCheep(cheepToPost);
         return LocalRedirect(Url.Content("~/"));
     }
-
     public class NewCheep
     {
         public string? Message { get; set; }
     }
 }
+
