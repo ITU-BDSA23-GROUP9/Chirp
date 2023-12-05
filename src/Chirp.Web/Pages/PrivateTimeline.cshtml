@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
-    var username = User.Identity.Name;
+    var username = User.Identity?.Name;
 }
 
 @using Microsoft.AspNetCore.Identity
