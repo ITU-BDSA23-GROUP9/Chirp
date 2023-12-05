@@ -68,13 +68,13 @@ public class UserTimelineModel : PageModel
 
     public async Task<IActionResult> OnPostFollowAuthor(string author)
     {
-        await _authorRepo.Follow(User.Identity?.Name, author);
+        await _authorRepo.Follow(User.Identity?.Name!, author);
         return LocalRedirect(Url.Content("~/"));
     }
 
     public async Task<IActionResult> OnPostUnfollowAuthor(string author)
     {
-        await _authorRepo.Unfollow(User.Identity?.Name, author);
+        await _authorRepo.Unfollow(User.Identity?.Name!, author);
         return LocalRedirect(Url.Content("~/"));
     }
 
