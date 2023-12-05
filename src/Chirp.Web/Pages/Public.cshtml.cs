@@ -13,7 +13,7 @@ namespace Chirp.Web.Pages;
 [AllowAnonymous]
 public class PublicModel : PageModel
 {
-    private readonly ICheepRepository _service;
+    private readonly ICheepRepository _cheepRepo;
     private readonly IAuthorRepository _authorRepo;
     public List<CheepDTO> Cheeps { get; set; }
     public Dictionary<string, bool> IsUserFollowingAuthor { get; set; }
@@ -26,10 +26,10 @@ public class PublicModel : PageModel
     [BindProperty]
     public NewCheep newCheep { get; set; }
 
-    public PublicModel(ICheepRepository service, IAuthorRepository authorRepo)
+    public PublicModel(ICheepRepository cheepRepo, IAuthorRepository authorRepo)
     {
         Cheeps = new();
-        _service = service;
+        _cheepRepo = cheepRepo;
         _authorRepo = authorRepo;
         PageNumber = 1; // Default to page 1
         CheepsPerPage = 32; // Set the number of cheeps per page
@@ -42,8 +42,8 @@ public class PublicModel : PageModel
             PageNumber = pageNumber.Value;
         }
 
-        TotalCheeps = await _service.GetTotalCheepCount();
-        Cheeps = await _service.GetCheeps(CheepsPerPage, PageNumber);
+        TotalCheeps = await _cheepRepo.GetTotalCheepCount();
+        Cheeps = await _cheepRepo.GetCheeps(CheepsPerPage, PageNumber);
 
         if (User.Identity.IsAuthenticated)
         {
@@ -62,7 +62,7 @@ public class PublicModel : PageModel
         //var user = await _userManager.GetUserAsync(User);
         //var author = new AuthorDTO(user.UserName, user.Email);
         var cheepToPost = new CheepDTO(newCheep.Message, User.Identity.Name, DateTime.UtcNow.ToString());
-        await _service.CreateCheep(cheepToPost);
+        await _cheepRepo.CreateCheep(cheepToPost);
         return LocalRedirect(Url.Content("~/")); //Go to profile after posting a cheep
     }
 

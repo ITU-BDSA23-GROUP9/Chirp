@@ -58,7 +58,11 @@ public class CheepRepository : ICheepRepository
 
     private async Task<Author> FindAuthorModelByName(string author)
     {
-        Author? authorModel = await _db.Authors.FirstOrDefaultAsync(a => a.UserName == author);
+        Author? authorModel = await _db.Authors
+        .Include(a => a.Cheeps)
+        .Include(a => a.Following)
+        .AsSplitQuery()
+        .FirstOrDefaultAsync(a => a.UserName == author);
         if (authorModel == null)
         {
             throw new Exception("Author does not exist");
@@ -76,8 +80,28 @@ public class CheepRepository : ICheepRepository
         }
         var author = await FindAuthorModelByName(cheep.author);
         var newCheep = new Cheep { CheepId = Guid.NewGuid().ToString(), Author = author, Text = cheep.message, TimeStamp = DateTime.Parse(cheep.timestamp) };
+        author.Cheeps.Add(newCheep);
         _db.Cheeps.AddRange(newCheep);
         _db.SaveChanges();
 
+    }
+
+    public async Task<List<CheepDTO>> GetPrivateTimelineCheeps(string authorUsername, int limit, int pageNumber)
+    {
+        int cheepsToSkip = (pageNumber - 1) * limit;
+        var author = await FindAuthorModelByName(authorUsername);
+        var following = author.Following;
+        var cheeps = author.Cheeps;
+        foreach (Author user in following)
+        {
+            var followerAuthor = await FindAuthorModelByName(user.UserName);
+            cheeps.AddRange(followerAuthor.Cheeps);
+        }
+
+        return cheeps.OrderByDescending(cheep => cheep.TimeStamp)
+            .Skip(cheepsToSkip)
+            .Take(limit)
+            .Select(cheep => new CheepDTO(cheep.Text, cheep.Author.UserName, cheep.TimeStamp.ToString()))
+            .ToList();
     }
 }
