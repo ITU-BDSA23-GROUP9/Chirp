@@ -12,8 +12,8 @@ public class PrivateTimelineModel : PageModel
     private readonly ICheepRepository _cheepRepo;
     private readonly IAuthorRepository _authorRepo;
     public List<CheepDTO> Cheeps { get; set; }
-
     public AuthorDTO? author { get; set; }
+    public Dictionary<string, bool> IsUserFollowingAuthor { get; set; }
     public int TotalCheeps { get; set; }
     public int PageNumber { get; set; }
     public int CheepsPerPage { get; set; }
@@ -34,7 +34,6 @@ public class PrivateTimelineModel : PageModel
 
     public async Task<ActionResult> OnGet(int? pageNumber)
     {
-
         string username = User.Identity.Name;
         if (pageNumber.HasValue)
         {
@@ -42,6 +41,16 @@ public class PrivateTimelineModel : PageModel
         }
         TotalCheeps = await _authorRepo.GetTotalCheepCountFromFollowersAndAuthor(username);
         Cheeps = await _cheepRepo.GetPrivateTimelineCheeps(username, CheepsPerPage, PageNumber);
+
+        if (User.Identity.IsAuthenticated)
+        {
+            IsUserFollowingAuthor = new();
+            foreach (CheepDTO cheep in Cheeps)
+            {
+                IsUserFollowingAuthor[cheep.author] = await FindIsUserFollowingAuthor(cheep.author, User.Identity.Name);
+            }
+        }
+
         return Page();
     }
 
@@ -53,6 +62,24 @@ public class PrivateTimelineModel : PageModel
         await _cheepRepo.CreateCheep(cheepToPost);
         return LocalRedirect(Url.Content("~/"));
     }
+
+    public async Task<bool> FindIsUserFollowingAuthor(string authorUsername, string username)
+    {
+        return await _authorRepo.IsUserFollowingAuthor(authorUsername, username);
+    }
+
+    public async Task<IActionResult> OnPostFollowAuthor(string author)
+    {
+        await _authorRepo.Follow(User.Identity.Name, author);
+        return LocalRedirect(Url.Content("~/"));
+    }
+
+    public async Task<IActionResult> OnPostUnfollowAuthor(string author)
+    {
+        await _authorRepo.Unfollow(User.Identity.Name, author);
+        return LocalRedirect(Url.Content("~/"));
+    }
+
     public class NewCheep
     {
         public string? Message { get; set; }
