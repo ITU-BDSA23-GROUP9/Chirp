@@ -20,8 +20,6 @@ public class PrivateTimelineModel : PageModel
 
     [BindProperty]
     public NewCheep newCheep { get; set; }
-    private readonly UserManager<Author> _userManager;
-    private readonly SignInManager<Author> _signInManager;
 
     public PrivateTimelineModel(ICheepRepository cheepRepo, IAuthorRepository authorRepo)
     {
