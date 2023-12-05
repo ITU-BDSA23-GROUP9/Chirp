@@ -1,5 +1,6 @@
 using Chirp.Core;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Core.Types;
 
 namespace Chirp.Infrastructure;
 public class AuthorRepository : IAuthorRepository
@@ -23,7 +24,7 @@ public class AuthorRepository : IAuthorRepository
         {
             throw new Exception("Author does not exist");
         }
-        return new AuthorDTO(authorModel.UserName, authorModel.Email);
+        return new AuthorDTO(authorModel.UserName!, authorModel.Email!);
     }
 
     public async Task<AuthorDTO?> FindAuthorByEmail(string email)
@@ -33,7 +34,7 @@ public class AuthorRepository : IAuthorRepository
         {
             throw new Exception("Author does not exist");
         }
-        return new AuthorDTO(authorModel.UserName, authorModel.Email);
+        return new AuthorDTO(authorModel.UserName!, authorModel.Email!);
     }
 
     public void CreateAuthor(string name, string email)
@@ -96,7 +97,9 @@ public class AuthorRepository : IAuthorRepository
     public async Task<List<AuthorDTO>> GetFollowers(string authorUsername)
     {
         var authorModel = await FindAuthorModelByName(authorUsername);
-        return authorModel.Following.Select(author => new AuthorDTO(author.UserName, author.Email)).ToList();
+        return authorModel.Following
+        .Select(author => new AuthorDTO(author.UserName!, author.Email!))
+        .ToList();
     }
 
     public async Task<int> GetTotalCheepCountFromFollowersAndAuthor(string authorUserName)
