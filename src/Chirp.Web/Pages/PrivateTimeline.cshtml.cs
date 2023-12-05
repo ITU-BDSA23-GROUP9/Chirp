@@ -34,20 +34,14 @@ public class PrivateTimelineModel : PageModel
 
     public async Task<ActionResult> OnGet(int? pageNumber)
     {
+
         string username = User.Identity.Name;
         if (pageNumber.HasValue)
         {
             PageNumber = pageNumber.Value;
         }
-
-        Cheeps = await _cheepRepo.GetCheepsFromAuthor(username, CheepsPerPage, PageNumber);
-        var following = await _authorRepo.GetFollowers(username);
-        foreach (AuthorDTO author in following)
-        {
-            Cheeps.AddRange(await _cheepRepo.GetCheepsFromAuthor(author.name, CheepsPerPage, PageNumber));
-        }
-        Cheeps = Cheeps.OrderByDescending(c => c.timestamp).ToList();
-        TotalCheeps = Cheeps.Count;
+        TotalCheeps = await _authorRepo.GetTotalCheepCountFromFollowersAndAuthor(username);
+        Cheeps = await _cheepRepo.GetPrivateTimelineCheeps(username, CheepsPerPage, PageNumber);
         return Page();
     }
 
