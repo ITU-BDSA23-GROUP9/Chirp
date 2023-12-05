@@ -12,7 +12,7 @@ public class UserTimelineModel : PageModel
     private readonly ICheepRepository _cheepRepo;
     private readonly IAuthorRepository _authorRepo;
     public List<CheepDTO> Cheeps { get; set; }
-    public Dictionary<string, bool> IsUserFollowingAuthor { get; set; }
+    public Dictionary<string, bool>? IsUserFollowingAuthor { get; set; }
 
     public AuthorDTO? author { get; set; }
     public int TotalCheeps { get; set; }
@@ -20,7 +20,7 @@ public class UserTimelineModel : PageModel
     public int CheepsPerPage { get; set; }
 
     [BindProperty]
-    public NewCheep newCheep { get; set; }
+    public NewCheep? newCheep { get; set; }
 
     public UserTimelineModel(ICheepRepository cheepRepo, IAuthorRepository authorRepo)
     {
