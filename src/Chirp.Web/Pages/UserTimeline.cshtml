@@ -31,7 +31,7 @@
                     <p>
                         <strong>
                             <a href="/@cheep.author">@cheep.author</a>
-                            @if (User.Identity.IsAuthenticated && User.Identity.Name != cheep.author)
+                            @if (User.Identity?.IsAuthenticated == true && User.Identity.Name != cheep.author)
                             {
                                 @if (Model.IsUserFollowingAuthor[cheep.author])
                                 {
