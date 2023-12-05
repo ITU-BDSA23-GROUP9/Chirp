@@ -77,6 +77,7 @@ public class AuthorRepository : IAuthorRepository
         Author? authorModel = await _db.Authors
                                     .Include(f => f.Following)
                                     .Include(f => f.Followers)
+                                    .AsSplitQuery()
                                     .FirstOrDefaultAsync(a => a.UserName == author);
         if (authorModel == null)
         {
@@ -96,5 +97,18 @@ public class AuthorRepository : IAuthorRepository
     {
         var authorModel = await FindAuthorModelByName(authorUsername);
         return authorModel.Following.Select(author => new AuthorDTO(author.UserName, author.Email)).ToList();
+    }
+
+    public async Task<int> GetTotalCheepCountFromFollowersAndAuthor(string authorUserName)
+    {
+        var sum = await GetTotalCheepCountFromAuthor(authorUserName);
+        var following = await GetFollowers(authorUserName);
+
+        foreach (AuthorDTO author in following)
+        {
+            sum += await GetTotalCheepCountFromAuthor(author.name);
+        }
+
+        return sum;
     }
 }
