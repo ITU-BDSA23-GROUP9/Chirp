@@ -1,32 +1,29 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Identity;
-using Chirp.Core;
 using Chirp.Infrastructure;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Duende.IdentityServer.Extensions;
-using System.ComponentModel.DataAnnotations;
+using Chirp.Core;
 
 namespace Chirp.Web.Pages;
 
-[AllowAnonymous]
-public class PublicModel : PageModel
+public class PrivateTimelineModel : PageModel
 {
+
     private readonly ICheepRepository _cheepRepo;
     private readonly IAuthorRepository _authorRepo;
     public List<CheepDTO> Cheeps { get; set; }
+    public AuthorDTO? author { get; set; }
     public Dictionary<string, bool> IsUserFollowingAuthor { get; set; }
     public int TotalCheeps { get; set; }
     public int PageNumber { get; set; }
     public int CheepsPerPage { get; set; }
-    private readonly UserManager<Author> _userManager;
-
 
     [BindProperty]
     public NewCheep newCheep { get; set; }
+    private readonly UserManager<Author> _userManager;
+    private readonly SignInManager<Author> _signInManager;
 
-    public PublicModel(ICheepRepository cheepRepo, IAuthorRepository authorRepo)
+    public PrivateTimelineModel(ICheepRepository cheepRepo, IAuthorRepository authorRepo)
     {
         Cheeps = new();
         _cheepRepo = cheepRepo;
@@ -37,13 +34,13 @@ public class PublicModel : PageModel
 
     public async Task<ActionResult> OnGet(int? pageNumber)
     {
+        string username = User.Identity.Name;
         if (pageNumber.HasValue)
         {
             PageNumber = pageNumber.Value;
         }
-
-        TotalCheeps = await _cheepRepo.GetTotalCheepCount();
-        Cheeps = await _cheepRepo.GetCheeps(CheepsPerPage, PageNumber);
+        TotalCheeps = await _authorRepo.GetTotalCheepCountFromFollowersAndAuthor(username);
+        Cheeps = await _cheepRepo.GetPrivateTimelineCheeps(username, CheepsPerPage, PageNumber);
 
         if (User.Identity.IsAuthenticated)
         {
@@ -63,13 +60,7 @@ public class PublicModel : PageModel
         //var author = new AuthorDTO(user.UserName, user.Email);
         var cheepToPost = new CheepDTO(newCheep.Message, User.Identity.Name, DateTime.UtcNow.ToString());
         await _cheepRepo.CreateCheep(cheepToPost);
-        return LocalRedirect(Url.Content("~/")); //Go to profile after posting a cheep
-    }
-
-    public class NewCheep
-    {
-        [Required, StringLength(160)]
-        public string? Message { get; set; }
+        return LocalRedirect(Url.Content("~/"));
     }
 
     public async Task<bool> FindIsUserFollowingAuthor(string authorUsername, string username)
@@ -88,4 +79,10 @@ public class PublicModel : PageModel
         await _authorRepo.Unfollow(User.Identity.Name, author);
         return LocalRedirect(Url.Content("~/"));
     }
+
+    public class NewCheep
+    {
+        public string? Message { get; set; }
+    }
 }
+

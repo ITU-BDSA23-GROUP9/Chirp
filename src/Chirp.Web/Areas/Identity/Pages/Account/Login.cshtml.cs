@@ -110,7 +110,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return LocalRedirect("/");
+                    return LocalRedirect("/private");
                 }
                 if (result.RequiresTwoFactor)
                 {

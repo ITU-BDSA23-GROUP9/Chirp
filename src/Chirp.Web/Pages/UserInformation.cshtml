@@ -1,0 +1,48 @@
+﻿@page
+@model Chirp.Web.Pages.UserInformationModel
+@{
+    ViewData["Title"] = "Chirp!";
+    Layout = "Shared/_Layout";
+}
+
+@using Microsoft.AspNetCore.Identity
+@using Chirp.Infrastructure
+
+@inject SignInManager<Author> SignInManager
+@inject UserManager<Author> UserManager
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+
+<div>
+    <p>
+        Name: @UserManager.GetUserName(User)
+    </p>
+    <p>
+        Email: @(await UserManager.GetEmailAsync(user))
+    </p>
+    <p>
+        Following <strong>@Model.Following.Count</strong>:
+    </p>
+    <ul id="followedlist" class="following">
+        @foreach (var followed in Model.Following)
+        {
+            <li>
+                <p>
+                    <strong>
+                        <a href="/@followed.name">@followed.name</a>
+                    </strong>
+                </p>
+            </li>
+        }
+    </ul>
+    <button class="form-group">
+        <a id="manage" class="nav-link text-dark" href="/@UserManager.GetUserName(User)" title="Manage">Your Cheeps</a>
+    </button>
+
+    <form method="post" asp-page-handler="ForgetUser">
+        <button style="color: red;">
+            Forget me!
+        </button>
+    </form>
+</div>

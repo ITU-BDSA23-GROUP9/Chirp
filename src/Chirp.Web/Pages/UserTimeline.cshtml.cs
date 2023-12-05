@@ -9,9 +9,10 @@ namespace Chirp.Web.Pages;
 [AllowAnonymous]
 public class UserTimelineModel : PageModel
 {
-    private readonly ICheepRepository _cheepService;
-    private readonly IAuthorRepository _authorService;
+    private readonly ICheepRepository _cheepRepo;
+    private readonly IAuthorRepository _authorRepo;
     public List<CheepDTO> Cheeps { get; set; }
+    public Dictionary<string, bool> IsUserFollowingAuthor { get; set; }
 
     public AuthorDTO? author { get; set; }
     public int TotalCheeps { get; set; }
@@ -21,11 +22,11 @@ public class UserTimelineModel : PageModel
     [BindProperty]
     public NewCheep newCheep { get; set; }
 
-    public UserTimelineModel(ICheepRepository cheepService, IAuthorRepository authorService)
+    public UserTimelineModel(ICheepRepository cheepRepo, IAuthorRepository authorRepo)
     {
         Cheeps = new();
-        _cheepService = cheepService;
-        _authorService = authorService;
+        _cheepRepo = cheepRepo;
+        _authorRepo = authorRepo;
         PageNumber = 1; // Default to page 1
         CheepsPerPage = 32; // Set the number of cheeps per page
     }
@@ -37,8 +38,17 @@ public class UserTimelineModel : PageModel
             PageNumber = pageNumber.Value;
         }
 
-        TotalCheeps = await _authorService.GetTotalCheepCountFromAuthor(author);
-        Cheeps = await _cheepService.GetCheepsFromAuthor(author, CheepsPerPage, PageNumber);
+        TotalCheeps = await _authorRepo.GetTotalCheepCountFromAuthor(author);
+        Cheeps = await _cheepRepo.GetCheepsFromAuthor(author, CheepsPerPage, PageNumber);
+
+        if (User.Identity.IsAuthenticated)
+        {
+            IsUserFollowingAuthor = new();
+            foreach (CheepDTO cheep in Cheeps)
+            {
+                IsUserFollowingAuthor[cheep.author] = await FindIsUserFollowingAuthor(cheep.author, User.Identity.Name);
+            }
+        }
         return Page();
     }
 
@@ -47,7 +57,24 @@ public class UserTimelineModel : PageModel
         //var user = await _userManager.GetUserAsync(User);
         //var author = new AuthorDTO(user.UserName, user.Email);
         var cheepToPost = new CheepDTO(newCheep.Message, User.Identity.Name, DateTime.UtcNow.ToString());
-        await _cheepService.CreateCheep(cheepToPost);
+        await _cheepRepo.CreateCheep(cheepToPost);
+        return LocalRedirect(Url.Content("~/"));
+    }
+
+    public async Task<bool> FindIsUserFollowingAuthor(string authorUsername, string username)
+    {
+        return await _authorRepo.IsUserFollowingAuthor(authorUsername, username);
+    }
+
+    public async Task<IActionResult> OnPostFollowAuthor(string author)
+    {
+        await _authorRepo.Follow(User.Identity.Name, author);
+        return LocalRedirect(Url.Content("~/"));
+    }
+
+    public async Task<IActionResult> OnPostUnfollowAuthor(string author)
+    {
+        await _authorRepo.Unfollow(User.Identity.Name, author);
         return LocalRedirect(Url.Content("~/"));
     }
 

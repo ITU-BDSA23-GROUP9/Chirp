@@ -1,12 +1,22 @@
-﻿@page "/"
-@model Chirp.Web.Pages.PublicModel
+@page "/private"
+@model Chirp.Web.Pages.PrivateTimelineModel
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
+    var username = User.Identity.Name;
+}
+
+@using Microsoft.AspNetCore.Identity
+@using Chirp.Infrastructure
+
+@inject SignInManager<Author> SignInManager
+@inject UserManager<Author> UserManager
+@{
+    var user = await UserManager.GetUserAsync(User);
 }
 
 <div>
-    <h2> Public Timeline </h2>
+    <h2> Your Private Timeline </h2>
     @if (User.Identity != null && User.Identity.IsAuthenticated)
     {
         <div class="cheepbox"
@@ -21,7 +31,6 @@
             </form>
         </div>
     }
-
     @if (Model.Cheeps.Count > 0)
     {
         <ul id="messagelist" class="cheeps">
@@ -59,20 +68,21 @@
             <div class="pagination justify-content-center">
                 <span class="page-item">
                     <a class="page-link"
-                        href="/?pageNumber=@(Model.PageNumber - 1 > 0 ? Model.PageNumber - 1 : Model.PageNumber)">&lt;</a>
+                        href="/private?pageNumber=@(Model.PageNumber - 1 > 0 ? Model.PageNumber - 1 : Model.PageNumber)">&lt;</a>
                 </span>
                 @for (var i = 1; i <= Math.Ceiling((double)Model.TotalCheeps / Model.CheepsPerPage); i++)
                 {
                     <span class="page-item @(i == Model.PageNumber ? "active" : "")">
-                        <a class="page-link" href="/?pageNumber=@i">@i</a>
+                        <a class="page-link" href="/private?pageNumber=@i">@i</a>
                     </span>
                 }
                 <span class="page-item">
                     <a class="page-link"
-                        href="/?pageNumber=@(Model.PageNumber + 1 <= Math.Ceiling((double)Model.TotalCheeps / Model.CheepsPerPage) ? Model.PageNumber + 1 : Model.PageNumber)">&gt;</a>
+                        href="/private?pageNumber=@(Model.PageNumber + 1 <= Math.Ceiling((double)Model.TotalCheeps / Model.CheepsPerPage) ? Model.PageNumber + 1 : Model.PageNumber)">&gt;</a>
                 </span>
             </div>
         </nav>
+
     }
     else
     {

@@ -59,7 +59,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
         [TempData]
         public string ErrorMessage { get; set; }
 
-        public IActionResult OnGet() => LocalRedirect(ReturnUrl ?? Url.Content("~/"));
+        public IActionResult OnGet() => LocalRedirect(ReturnUrl ?? Url.Content("/private"));
 
         public IActionResult OnPost(string provider, string returnUrl = null)
         {
@@ -71,7 +71,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string remoteError = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            returnUrl = returnUrl ?? Url.Content("/private");
             if (remoteError != null)
             {
                 ErrorMessage = $"Error from external provider: {remoteError}";
@@ -104,7 +104,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostConfirmationAsync(string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/");
+            returnUrl ??= Url.Content("/private");
             // Get the information about the user from the external login provider
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
