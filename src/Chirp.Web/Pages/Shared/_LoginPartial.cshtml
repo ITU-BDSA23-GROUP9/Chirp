@@ -9,20 +9,29 @@
     {
         <div class="form-group" style="display: horizontal;">
             <button class="form-group">
-                <a id="manage" class="nav-link text-dark" href="/@UserManager.GetUserName(User)"
-                    title="Manage">@UserManager.GetUserName(User)'s Timeline</a>
+                <a id="public" class="nav-link text-dark" href="/" title="Manage">
+                    Home
+                </a>
             </button>
             <button class="form-group">
-                <a iprivated="UserInformation" class="nav-link text-dark" href="/UserInformation">
-                    About me</a>
+                <a id="private" class="nav-link text-dark" href="/private" title="Manage">@UserManager.GetUserName(User)'s
+                    Timeline
+                </a>
             </button>
             <button class="form-group">
-                <a id="private" class="nav-link text-dark" href="/private">
-                    Private</a>
+                <a id="yourCheeps" class="nav-link text-dark" href="/@UserManager.GetUserName(User)">
+                    Your Cheeps
+                </a>
             </button>
             <button class="form-group">
-                <a id="private" class="nav-link text-dark" href="/Identity/Account/Logout">
-                    Logout</a>
+                <a id="UserInformation" class="nav-link text-dark" href="/UserInformation">
+                    About me
+                </a>
+            </button>
+            <button class="form-group">
+                <a id="logout" class="nav-link text-dark" href="/Identity/Account/Logout">
+                    Logout
+                </a>
             </button>
         </div>
     }
