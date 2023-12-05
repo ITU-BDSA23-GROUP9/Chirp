@@ -41,12 +41,12 @@ public class UserTimelineModel : PageModel
         TotalCheeps = await _authorRepo.GetTotalCheepCountFromAuthor(author);
         Cheeps = await _cheepRepo.GetCheepsFromAuthor(author, CheepsPerPage, PageNumber);
 
-        if (User.Identity.IsAuthenticated)
+        if (User.Identity?.IsAuthenticated == true)
         {
             IsUserFollowingAuthor = new();
             foreach (CheepDTO cheep in Cheeps)
             {
-                IsUserFollowingAuthor[cheep.author] = await FindIsUserFollowingAuthor(cheep.author, User.Identity.Name);
+                IsUserFollowingAuthor[cheep.author] = await FindIsUserFollowingAuthor(cheep.author, User.Identity?.Name!);
             }
         }
         return Page();
@@ -56,7 +56,7 @@ public class UserTimelineModel : PageModel
     {
         //var user = await _userManager.GetUserAsync(User);
         //var author = new AuthorDTO(user.UserName, user.Email);
-        var cheepToPost = new CheepDTO(newCheep.Message, User.Identity.Name, DateTime.UtcNow.ToString());
+        var cheepToPost = new CheepDTO(newCheep?.Message!, User.Identity?.Name!, DateTime.UtcNow.ToString());
         await _cheepRepo.CreateCheep(cheepToPost);
         return LocalRedirect(Url.Content("~/"));
     }
@@ -68,13 +68,13 @@ public class UserTimelineModel : PageModel
 
     public async Task<IActionResult> OnPostFollowAuthor(string author)
     {
-        await _authorRepo.Follow(User.Identity.Name, author);
+        await _authorRepo.Follow(User.Identity?.Name, author);
         return LocalRedirect(Url.Content("~/"));
     }
 
     public async Task<IActionResult> OnPostUnfollowAuthor(string author)
     {
-        await _authorRepo.Unfollow(User.Identity.Name, author);
+        await _authorRepo.Unfollow(User.Identity?.Name, author);
         return LocalRedirect(Url.Content("~/"));
     }
 
