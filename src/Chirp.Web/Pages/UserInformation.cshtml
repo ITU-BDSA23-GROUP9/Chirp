@@ -19,21 +19,25 @@
         Name: @UserManager.GetUserName(User)
     </p>
     <p>
-        Email: @(await UserManager.GetEmailAsync(user))
+        Email: @(await UserManager.GetEmailAsync(user ?? throw new ArgumentNullException(nameof(user))))
     </p>
+
     <p>
-        Following <strong>@Model.Following.Count</strong>:
+        Following <strong>@(Model.Following?.Count ?? 0)</strong>:
     </p>
     <ul id="followedlist" class="following">
-        @foreach (var followed in Model.Following)
+        @if (Model.Following != null)
         {
-            <li>
-                <p>
-                    <strong>
-                        <a href="/@followed.name">@followed.name</a>
-                    </strong>
-                </p>
-            </li>
+            @foreach (var followed in Model.Following)
+            {
+                <li>
+                    <p>
+                        <strong>
+                            <a href="/@followed.name">@followed.name</a>
+                        </strong>
+                    </p>
+                </li>
+            }
         }
     </ul>
     <button class="form-group">
