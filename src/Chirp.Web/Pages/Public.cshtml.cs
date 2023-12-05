@@ -20,7 +20,7 @@ public class PublicModel : PageModel
     public int TotalCheeps { get; set; }
     public int PageNumber { get; set; }
     public int CheepsPerPage { get; set; }
-    private readonly UserManager<Author> _userManager;
+    //private readonly UserManager<Author> _userManager;
 
 
     [BindProperty]
