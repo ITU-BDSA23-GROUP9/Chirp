@@ -18,7 +18,7 @@ public class CheepRepository : ICheepRepository
         .OrderByDescending(cheep => cheep.TimeStamp)
         .Skip(limit * (pageNumber - 1))
         .Take(limit)
-        .Select(cheep => new CheepDTO(cheep.Text, cheep.Author.UserName, cheep.TimeStamp.ToString()))
+        .Select(cheep => new CheepDTO(cheep.Text, cheep.Author.UserName!, cheep.TimeStamp.ToString()))
         .ToListAsync();
 
         return cheeps;
@@ -28,7 +28,7 @@ public class CheepRepository : ICheepRepository
     {
         List<CheepDTO> cheeps = await _db.Cheeps
         .OrderByDescending(cheep => cheep.TimeStamp)
-        .Select(cheep => new CheepDTO(cheep.Text, cheep.Author.UserName, cheep.TimeStamp.ToString()))
+        .Select(cheep => new CheepDTO(cheep.Text, cheep.Author.UserName!, cheep.TimeStamp.ToString()))
         .ToListAsync();
 
         return cheeps;
@@ -45,7 +45,7 @@ public class CheepRepository : ICheepRepository
             .OrderByDescending(cheep => cheep.TimeStamp)
             .Skip(cheepsToSkip)
             .Take(limit)
-            .Select(cheep => new CheepDTO(cheep.Text, cheep.Author.UserName, cheep.TimeStamp.ToString()))
+            .Select(cheep => new CheepDTO(cheep.Text, cheep.Author.UserName!, cheep.TimeStamp.ToString()))
             .ToListAsync();
 
         return cheeps;
@@ -94,14 +94,14 @@ public class CheepRepository : ICheepRepository
         var cheeps = author.Cheeps;
         foreach (Author user in following)
         {
-            var followerAuthor = await FindAuthorModelByName(user.UserName);
+            var followerAuthor = await FindAuthorModelByName(user.UserName!);
             cheeps.AddRange(followerAuthor.Cheeps);
         }
 
         return cheeps.OrderByDescending(cheep => cheep.TimeStamp)
             .Skip(cheepsToSkip)
             .Take(limit)
-            .Select(cheep => new CheepDTO(cheep.Text, cheep.Author.UserName, cheep.TimeStamp.ToString()))
+            .Select(cheep => new CheepDTO(cheep.Text, cheep.Author.UserName!, cheep.TimeStamp.ToString()))
             .ToList();
     }
 }

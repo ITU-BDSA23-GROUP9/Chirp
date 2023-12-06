@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
-    var username = User.Identity.Name;
+    var username = User.Identity?.Name;
 }
 
 @using Microsoft.AspNetCore.Identity
@@ -24,7 +24,7 @@
             <h3 style="margin-bottom: 10px; font-size: 1.2em; color: #ff6667;">What's on your mind @(User.Identity.Name)?
             </h3>
             <form method="post" style="overflow: hidden;">
-                <input type="text" asp-for="newCheep.Message" placeholder="They don't chirp. They chirrup."
+                <input type="text" asp-for="newCheep!.Message" placeholder="They don't chirp. They chirrup."
                     style="width: calc(100% - 80px); padding: 8px; border: 1px solid #ff9999; border-radius: 4px; margin-right: 10px; float: left;">
                 <input type="submit" value="Share"
                     style="background-color: #ff6667; color: #fff; margin: 5px; padding: 8px; border: none; border-radius: 2px; cursor: pointer;">
@@ -40,9 +40,9 @@
                     <p>
                         <strong>
                             <a href="/@cheep.author">@cheep.author</a>
-                            @if (User.Identity.IsAuthenticated && User.Identity.Name != cheep.author)
+                            @if (User.Identity?.IsAuthenticated == true && User.Identity.Name != cheep.author)
                             {
-                                @if (Model.IsUserFollowingAuthor[cheep.author])
+                                @if (Model.IsUserFollowingAuthor?[cheep.author] == true)
                                 {
                                     <form method="post" asp-page-handler="UnfollowAuthor" asp-route-author="@cheep.author">
                                         <button type="submit">Unfollow</button>

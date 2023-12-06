@@ -13,15 +13,13 @@ public class PrivateTimelineModel : PageModel
     private readonly IAuthorRepository _authorRepo;
     public List<CheepDTO> Cheeps { get; set; }
     public AuthorDTO? author { get; set; }
-    public Dictionary<string, bool> IsUserFollowingAuthor { get; set; }
+    public Dictionary<string, bool>? IsUserFollowingAuthor { get; set; }
     public int TotalCheeps { get; set; }
     public int PageNumber { get; set; }
     public int CheepsPerPage { get; set; }
 
     [BindProperty]
-    public NewCheep newCheep { get; set; }
-    private readonly UserManager<Author> _userManager;
-    private readonly SignInManager<Author> _signInManager;
+    public NewCheep? newCheep { get; set; }
 
     public PrivateTimelineModel(ICheepRepository cheepRepo, IAuthorRepository authorRepo)
     {
@@ -34,7 +32,7 @@ public class PrivateTimelineModel : PageModel
 
     public async Task<ActionResult> OnGet(int? pageNumber)
     {
-        string username = User.Identity.Name;
+        string username = User.Identity?.Name!;
         if (pageNumber.HasValue)
         {
             PageNumber = pageNumber.Value;
@@ -42,12 +40,12 @@ public class PrivateTimelineModel : PageModel
         TotalCheeps = await _authorRepo.GetTotalCheepCountFromFollowersAndAuthor(username);
         Cheeps = await _cheepRepo.GetPrivateTimelineCheeps(username, CheepsPerPage, PageNumber);
 
-        if (User.Identity.IsAuthenticated)
+        if (User.Identity?.IsAuthenticated == true)
         {
             IsUserFollowingAuthor = new();
             foreach (CheepDTO cheep in Cheeps)
             {
-                IsUserFollowingAuthor[cheep.author] = await FindIsUserFollowingAuthor(cheep.author, User.Identity.Name);
+                IsUserFollowingAuthor[cheep.author] = await FindIsUserFollowingAuthor(cheep.author, User.Identity?.Name!);
             }
         }
 
@@ -58,7 +56,7 @@ public class PrivateTimelineModel : PageModel
     {
         //var user = await _userManager.GetUserAsync(User);
         //var author = new AuthorDTO(user.UserName, user.Email);
-        var cheepToPost = new CheepDTO(newCheep.Message, User.Identity.Name, DateTime.UtcNow.ToString());
+        var cheepToPost = new CheepDTO(newCheep!.Message!, User.Identity?.Name!, DateTime.UtcNow.ToString());
         await _cheepRepo.CreateCheep(cheepToPost);
         return LocalRedirect(Url.Content("~/"));
     }
@@ -70,13 +68,13 @@ public class PrivateTimelineModel : PageModel
 
     public async Task<IActionResult> OnPostFollowAuthor(string author)
     {
-        await _authorRepo.Follow(User.Identity.Name, author);
+        await _authorRepo.Follow(User.Identity?.Name!, author);
         return LocalRedirect(Url.Content("~/"));
     }
 
     public async Task<IActionResult> OnPostUnfollowAuthor(string author)
     {
-        await _authorRepo.Unfollow(User.Identity.Name, author);
+        await _authorRepo.Unfollow(User.Identity?.Name!, author);
         return LocalRedirect(Url.Content("~/"));
     }
 
