@@ -19,21 +19,23 @@
         Name: @UserManager.GetUserName(User)
     </p>
     <p>
-        Email: @(await UserManager.GetEmailAsync(user))
+        Email: @(await UserManager.GetEmailAsync(user ?? throw new ArgumentNullException(nameof(user))))
     </p>
+
     <p>
-        Following <strong>@Model.Following.Count</strong>:
+        Following <strong>@(Model.Following?.Count ?? 0)</strong>:
     </p>
     <ul id="followedlist" class="following">
-        @foreach (var followed in Model.Following)
+        @if (Model.Following != null)
         {
-            <li>
+            @foreach (var followed in Model.Following)
+            {
+               <li>
                 <p>
-                    <strong>
-                        <a href="/@followed.name">@followed.name</a>
-                    </strong>
+                    <a style="color: black;" href="/@followed.name">@followed.name</a>
                 </p>
-            </li>
+              </li>
+            }
         }
     </ul>
     <button class="form-group">
@@ -41,7 +43,7 @@
     </button>
 
     <form method="post" asp-page-handler="ForgetUser">
-        <button style="color: red;">
+        <button style="color: red; margin-top: 5px">
             Forget me!
         </button>
     </form>
