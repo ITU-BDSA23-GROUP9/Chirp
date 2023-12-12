@@ -41,4 +41,9 @@ Here comes a description of our domain model.
 
 ## License
 
+We have chosen the MIT License for our application.
+
 ## LLMs, ChatGPT, CoPilot, and others
+
+ChatGPT: have been used to understand theory about the features that we had to implement, not to generate code.
+Co-pilot: was not used in the first half of the project, later in the process we used it only to speed up code-writing when writing generic code.
