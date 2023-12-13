@@ -28,25 +28,35 @@
             @foreach (var cheep in Model.Cheeps)
             {
                 <li>
-                    <p>
+                    <div style="display: flex; justify-content: space-between;">
                         <strong>
-                            <a href="/@cheep.author">@cheep.author</a>
-                            @if (User.Identity?.IsAuthenticated == true && User.Identity.Name != cheep.author)
-                            {
+                            <a href="/@cheep.author"> @cheep.author </a>
+                        </strong>
+                        @if (User.Identity?.IsAuthenticated == true && User.Identity.Name != cheep.author)
+                        {
+                            <div style='display: inline-block;'>
                                 @if (Model.IsUserFollowingAuthor?[cheep.author] == true)
                                 {
-                                    <form method="post" asp-page-handler="UnfollowAuthor" asp-route-author="@cheep.author">
+                                    <form style='display: inline-block' method="post" asp-page-handler="UnfollowAuthor"
+                                        asp-route-author="@cheep.author">
                                         <button type="submit">Unfollow</button>
                                     </form>
                                 }
                                 else
                                 {
-                                    <form method="post" asp-page-handler="FollowAuthor" asp-route-author="@cheep.author">
+                                    <form style=' display: inline-block;' method="post" asp-page-handler="FollowAuthor"
+                                        asp-route-author="@cheep.author">
                                         <button type="submit">Follow</button>
                                     </form>
                                 }
-                            }
-                        </strong>
+                            </div>
+                        }
+                        <form style=' display: inline-block;' method="post" asp-page-handler="FollowAuthor"
+                            asp-route-author="@cheep.author">
+                            <button type="submit">Follow</button>
+                        </form>
+                    </div>
+                    <p>
                         @cheep.message
                         <small>&mdash; @cheep.timestamp</small>
                     </p>

@@ -5,4 +5,5 @@ public class Cheep
     public required Author Author { get; set; }
     public required string Text { get; set; }
     public DateTime TimeStamp { get; set; }
+    public List<Like> Likes { get; set; } = new();
 }

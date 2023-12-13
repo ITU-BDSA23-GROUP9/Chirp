@@ -61,12 +61,9 @@ public class CheepRepository : ICheepRepository
         Author? authorModel = await _db.Authors
         .Include(a => a.Cheeps)
         .Include(a => a.Following)
+        .Include(a => a.Liked)
         .AsSplitQuery()
-        .FirstOrDefaultAsync(a => a.UserName == author);
-        if (authorModel == null)
-        {
-            throw new Exception("Author does not exist");
-        }
+        .FirstOrDefaultAsync(a => a.UserName == author) ?? throw new Exception("Author does not exist");
         return authorModel;
     }
 
@@ -103,5 +100,28 @@ public class CheepRepository : ICheepRepository
             .Take(limit)
             .Select(cheep => new CheepDTO(cheep.Text, cheep.Author.UserName!, cheep.TimeStamp.ToString()))
             .ToList();
+    }
+
+    public async Task Like(string cheepId, string authorUsername)
+    {
+        var author = await FindAuthorModelByName(authorUsername);
+        var cheep = await _db.Cheeps.Include(cheep => cheep.Likes)
+                        .FirstOrDefaultAsync(cheep => cheep.CheepId == cheepId) ?? throw new Exception("Cheep does not exist");
+        var like = new Like { LikeId = Guid.NewGuid().ToString(), Author = author, Cheep = cheep };
+        cheep.Likes.Add(like);
+        author.Liked.Add(like);
+        _db.SaveChanges();
+    }
+
+    public async Task Dislike(string cheepId, string authorUsername)
+    {
+        var author = await FindAuthorModelByName(authorUsername);
+        var cheep = await _db.Cheeps.Include(cheep => cheep.Likes)
+                        .FirstOrDefaultAsync(cheep => cheep.CheepId == cheepId) ?? throw new Exception("Cheep does not exist");
+        var like = await _db.Likes.FirstOrDefaultAsync(like => like.Cheep.CheepId == cheepId && like.Author.UserName == authorUsername) ?? throw new Exception("Like does not exist");
+
+        cheep.Likes.Remove(like);
+        author.Liked.Remove(like);
+        _db.SaveChanges();
     }
 }

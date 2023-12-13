@@ -5,8 +5,6 @@ using System.Text.RegularExpressions;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Chirp.Infrastructure;
-using System.Runtime.Intrinsics.Arm;
-
 
 //Code taken from lecture-slides-05 and small parts adapted by: Oline <okre@itu.dk>, Anton <anlf@itu.dk> & Clara <clwj@itu.dk>
 public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
