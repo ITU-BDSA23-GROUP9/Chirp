@@ -18,7 +18,7 @@ public class CheepRepository : ICheepRepository
         .OrderByDescending(cheep => cheep.TimeStamp)
         .Skip(limit * (pageNumber - 1))
         .Take(limit)
-        .Select(cheep => new CheepDTO(cheep.Text, cheep.Author.UserName!, cheep.TimeStamp.ToString()))
+        .Select(cheep => new CheepDTO(cheep.CheepId, cheep.Text, cheep.Author.UserName!, cheep.TimeStamp.ToString()))
         .ToListAsync();
 
         return cheeps;
@@ -28,7 +28,7 @@ public class CheepRepository : ICheepRepository
     {
         List<CheepDTO> cheeps = await _db.Cheeps
         .OrderByDescending(cheep => cheep.TimeStamp)
-        .Select(cheep => new CheepDTO(cheep.Text, cheep.Author.UserName!, cheep.TimeStamp.ToString()))
+        .Select(cheep => new CheepDTO(cheep.CheepId, cheep.Text, cheep.Author.UserName!, cheep.TimeStamp.ToString()))
         .ToListAsync();
 
         return cheeps;
@@ -45,7 +45,7 @@ public class CheepRepository : ICheepRepository
             .OrderByDescending(cheep => cheep.TimeStamp)
             .Skip(cheepsToSkip)
             .Take(limit)
-            .Select(cheep => new CheepDTO(cheep.Text, cheep.Author.UserName!, cheep.TimeStamp.ToString()))
+            .Select(cheep => new CheepDTO(cheep.CheepId, cheep.Text, cheep.Author.UserName!, cheep.TimeStamp.ToString()))
             .ToListAsync();
 
         return cheeps;
@@ -76,7 +76,7 @@ public class CheepRepository : ICheepRepository
             throw new Exception("The cheep can be no more than 160 characters long!");
         }
         var author = await FindAuthorModelByName(cheep.author);
-        var newCheep = new Cheep { CheepId = Guid.NewGuid().ToString(), Author = author, Text = cheep.message, TimeStamp = DateTime.Parse(cheep.timestamp) };
+        var newCheep = new Cheep { CheepId = cheep.id, Author = author, Text = cheep.message, TimeStamp = DateTime.Parse(cheep.timestamp) };
         author.Cheeps.Add(newCheep);
         _db.Cheeps.AddRange(newCheep);
         _db.SaveChanges();
@@ -98,17 +98,18 @@ public class CheepRepository : ICheepRepository
         return cheeps.OrderByDescending(cheep => cheep.TimeStamp)
             .Skip(cheepsToSkip)
             .Take(limit)
-            .Select(cheep => new CheepDTO(cheep.Text, cheep.Author.UserName!, cheep.TimeStamp.ToString()))
+            .Select(cheep => new CheepDTO(cheep.CheepId, cheep.Text, cheep.Author.UserName!, cheep.TimeStamp.ToString()))
             .ToList();
     }
 
     public async Task Like(string cheepId, string authorUsername)
     {
         var author = await FindAuthorModelByName(authorUsername);
-        var cheep = await _db.Cheeps.Include(cheep => cheep.Likes)
-                        .FirstOrDefaultAsync(cheep => cheep.CheepId == cheepId) ?? throw new Exception("Cheep does not exist");
-        var like = new Like { LikeId = Guid.NewGuid().ToString(), Author = author, Cheep = cheep };
-        cheep.Likes.Add(like);
+        Cheep cheepModel = await _db.Cheeps
+                        .Include(c => c.Likes)
+                        .FirstOrDefaultAsync(c => c.CheepId == cheepId) ?? throw new Exception("Cheep does not exist");
+        var like = new Like { LikeId = Guid.NewGuid().ToString(), Author = author, Cheep = cheepModel };
+        cheepModel.Likes.Add(like);
         author.Liked.Add(like);
         _db.SaveChanges();
     }
@@ -116,12 +117,30 @@ public class CheepRepository : ICheepRepository
     public async Task Dislike(string cheepId, string authorUsername)
     {
         var author = await FindAuthorModelByName(authorUsername);
-        var cheep = await _db.Cheeps.Include(cheep => cheep.Likes)
-                        .FirstOrDefaultAsync(cheep => cheep.CheepId == cheepId) ?? throw new Exception("Cheep does not exist");
-        var like = await _db.Likes.FirstOrDefaultAsync(like => like.Cheep.CheepId == cheepId && like.Author.UserName == authorUsername) ?? throw new Exception("Like does not exist");
+        var cheepModel = await _db.Cheeps
+                        .Include(c => c.Likes)
+                        .FirstOrDefaultAsync(c => c.CheepId == cheepId) ?? throw new Exception("Cheep does not exist");
+        var like = await _db.Likes.FirstOrDefaultAsync(like => like.Cheep == cheepModel && like.Author.UserName == authorUsername) ?? throw new Exception("Like does not exist");
 
-        cheep.Likes.Remove(like);
+        cheepModel.Likes.Remove(like);
         author.Liked.Remove(like);
         _db.SaveChanges();
+    }
+
+    public async Task<int> GetLikesCount(string cheepId)
+    {
+        var cheepModel = await _db.Cheeps
+                        .Include(c => c.Likes)
+                        .FirstOrDefaultAsync(c => c.CheepId == cheepId) ?? throw new Exception("Cheep does not exist");
+        return cheepModel.Likes.Count;
+    }
+
+    public async Task<bool> HasUserLikedCheep(string cheepId, string authorUsername)
+    {
+        var cheepModel = await _db.Cheeps
+                        .Include(c => c.Likes)
+                        .FirstOrDefaultAsync(c => c.CheepId == cheepId) ?? throw new Exception("Cheep does not exist");
+        var like = await _db.Likes.FirstOrDefaultAsync(like => like.Cheep == cheepModel && like.Author.UserName == authorUsername);
+        return like != null;
     }
 }

@@ -1,3 +1,3 @@
 namespace Chirp.Core;
 
-public record CheepDTO(string message, string author, string timestamp);
+public record CheepDTO(string id, string message, string author, string timestamp);
