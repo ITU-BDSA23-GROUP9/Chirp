@@ -23,6 +23,8 @@ Here comes a description of our domain model.
 ## Architecture — In the small
 ![Illustration of the _Chirp!_ data model as UML class diagram.](docs/images/../../diagrams/OnionDiagramSmallArchitectureG9.jpg)
 
+Mangler deployment diagram - næste skridt
+
 ## Architecture of deployed application
 
 ## User activities
