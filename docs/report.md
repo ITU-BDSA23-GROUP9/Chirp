@@ -14,6 +14,7 @@ numbersections: true
 # Design and Architecture of _Chirp!_
 
 ## Domain model
+![Alt text](./diagrams/DomainModelGroup9-Sketch.png)
 
 Here comes a description of our domain model.
 
