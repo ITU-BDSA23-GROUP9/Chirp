@@ -1,0 +1,17 @@
+@startuml
+start
+:Display Public timeline;
+:Click Author x;
+:Display Author x's timeline;
+if (Is following Author x?) then (yes)
+    :Click unfollow;
+    :Click Private timeline;
+    :Author x's cheep not displayed;
+    end
+else (no)
+    :Click follow;
+    :Click Private timeline;
+    :See Author x's cheeps;
+    end
+endif
+@enduml
