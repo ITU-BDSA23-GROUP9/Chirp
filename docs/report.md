@@ -62,6 +62,6 @@ We have chosen the MIT License for our application.
 
 In this report we have only made use of the LLM's: ChatGPT and CoPilot.
 
-**ChatGPT**: has been used to understand the theory behind some of the features which we have implemented, and generally not to generate code, unless specified as co-writer.
+**ChatGPT**: has been used to understand the theory behind some of the features which we have implemented, and generally not to generate code, unless implictly specified as co-writer.
 
 **CoPilot**: was only used in the later stages of the process to speed up code-writing-proces when writing generic code. (We decided in the beginning that we would follow Rasmus' reccomendation of writing code without CoPilot, when we were learning the basics of C#. - kan slettes)
