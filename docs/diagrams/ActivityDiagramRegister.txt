@@ -9,10 +9,6 @@ else (no)
     :Enter information;
     :Click Register;
 endif
-if (User is following anyone?) then (yes) 
-    :Redirect to private timeline;
-    else (no)
-    :Redirect to public timeline;
-    endif
-end
+:Redirect to public timeline;
+stop
 @enduml
