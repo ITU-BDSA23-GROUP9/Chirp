@@ -42,25 +42,29 @@ For an unauthorized user, typical actions might involve viewing cheeps on the pu
 
 #### Registration and Login processes:
 
-##### Log-in:
-
-For a complete Chirp! experience, authorized users can personalize their interaction by posting, liking cheeps, and following authors. To log in, users click the login button and choose either GitHub or enter their password, username, and email. Upon successful login, users are redirected to their private timeline if following someone or to the public timeline if not following anyone yet.
-
-![Illustration of Unauthorised user journey](docs/images/../../diagrams/ActivityDiagramLogin.png)
+For the full Chirp! experience, authorized users can personalize their interaction by posting, liking cheeps, and following authors. Let's illustrate the registration and log-in processes to demonstrate how users can achieve this.
 
 ##### Registration:
 
-![Illustration of Unauthorised user journey](docs/images/../../diagrams/ActivityDiagramRegister.png)
+To register, users click the "Register" button and choose either GitHub, where they will be authorized if they have an account in Github, or they can enter their password, username, and email, and then click "Register." After registration, users are redirected to the public timeline, where they can start following other users, liking their posts, and also posting cheeps.
+
+![Illustration of Registering to Chirp](docs/images/../../diagrams/ActivityDiagramRegister.png)
+
+##### Log-in:
+
+To log in, users click the login button, choose either GitHub or enter their password and username. Upon successful login, users are redirected to their private timeline if following someone or to the public timeline if not following anyone yet.
+
+![Illustration of Log-in process](docs/images/../../diagrams/ActivityDiagramLogin.png)
 
 #### Cheeping and Following Authors
 
 ##### Cheeping:
 
-![Illustration of Unauthorised user journey](docs/images/../../diagrams/ActivityDiagramCheep.png)
+![Illustration of Cheeping](docs/images/../../diagrams/ActivityDiagramCheep.png)
 
 ##### Following:
 
-![Illustration of Unauthorised user journey](docs/images/../../diagrams/ActivityDiagramFollowAuthor.png)
+![Illustration of Following other users](docs/images/../../diagrams/ActivityDiagramFollowAuthor.png)
 
 ## Sequence of functionality/calls trough _Chirp!_
 
