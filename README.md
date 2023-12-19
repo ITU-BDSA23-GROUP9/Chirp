@@ -9,6 +9,10 @@ This project constitutes Group 9's, consisting of Anton, Clara, Oline, Johan, Jo
 ### How to build the project
 In the Chirp folder of the project, run the command: `dotnet build`
 
+### How to run the program
+Navigate to src/Chirp.Web and run the command: `dotnet run`
+
+### How to test the program
 
 # Chirp test
 
