@@ -40,7 +40,7 @@ We will outline a few different user journeys to showcase the capabilities of Ch
 For an unauthorized user, typical actions might involve viewing cheeps on the public timeline or accessing specific details about an author, such as past cheeps, total cheeps, and other information, which would be accessible through the author's private timeline. This process is depicted in a simple User Activity diagram, where the unauthorized user navigates the webpage to view public cheeps and then explores a specific author's timeline on Chirp! for more details.
 ![Illustration of Unauthorised user journey](docs/images/../../diagrams/ActivityDiagramNotAuthorised.png)
 
-#### Registration and Login processes:
+#### Registration and Login processes: {#login-register}
 
 For the full Chirp! experience, authorized users can personalize their interaction by posting, liking cheeps, and following authors. Let's illustrate the registration and log-in processes to demonstrate how users can achieve this.
 
@@ -58,7 +58,11 @@ To log in, users click the login button, choose either GitHub or enter their pas
 
 #### Cheeping and Following Authors
 
+When using Chirp, users primarily write cheeps or follow authors and like their cheeps. The upcoming descriptions will illustrate user journeys centered around these actions.
+
 ##### Cheeping:
+
+In the illustration below, we assume the user have already been through the [log-in or registration process.](#login-register).
 
 ![Illustration of Cheeping](docs/images/../../diagrams/ActivityDiagramCheep.png)
 
