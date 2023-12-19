@@ -68,8 +68,6 @@ Firstly, a user sees their private timeline, when logged in(if they follow other
 
 ##### Following:
 
-<!-- MÅSKE SKAL DIAGRAM OPDATERES TIL AT VISE AT USER FØRST ER PÅ PRIVATE TIMELINE OG SÅ GÅR TIL PUBLIC TIMELINE. -->
-
 The user starts by visiting the Public timeline. They click on author x to view that author's timeline. If not already following, they hit "follow," go to their private timeline, and check what author x has posted. If already following, the user unfollows the author, then checks their private timeline to ensure author x's cheeps are no longer visible.
 
 ![Illustration of Following other users](docs/images/../../diagrams/ActivityDiagramFollowAuthor.png)

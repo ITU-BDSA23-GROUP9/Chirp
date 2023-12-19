@@ -1,6 +1,7 @@
 @startuml
 start
-:Display Public timeline;
+:Display Private Timeline;
+:Click on Public timeline;
 :Click Author x;
 :Display Author x's timeline;
 if (Is following Author x?) then (yes)
