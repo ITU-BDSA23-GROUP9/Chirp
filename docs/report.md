@@ -60,17 +60,17 @@ To log in, users click the login button, choose either GitHub or enter their pas
 
 When using Chirp, users primarily write cheeps or follow authors and like their cheeps. The upcoming descriptions will illustrate user journeys centered around these actions. In both of the chapters below, we assume the user have already been through the [log-in or registration process.](#login-register) to engage in these functionalities.
 
-##### Cheeping:
-
-Firstly, a user sees their private timeline, when logged in(if they follow other users), where they see their own posts and posts from the people they follow. <!-- MÅSKE SKAL DIAGRAM OPDATERES TIL AT VISE HVORVIDT PRIVATE ELLER PUBLIC VISES BASERET PÅ OM DE FØLGER ELLER IKKE FØLGER ANDRE --> They then share short cheeps (up to 160 characters) and then look at their private timeline again to see what they've posted.
-
-![Illustration of Cheeping](docs/images/../../diagrams/ActivityDiagramCheep.png)
-
 ##### Following:
 
 The user starts by visiting the Public timeline. They click on author x to view that author's timeline. If not already following, they hit "follow," go to their private timeline, and check what author x has posted. If already following, the user unfollows the author, then checks their private timeline to ensure author x's cheeps are no longer visible.
 
 ![Illustration of Following other users](docs/images/../../diagrams/ActivityDiagramFollowAuthor.png)
+
+##### Cheeping:
+
+We assume, we have an user, who is already following other users. When this is the case, a user sees their private timeline, when logged in, where they see their own posts and posts from the people they follow. They then share short cheeps (up to 160 characters) and then look at their private timeline again to see what they've posted.
+
+![Illustration of Cheeping](docs/images/../../diagrams/ActivityDiagramCheep.png)
 
 ## Sequence of functionality/calls trough _Chirp!_
 
