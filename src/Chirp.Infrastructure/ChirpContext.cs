@@ -8,6 +8,7 @@ public class ChirpContext : ApiAuthorizationDbContext<Author>
 {
     public DbSet<Cheep> Cheeps => Set<Cheep>();
     public DbSet<Author> Authors => Set<Author>();
+    public DbSet<Like> Likes => Set<Like>();
 
     public ChirpContext(DbContextOptions<ChirpContext> options) : base(options, CreateOperationalStoreOptions())
     {

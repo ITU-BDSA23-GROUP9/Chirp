@@ -8,4 +8,8 @@ public interface ICheepRepository
     public Task<int> GetTotalCheepCount();
     public Task<List<CheepDTO>> GetPrivateTimelineCheeps(string authorUsername, int limit, int pageNumber);
     public Task CreateCheep(CheepDTO cheep);
+    public Task Like(string cheepId, string authorUsername);
+    public Task Dislike(string cheepId, string authorUsername);
+    public Task<int> GetLikesCount(string cheepId);
+    public Task<bool> HasUserLikedCheep(string cheepId, string authorUsername);
 }

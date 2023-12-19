@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Identity;
 using Chirp.Core;
-using Chirp.Infrastructure;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Duende.IdentityServer.Extensions;
 using System.ComponentModel.DataAnnotations;
 
 namespace Chirp.Web.Pages;
@@ -58,9 +54,7 @@ public class PublicModel : PageModel
 
     public async Task<IActionResult> OnPost()
     {
-        //var user = await _userManager.GetUserAsync(User);
-        //var author = new AuthorDTO(user.UserName, user.Email);
-        var cheepToPost = new CheepDTO(newCheep?.Message!, User.Identity?.Name!, DateTime.UtcNow.ToString());
+        var cheepToPost = new CheepDTO(Guid.NewGuid().ToString(), newCheep?.Message!, User.Identity?.Name!, DateTime.UtcNow.ToString());
         await _cheepRepo.CreateCheep(cheepToPost);
         return LocalRedirect(Url.Content("~/")); //Go to profile after posting a cheep
     }
@@ -87,4 +81,27 @@ public class PublicModel : PageModel
         await _authorRepo.Unfollow(User.Identity?.Name!, author);
         return LocalRedirect(Url.Content("~/"));
     }
+
+    public async Task<IActionResult> OnPostLikeCheep(string cheepId)
+    {
+        await _cheepRepo.Like(cheepId, User.Identity?.Name!);
+        return LocalRedirect(Url.Content("~/"));
+    }
+
+    public async Task<IActionResult> OnPostDislikeCheep(string cheepId)
+    {
+        await _cheepRepo.Dislike(cheepId, User.Identity?.Name!);
+        return LocalRedirect(Url.Content("~/"));
+    }
+
+    public async Task<int> GetCheepLikesCount(string cheepId)
+    {
+        return await _cheepRepo.GetLikesCount(cheepId);
+    }
+
+    public async Task<bool> HasUserLikedCheep(string cheepId)
+    {
+        return await _cheepRepo.HasUserLikedCheep(cheepId, User.Identity?.Name!);
+    }
+
 }
