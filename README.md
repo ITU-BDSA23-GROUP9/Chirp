@@ -15,15 +15,12 @@ Navigate to src/Chirp.Web and run the command: `dotnet run`
 ### How to test the program
 
 # Team members
-[Anton](https://github.com/AntonFriis)
-[Clara](https://github.com/ClaraWJ)
-[Oline](https://github.com/olinesk)
-[Johan](https://github.com/JohanSandager)
-[Jonas](https://github.com/JKramer91)
-[Lauritz](https://github.com/lanaitu)
-
-
-Anton, Clara, Oline, Johan, Jonas, and Lauritz
+- [Anton](https://github.com/AntonFriis)
+- [Clara](https://github.com/ClaraWJ)
+- [Oline](https://github.com/olinesk)
+- [Johan](https://github.com/JohanSandager)
+- [Jonas](https://github.com/JKramer91)
+- [Lauritz](https://github.com/lanaitu)
 
 
 ### Co-authored commit command
