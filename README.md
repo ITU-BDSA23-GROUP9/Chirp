@@ -1,7 +1,7 @@
 # Table of Contents
 - [Overview](#overview)
 - [User manual](#user-manual)
-  - [How to build the project](#how-to-build-the-project)
+  - [How to build the project](#how-to-build-the-program)
   - [How to run the program](#how-to-run-the-program)
   - [How to test the program](#how-to-test-the-program)
 - [Using the program](#using-the-program)
@@ -14,7 +14,7 @@ This project constitutes Group 9's attempt at creating the Chirp! web applicatio
 
 ## User manual
 
-### How to build the project
+### How to build the program
 In the root folder of the project, run the command: `dotnet build`
 
 ### How to run the program
