@@ -26,7 +26,7 @@ Chirp.Core contains all the core functionality. In Chirp.Core, we have Data Tran
 
 ##### Brief Description of Classes inside Chirp.Infrastructure
 
-Inside Chirp.Infrastructure, we have the concrete implementation of our Repositories, named CheepRepository and AuthorRepository. These implement the interfaces from Chirp.Core, which we just described.
+Inside Chirp.Infrastructure, we have quite a few classes and relationships. We will describe some of the most important of these. Firstly, we have the concrete implementation of our Repositories, named CheepRepository and AuthorRepository. These implement the interfaces from Chirp.Core, which we just described. <!-- Write more about this later -->
 
 ##### Brief Description of Classes inside Chirp&#46;Web
 
