@@ -29,6 +29,8 @@ Mangler deployment diagram - næste skridt
 
 ## Architecture of deployed application
 
+![Illustration of the _Chirp!_ deployed application](docs/images/../../diagrams/DeploymentDiagram.png)
+
 ## User activities
 
 ## Sequence of functionality/calls trough _Chirp!_
