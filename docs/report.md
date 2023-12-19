@@ -27,7 +27,7 @@ Chirp.Core contains all the core functionality. In Chirp.Core, we have Data Tran
 ##### Brief Description of Classes inside Chirp.Infrastructure
 
 Chirp.Infrastructure is the backbone of the application, where data is moved around and processed.
-Inside Chirp.Infrastructure, we have quite a few classes and relationships. We will describe some of the most important of these. F
+Inside Chirp.Infrastructure, we have quite a few classes and relationships. We will describe some of the most important of these.
 
 Firstly, we have the concrete implementation of our Repositories, named CheepRepository and AuthorRepository. These implement the interfaces from Chirp.Core, which we just described. Both CheepRepository and AuthorRepository in the Chirp application use the ChirpContext for working with the database. The ChirpContext helps manage the data for both authors and cheeps in the database. Each repository is responsible for querying the database for either Author related or Cheep related data. They work with Author and Cheep models, but only return DTO's to adhere to the seperation of concerns. Author and Cheep models are stored in the database, and queried from the dbsets of the dbcontext. These sets contain the information stored as models our program can interact with, the Author and Cheep classes have a composition relationship with ChirpContext since if we remove the context the stored datamodels are removed (the data continues in the database, but not as Author and Cheep object models). <!-- TODO: Make this shorter tomorrow -->
 
