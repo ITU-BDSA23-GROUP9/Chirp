@@ -57,7 +57,7 @@
                         <small>&mdash; @cheep.timestamp</small>
                     </p>
                     <div>
-                        @if (User.Identity?.IsAuthenticated == true && User.Identity.Name != cheep.author)
+                        @if (User.Identity?.IsAuthenticated == true)
                         {
                             <div style='display: inline-block;'>
                                 @if (await Model.HasUserLikedCheep(cheep.id) == true)
@@ -74,9 +74,9 @@
                                         <button type="submit">Like</button>
                                     </form>
                                 }
+                                <text style="color: blue;">@await Model.GetCheepLikesCount(cheep.id)</text>
                             </div>
                         }
-                        @await Model.GetCheepLikesCount(cheep.id)
                     </div>
                 </li>
             }
