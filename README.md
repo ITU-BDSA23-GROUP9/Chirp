@@ -10,7 +10,7 @@
 - [License](#license)
 
 ## Overview
-This project constitutes Group 9's attempt at creating the Chirp! web application in the course Analysis, Design and Software Architecture at the IT University of Copenhagen. The Chirp! application is a X-like (formerly known as Twitter) application that encompasses much of the same functionality. As such, it is possible for a user of the application to - among other things - send cheeps (this applications version of tweets) to other users, like other users cheeps, and to view their individual timelines. To create the application, the group used a number of different technologies such as ASP.NET Core and SQLite.
+This project constitutes Group 9's attempt at creating the Chirp! web application in the course Analysis, Design and Software Architecture at the IT University of Copenhagen. The Chirp! application is an X-like (formerly known as Twitter) application that encompasses much of the same functionality. As such, it is possible for a user of the application to - among other things - send cheeps (this applications version of tweets) to other users, like other users cheeps, and to view their individual timelines. To create the application, the group used a number of different technologies such as ASP.NET Core and SQLite.
 
 ## User manual
 
