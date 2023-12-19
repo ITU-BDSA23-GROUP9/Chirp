@@ -1,6 +1,6 @@
 @startuml
 
-actor User
+actor UnAuthorizedUser as User
 participant Chirp.Web
 participant CheepRepository
 participant ChirpContext
