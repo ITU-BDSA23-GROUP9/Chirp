@@ -1,7 +1,7 @@
 # Table of Contents
 - [Overview](#overview)
 - [User manual](#user-manual)
-  - [How to build the project](#how-to-build-the-program)
+  - [How to build the program](#how-to-build-the-program)
   - [How to run the program](#how-to-run-the-program)
   - [How to test the program](#how-to-test-the-program)
 - [Using the program](#using-the-program)
