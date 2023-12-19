@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Identity;
 using Chirp.Core;
-using Chirp.Infrastructure;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Duende.IdentityServer.Extensions;
 using System.ComponentModel.DataAnnotations;
 
 namespace Chirp.Web.Pages;
