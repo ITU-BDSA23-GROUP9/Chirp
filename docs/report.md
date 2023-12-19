@@ -87,11 +87,23 @@ We assume, we have an user, who is already following other users. When this is t
 
 ## Sequence of functionality/calls trough _Chirp!_
 
+![Sequence of calls thorugh Chirp for an unauthorized user to root](docs/images/../../diagrams/SeqDia.png)
+We see the sequence of calls that is made both internally by the program and externally, from a unauthorized user, sending a simple GET request to the root endpoint (acessing bdsagroup9chirprazor.azurewebsites.net).
+
 # Process
 
 ## Build, test, release, and deployment
 
+![Build and test github workflow](docs/images/../../diagrams/BuildAndTest.png)
+Here we have the build and test workflow, that ensures that the code passes all tests before merging a pull request to main.
+![Release github workflow](docs/images/../../diagrams/ReleaseWorkflow.png)
+Here we see the worflow that creates a release of the program to Github. It is triggered when a tag of the format v\* is pushed to github.
+![Deployment gihub workflow](docs/images/../../diagrams/ReleaseToProduction.png)
+This Github workflow is triggered after a push to main, and releases main to our production environment.
+
 ## Team work
+
+![Workflow from Task to Finish](docs/images/../../diagrams/TeamWorkDiagram.png)
 
 We set up a KanBan board to handle our issues and give us an overview of the process an issue had to go through.
 
