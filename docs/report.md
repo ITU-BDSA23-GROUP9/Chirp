@@ -122,6 +122,7 @@ We set up a KanBan board to handle our issues and give us an overview of the pro
 ## How to make _Chirp!_ work locally
 Firstly, open a command prompt. From here, navigate to the folder in which you want the project to be, and run the command: `git clone https://github.com/ITU-BDSA23-GROUP9/Chirp.git`. Afterwards, navigate to the Chirp folder by running the command `cd Chirp`, and then run the command `code .` to open VS Code.
 
+When in VS Code, navigate to src/Chirp.Web by running the command `cd src/Chirp.Web/`, and then start the application by running the command `dotnet run`.
 
 
 
