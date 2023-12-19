@@ -15,17 +15,15 @@ numbersections: true
 
 ## Domain model
 
-![Alt text](./diagrams/DomainModelGroup9-Sketch.png)
+In our domain model, we capture entities and relationships to provide a high-level abstraction of the system's structure with a focus on the static, business logic of our Chirp!-system.
 
-Here comes a description of our domain model.
+![Alt text](./diagrams/DomainModelGroup9-Sketch.png)
 
 ![Illustration of the _Chirp!_ data model as UML class diagram.](docs/images/domain_model.png)
 
 ## Architecture — In the small
 
 ![Illustration of the _Chirp!_ data model as UML class diagram.](docs/images/../../diagrams/OnionDiagramSmallArchitectureG9.jpg)
-
-Mangler deployment diagram - næste skridt
 
 ## Architecture of deployed application
 
