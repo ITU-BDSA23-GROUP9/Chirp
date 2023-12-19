@@ -1,0 +1,24 @@
+@startuml
+
+actor User
+participant Chirp.Web
+participant CheepRepository
+participant ChirpContext
+database RemoteDB
+
+User -> Chirp.Web: GET "/"
+Chirp.Web -> CheepRepository: GetTotalCheepCount()
+CheepRepository -> ChirpContext: Cheeps.CountAsync()
+ChirpContext -> RemoteDB: SQL Query
+RemoteDB --> ChirpContext: Result (count)
+ChirpContext --> CheepRepository: Result (count)
+CheepRepository --> Chirp.Web: Result (count)
+Chirp.Web -> CheepRepository: GetCheeps()
+CheepRepository -> ChirpContext: "get" Cheeps
+ChirpContext -> RemoteDB: SQL Query
+RemoteDB --> ChirpContext: Data
+ChirpContext --> CheepRepository: List CheepDTO
+CheepRepository --> Chirp.Web: List CheepDTO
+Chirp.Web --> User: Webpage
+
+@enduml
