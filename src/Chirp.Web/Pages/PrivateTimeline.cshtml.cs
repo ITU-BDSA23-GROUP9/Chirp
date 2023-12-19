@@ -17,6 +17,7 @@ public class PrivateTimelineModel : PageModel
     public int TotalCheeps { get; set; }
     public int PageNumber { get; set; }
     public int CheepsPerPage { get; set; }
+    public string? redirectUrl { get; set; }
 
     [BindProperty]
     public NewCheep? newCheep { get; set; }
@@ -48,6 +49,7 @@ public class PrivateTimelineModel : PageModel
                 IsUserFollowingAuthor[cheep.author] = await FindIsUserFollowingAuthor(cheep.author, User.Identity?.Name!);
             }
         }
+        redirectUrl ??= Url.Content("/private");
 
         return Page();
     }
@@ -58,7 +60,7 @@ public class PrivateTimelineModel : PageModel
         //var author = new AuthorDTO(user.UserName, user.Email);
         var cheepToPost = new CheepDTO(Guid.NewGuid().ToString(), newCheep!.Message!, User.Identity?.Name!, DateTime.UtcNow.ToString());
         await _cheepRepo.CreateCheep(cheepToPost);
-        return LocalRedirect(Url.Content("~/"));
+        return RedirectToPage(redirectUrl);
     }
 
     public async Task<bool> FindIsUserFollowingAuthor(string authorUsername, string username)
@@ -69,13 +71,13 @@ public class PrivateTimelineModel : PageModel
     public async Task<IActionResult> OnPostFollowAuthor(string author)
     {
         await _authorRepo.Follow(User.Identity?.Name!, author);
-        return LocalRedirect(Url.Content("~/"));
+        return RedirectToPage(redirectUrl);
     }
 
     public async Task<IActionResult> OnPostUnfollowAuthor(string author)
     {
         await _authorRepo.Unfollow(User.Identity?.Name!, author);
-        return LocalRedirect(Url.Content("~/"));
+        return RedirectToPage(redirectUrl);
     }
 
     public class NewCheep
@@ -86,13 +88,13 @@ public class PrivateTimelineModel : PageModel
     public async Task<IActionResult> OnPostLikeCheep(string cheepId)
     {
         await _cheepRepo.Like(cheepId, User.Identity?.Name!);
-        return LocalRedirect(Url.Content("~/"));
+        return RedirectToPage(redirectUrl);
     }
 
     public async Task<IActionResult> OnPostDislikeCheep(string cheepId)
     {
         await _cheepRepo.Dislike(cheepId, User.Identity?.Name!);
-        return LocalRedirect(Url.Content("~/"));
+        return RedirectToPage(redirectUrl);
     }
 
     public async Task<int> GetCheepLikesCount(string cheepId)
