@@ -18,9 +18,17 @@ numbersections: true
 In our domain model, we capture entities and relationships to provide a high-level abstraction of the system's structure with a focus on the static, business logic of our Chirp!-system. We provide a complete diagram below:
 
 ![Domain model UML](./diagrams/DomainModelGroup9-Sketch.png)
-At the highest level in this diagram, we have Chirp.Core, Chirp.Infrastructre, Chirp.Web, wherein certain classes are contained. Apart from this, we have references to external libraries such as AspNetCoreIdentity and FluentValidation.
+At the highest level in this diagram, we have Chirp.Core, Chirp.Infrastructre, Chirp&#46;Web, wherein certain classes are contained. Apart from this, we have references to external libraries such as AspNetCoreIdentity and FluentValidation.
+
+##### Brief Description of Classes inside Chirp.Core
 
 Chirp.Core contains all the core functionality. In Chirp.Core, we have Data Transfer Objects for Cheeps and Authors, as well as interfaces for Author and Cheep Repositories. Nothing inside Chirp.Core points to anything outside of Chirp.Core. There is an associative relationship between the DTOs and the repositories, since the repositories use DTOS to create cheeps and authors, get cheeps and name of authors, follow authors etc. The interface repositories provide an interface contract for the repository implementation that will transfer structured data between different layers of the application and use DTOs as a standardized communication contract in this regard.
+
+##### Brief Description of Classes inside Chirp.Infrastructure
+
+Inside Chirp.Infrastructure, we have the concrete implementation of our Repositories. These implement the interfaces from Chirp.Core, which we just described,.
+
+##### Brief Description of Classes inside Chirp&#46;Web
 
 ## Architecture — In the small
 
