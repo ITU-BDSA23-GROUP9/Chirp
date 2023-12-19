@@ -14,7 +14,8 @@ Navigate to src/Chirp.Web and run the command: `dotnet run`
 
 ### How to test the program
 
-# Chirp test
+# Team members
+[@Anton](https://github.com/AntonFriis)
 
 ### Co-authored commit command
 
