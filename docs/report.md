@@ -101,7 +101,7 @@ We set up a KanBan board to handle our issues and give us an overview of the pro
 
 ## License
 
-We have chosen the MIT License for our application.
+We have chosen the MIT License for our application. Mainly due its simplicity, which makes it easy for students to collaborate and simplifies licensing issues. In addition, it allows for lots of people to use our webpage, and if we potentialy wanted to commercialize Chirp!, the license is really flexible and allows this.
 
 ## LLMs, ChatGPT, CoPilot, and others
 
