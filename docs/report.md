@@ -99,7 +99,7 @@ We see the sequence of calls that is made both internally by the program and ext
 ![Build and test github workflow](docs/images/../../diagrams/BuildAndTest.png)
 Here we have the build and test workflow, that ensures that the code passes all tests before merging a pull request to main.
 ![Release github workflow](docs/images/../../diagrams/ReleaseWorkflow.png)
-Here we see the worflow that creates a release of the program to Github. It is triggered when a tag of the format v\* is pushed to github.
+Here we see the workflow that creates a release of the program to Github. It is triggered when a tag of the format v\* is pushed to github.
 ![Deployment gihub workflow](docs/images/../../diagrams/ReleaseToProduction.png)
 This Github workflow is triggered after a push to main, and releases main to our production environment.
 
