@@ -9,7 +9,7 @@
 - [License](#license)
 
 ## Overview
-This project constitutes Group 9's, consisting of Anton, Clara, Oline, Johan, Jonas, and Lauritz,attempt at creating the Chirp! web application in the course Analysis, Design and Software Architecture at the IT University of Copenhagen. The Chirp! application is a Twitter-like application that encompasses much of the same functionality. As such, it is possible for a user of the application to - among other things - send cheeps (this applications version of tweets) to other users, like other users cheeps, and to view their individual timelines. To create the application, the group used a number of different technologies such as ASP.NET Core and SQLite.
+This project constitutes Group 9's, consisting of Anton, Clara, Oline, Johan, Jonas, and Lauritz, attempt at creating the Chirp! web application in the course Analysis, Design and Software Architecture at the IT University of Copenhagen. The Chirp! application is a Twitter-like application that encompasses much of the same functionality. As such, it is possible for a user of the application to - among other things - send cheeps (this applications version of tweets) to other users, like other users cheeps, and to view their individual timelines. To create the application, the group used a number of different technologies such as ASP.NET Core and SQLite.
 
 ## User manual
 
@@ -33,6 +33,9 @@ When someone first visits the application, he or she is unauthorized and will th
 - [Johan](https://github.com/JohanSandager)
 - [Jonas](https://github.com/JKramer91)
 - [Lauritz](https://github.com/lanaitu)
+
+## Credits
+A vast amount of sources were used in the creation of this project, and appreciation goes out to all of those. A special thanks should be given to [Andrew Lock](https://github.com/andrewlock), the author of [ASP.NET Core in Action, Third Edition](https://www.manning.com/books/asp-net-core-in-action-third-edition). This book proved an invaluable resource in understanding the intricacies of ASP.NET Core and all of the technologies used in this project.
 
 ## License
 MIT License
