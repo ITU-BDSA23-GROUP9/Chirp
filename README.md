@@ -6,6 +6,7 @@
   - [How to test the program](#how-to-test-the-program)
 - [Using the program](#using-the-program)
 - [Team members](#team-members)
+- [Credits](#credits)
 - [License](#license)
 
 ## Overview
