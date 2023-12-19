@@ -28,6 +28,8 @@ Chirp.Core contains all the core functionality. In Chirp.Core, we have Data Tran
 
 Inside Chirp.Infrastructure, we have quite a few classes and relationships. We will describe some of the most important of these. Firstly, we have the concrete implementation of our Repositories, named CheepRepository and AuthorRepository. These implement the interfaces from Chirp.Core, which we just described. <!-- Write more about this later -->
 
+The Author class inherits from identity user to streamline authentication and authorization for a Chirp author. There is a composite relationship between Author and Cheep, indicating that an Author can own 0 or more cheeps and that any existing cheep is owned by a unique Author.
+
 ##### Brief Description of Classes inside Chirp&#46;Web
 
 Inside of Chirp&#46;Web, we have our Program.cs, which is the class the program is run from. It has the fields WebApplicationBuilder builder and WebApplication app, which are used for encapsulating the app's services and middleware and for building the web application, setting up authentication and services necessary to make the application run.
