@@ -128,6 +128,10 @@ When in VS Code, navigate to src/Chirp.Web by running the command `cd src/Chirp.
 
 
 ## How to run test suite locally
+Firstly, open a command prompt. Navigate to the folder in which the Chirp! application is, and then run the command `code .` to open VS Code. 
+
+When standing in the root folder, simply run the command `dotnet test` to run all tests.
+If you want to run tests for individidual parts of the system, run the command `cd test` to go to the test directory, and then go into an individual directory, for example by running `cd Chirp.Core.Tests/`, and then running the command `dotnet test`.
 
 # Ethics
 
