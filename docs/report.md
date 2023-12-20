@@ -39,7 +39,7 @@ Inside of Chirp&#46;Web, we have our Program.cs, which is the class the program 
 
 ![Illustration of the _Chirp!_ data model as UML class diagram.](./diagrams/OnionDiagramSmallArchitectureG9.jpg)
 
-The diagram above depicts the Onion-architecture of our code-base. The different layers and their position shows which code they have access to. 'Chirp.Core' only know about itself, whereas 'Chirp.Infrastucture' has access to the code in 'Chirp.Core' but not the outer layers - except for the database as depicted with the arrow in the diagram.
+The diagram above depicts the Onion-architecture of our code-base. The different layers and their position shows which code they have access to. 'Chirp.Core' only know about itself, whereas 'Chirp.Infrastucture' has access to the code in 'Chirp.Core' but not the outer layers - except for the database as depicted with the arrow in the diagram. In general, upper layers should depend on lower layers. The Onion Architecture organizes our software in a manner, where we can keep our main business rules separate from external details. This separation of concerns makes the software easier to understand and change. It's good for testing and adapting to new requirements and technologies. It adheres to SOLID-principles like Dependency Inversion.
 
 ## Architecture of deployed application
 
