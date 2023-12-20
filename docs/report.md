@@ -23,13 +23,17 @@ At the highest level in this diagram, we have Chirp.Core, Chirp.Infrastructre, C
 
 ### Brief Description of Classes inside Chirp.Core
 
+<<<<<<< Updated upstream
 Chirp.Core contains all the core functionality. In Chirp.Core, we have Data Transfer Objects (DTOs) for Cheeps and Authors, as well as interfaces for Author and Cheep Repositories. There is an associative relationship between the DTOs and the repositories, since the repositories use the DTOs to create cheeps and authors, get cheeps and name of authors, follow authors etc. The interface repositories provide an interface contract for the repository implementation that will transfer structured data between different layers of the application and use DTOs as a standardized communication contract in this regard.
+=======
+Chirp.Core contains all the core functionality. In Chirp.Core, we have Data Transfer Objects (DTOs) for Cheeps and Authors, as well as interfaces for Author and Cheep Repositories. Nothing inside Chirp.Core points to anything outside of Chirp.Core. There is an associative relationship between the DTOs and the repositories, since the repositories use the DTOs to create cheeps and authors, get cheeps and name of authors, follow authors etc. The interface repositories provide an interface contract for the repository implementation that will transfer structured data between different layers of the application and use DTO's as a standardized communication contract in this regard.
+>>>>>>> Stashed changes
 
 ### Brief Description of Classes inside Chirp.Infrastructure
 
-Key elements within Chirp.Infrastructure include CheepRepository and AuthorRepository, which are concrete implementations of the Repository interfaces. These repositories use ChirpContext to interact with the database, managing data for authors and cheeps. Each repository handles specific queries related to either authors or cheeps, working with Author and Cheep models. However, they return only Data Transfer Objects (DTOs) to maintain separation of concerns. The Author and Cheep models, stored in the database, are queried from the dbsets of the dbcontext. The composition relationship between Author and Cheep classes and ChirpContext ensures data integrity, as removing the context also removes the associated data models from the program.
+Key elements within Chirp.Infrastructure include CheepRepository and AuthorRepository, which are concrete implementations of the Repository interfaces. These repositories use ChirpContext to interact with the database, managing data for authors and cheeps. Each repository handles specific queries related to either authors or cheeps, working with Author and Cheep models. However, they return only Data Transfer Objects (DTOs) to maintain separation of concerns. The Author and Cheep models, stored in the database, are queried from the dbsets of the dbcontext. The composition relationship between the Author and Cheep classes and ChirpContext ensures data integrity, as removing the context also removes the associated data models from the program.
 
-The Author class inherits from identity user to streamline authentication and authorization for a Chirp author. There is a composite relationship between Author and Cheep, indicating that an Author can own 0 or more cheeps and that any existing cheep is owned by a unique Author.
+The Author class inherits from Identity User to streamline authentication and authorization for a Chirp author. There is a composite relationship between Author and Cheep, indicating that an Author can own 0 or more cheeps and that any existing cheep is owned by a unique Author.
 
 ### Brief Description of Classes inside Chirp&#46;Web
 
@@ -39,13 +43,17 @@ Inside of Chirp&#46;Web, we have our Program.cs, which is the class the program 
 
 ![Illustration of the _Chirp!_ data model as UML class diagram.](./diagrams/OnionDiagramSmallArchitectureG9.jpg)
 
-The diagram above depicts the Onion-architecture of our code-base. The different layers and their position shows which code they have access to. 'Chirp.Core' only know about itself, whereas 'Chirp.Infrastucture' has access to the code in 'Chirp.Core' but not the outer layers - except for the database as depicted with the arrow in the diagram. In general, upper layers should depend on lower layers. The Onion Architecture organizes our software in a manner, where we can keep our main business rules separate from external details. This separation of concerns makes the software easier to understand and change. It's good for testing and adapting to new requirements and technologies. It adheres to SOLID-principles like Dependency Inversion.
+The diagram above depicts the Onion-architecture of our code-base. The different layers and their position shows which code they have access to. 'Chirp.Core' only know about itself, whereas 'Chirp.Infrastucture' has access to the code in 'Chirp.Core' but not the outer layers - except for the database as depicted with the arrow in the diagram. In general, upper layers should depend on lower layers. The Onion Architecture organizes our software in a manner, where we can keep our main business rules separate from external details. This separation of concerns makes the software easier to understand and change. It is also good for testing and adapting to new requirements and technologies. It adheres to SOLID-principles like Dependency Inversion.
 
 ## Architecture of deployed application
 
 We will briefly discuss the architecture of the deployed application, which is based on a client-server-model.
 
+<<<<<<< Updated upstream
 In the illustration below, the Web Server, hosted on Azure, manages user requests and serves the website, while the SQL Server, also on Azure, stores structured data like user information and cheeps. The Client browser communicates with the Web Server, which contains the webpage artifact. The Web server, in turn, interacts with the SQL Server, which contains the SQL_Database artifact, for database operations. In this manner, the Client doesn't directly connect to the SQL Server; but instead communicates with the Web Server, which handles the interaction with the database.
+=======
+In the illustration below, the Web Server, hosted on Azure, manages user requests and serves the website, while the SQL Server, also on Azure, stores structured data like user information and chirps. The Client browser communicates with the Web Server, which contains the webpage artifact. The Web server, in turn, interacts with the SQL Server, which contains the SQL_Database artifact, for database operations. In this manner, the Client does not directly connect to the SQL Server; but instead communicates with the Web Server, which handles the interaction with the database.
+>>>>>>> Stashed changes
 
 ![Illustration of the _Chirp!_ deployed application](./diagrams/DeploymentDiagram.png)
 
@@ -53,42 +61,41 @@ In the illustration below, the Web Server, hosted on Azure, manages user request
 
 We will outline a few different user journeys to showcase the capabilities of Chirp! users. This includes showcasing possible actions for an unauthorized user, guiding through registration and login processes, and demonstrating a typical user journey within the Chirp! app when logged in.
 
-### Un-authorised user-journey
+### Un-authorised User Journey
 
 For an unauthorized user, typical actions might involve viewing cheeps on the public timeline or accessing specific details about an author, such as past cheeps, total cheeps, and other information, which would be accessible through the author's private timeline. This process is depicted in a simple User Activity diagram, where the unauthorized user navigates the webpage to view public cheeps and then explores a specific author's timeline on Chirp! for more details.
 
 ![Illustration of Unauthorised user journey](./diagrams/ActivityDiagramNotAuthorised.png)
 
-### Registration and Login processes: {#login-register}
+### Registration and Login processes {#login-register}
 
-For the full Chirp! experience, authorized users can personalize their interaction by posting, liking cheeps, and following authors. Let's illustrate the registration and log-in processes to demonstrate how users can achieve this.
+For the full Chirp! experience, authorized users can personalize their interaction by posting, liking cheeps, and following authors. Let us illustrate the registration and log-in processes to demonstrate how users can achieve this.
 
 #### Registration
 
-To register, users click the "Register" button and choose either GitHub, where they will be authorized if they have an account in Github, or they can enter their password, username, and email, and then click "Register." After registration, users are redirected to the public timeline, where they can start following other users, liking their posts, and also posting cheeps.
+To register, users click the "Register" button and choose either GitHub, where they will be authorized if they have an account on Github, or they can enter their username, email and password, and then click "Register." After registration, users are redirected to the public timeline, where they can start following other users, liking their posts, and also posting cheeps.
 
 ![Illustration of Registering to Chirp](./diagrams/ActivityDiagramRegister.png)
 
 #### Log-in
 
-To log in, users click the login button, choose either GitHub or enter their password and username. Upon successful login, users are redirected to their private timeline if following someone or to the public timeline if not following anyone yet.
+To log in, users click the login button, choose either GitHub or enter their username and password. Upon successful login, users are redirected to their private timeline if they are following someone or to the public timeline if they are not following anyone yet.
 
 ![Illustration of Log-in process](./diagrams/ActivityDiagramLogin.png)
 
 ### Cheeping and Following Authors
 
-When using Chirp, users primarily write cheeps or follow authors and like their cheeps. The upcoming descriptions will illustrate user journeys centered around these actions. In both of the chapters below, we assume the user have already been through the
-[log-in or registration process.](#login-register) to engage in these functionalities.
+When using Chirp, users primarily write cheeps or follow authors and like their cheeps. The upcoming descriptions will illustrate user journeys centered around these actions. In both of the chapters below, we assume the user have already been through the [log-in or registration process](#login-register) to engage in these functionalities.
 
 #### Following
 
-The user starts by visiting the Public timeline. They click on author x to view that author's timeline. If not already following, they hit "follow," go to their private timeline, and check what author x has posted. If already following, the user unfollows the author, then checks their private timeline to ensure author x's cheeps are no longer visible.
+The user starts by visiting the Public timeline. They click on author x to view that author's timeline. If they are not already following this author, they hit "follow," go to their private timeline, and check what author x has posted. If they already follow this author, the user unfollows the author, then checks their private timeline to ensure author x's cheeps are no longer visible.
 
 ![Illustration of Following other users](./diagrams/ActivityDiagramFollowAuthor.png)
 
 #### Cheeping
 
-We assume, we have an user, who is already following other users. When this is the case, a user sees their private timeline, when logged in, where they see their own posts and posts from the people they follow. They then share short cheeps (up to 160 characters) and then look at their private timeline again to see what they've posted.
+We assume, we have a user, who is already following other users. When this is the case, a user sees their private timeline, when logged in, where they see their own posts and posts from the people they follow. They then share short cheeps (up to 160 characters) and then look at their private timeline again to see what they've posted.
 
 ![Illustration of Cheeping](./diagrams/ActivityDiagramCheep.png)
 
@@ -110,7 +117,7 @@ We use Github Workflows to streamline and automate software development processe
 
 ![Build and test github workflow](./diagrams/BuildAndTest.png)
 
-The illustration above shows our build and test workflow, that ensures that the code passes all tests before merging a pull request to main.
+The illustration above shows our build and test workflow, which ensures that the code passes all tests before merging a pull request to main.
 
 ![Release github workflow](./diagrams/ReleaseWorkflow.png)
 
