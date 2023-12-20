@@ -37,9 +37,9 @@ Inside of Chirp&#46;Web, we have our Program.cs, which is the class the program 
 
 ## Architecture — In the small
 
-![Illustration of the _Chirp!_ data model as UML class diagram.](./images/OnionDiagramSmallArchitectureG9.jpg)
+The diagram below depicts the Onion-architecture of our code-base. The different layers and their position shows which code they have access to. 'Chirp.Core' only know about itself, whereas 'Chirp.Infrastucture' has access to the code in 'Chirp.Core' but not the outer layers - except for the database as depicted with the arrow in the diagram. In general, upper layers should depend on lower layers. The Onion Architecture organizes our software in a manner, where we can keep our main business rules separate from external details. This separation of concerns makes the software easier to understand and change. It is also good for testing and adapting to new requirements and technologies. It adheres to SOLID-principles like Dependency Inversion.
 
-The diagram above depicts the Onion-architecture of our code-base. The different layers and their position shows which code they have access to. 'Chirp.Core' only know about itself, whereas 'Chirp.Infrastucture' has access to the code in 'Chirp.Core' but not the outer layers - except for the database as depicted with the arrow in the diagram. In general, upper layers should depend on lower layers. The Onion Architecture organizes our software in a manner, where we can keep our main business rules separate from external details. This separation of concerns makes the software easier to understand and change. It is also good for testing and adapting to new requirements and technologies. It adheres to SOLID-principles like Dependency Inversion.
+![Illustration of the _Chirp!_ data model as UML class diagram.](./images/OnionDiagramSmallArchitectureG9.jpg)
 
 ## Architecture of deployed application
 
@@ -55,7 +55,8 @@ We will outline a few different user journeys to showcase the capabilities of Ch
 
 ### Un-authorised User Journey
 
-For an unauthorized user, typical actions might involve viewing cheeps on the public timeline or accessing specific details about an author, such as past cheeps, total cheeps, and other information, which would be accessible through the author's private timeline. A user journey corresponding to this use of Chirp is described in the following User Activity diagram:
+For an unauthorized user, typical actions might involve viewing cheeps on the public timeline or accessing specific details about an author, such as past cheeps, total cheeps, and other information, which would be accessible through the author's private timeline.
+A user journey corresponding to this use of Chirp is described in the following User Activity diagram:
 
 ![Illustration of Unauthorised user journey](./diagrams/ActivityDiagramNotAuthorised.png)
 
@@ -91,15 +92,15 @@ In the following, two sequence diagrams are shown. The first shows a general ove
 
 ### Sequence diagram 1
 
-![Simple Sequence Diagram](./images/SimpleSequenceDiagram.png)
-
 In this sequence diagram, we have 3 lifelines: User, Chirp.Web, and ChirpDb. Here we show an overview of the simple sequences both an unauthorized and authorized user will go through to access different parts of the our application.
+
+![Simple Sequence Diagram](./images/SimpleSequenceDiagram.png)
 
 ### Sequence diagram 2
 
-![Sequence of calls thorugh Chirp for an unauthorized user to root](./diagrams/SeqDia.png)
-
 In this sequence, we have 5 lifelines: UnAuthorizedUser, Chirp.Web, CheepRepository, ChirpContext, and RemoteDB. Here, we see the sequence of calls that is made both internally by the program and externally, from an unauthorized user, sending a simple GET request to the root endpoint (acessing bdsagroup9chirprazor.azurewebsites.net).
+
+![Sequence of calls thorugh Chirp for an unauthorized user to root](./diagrams/SeqDia.png)
 
 # Process
 
@@ -109,17 +110,17 @@ This chapter gives a brief overview of our process, showcasing GitHub Actions wo
 
 We use Github Workflows to streamline and automate software development processes and ensure continuous integration and continuous delivery.
 
+The illustration below shows our build and test workflow, which ensures that the code passes all tests before merging a pull request to main.
+
 ![Build and test github workflow](./diagrams/BuildAndTest.png)
 
-The illustration above shows our build and test workflow, which ensures that the code passes all tests before merging a pull request to main.
+In the illustration below, we see the workflow that creates a release of the program to Github. It is triggered when a tag of the format v\* is pushed to github.
 
 ![Release github workflow](./diagrams/ReleaseWorkflow.png)
 
-In the illustration above, we see the workflow that creates a release of the program to Github. It is triggered when a tag of the format v\* is pushed to github.
+This Github workflow is triggered after a push to main, and releases main to our production environment.
 
 ![Deployment gihub workflow](./diagrams/ReleaseToProduction.png)
-
-This Github workflow is triggered after a push to main, and releases main to our production environment.
 
 ## Team work
 
