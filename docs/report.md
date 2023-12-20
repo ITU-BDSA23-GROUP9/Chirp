@@ -36,7 +36,7 @@ Inside of Chirp&#46;Web, we have our Program.cs, which is the class the program 
 
 ## Architecture — In the small
 
-![Illustration of the _Chirp!_ data model as UML class diagram.](docs/images/../../diagrams/OnionDiagramSmallArchitectureG9.jpg)
+![Illustration of the _Chirp!_ data model as UML class diagram.](./diagrams/OnionDiagramSmallArchitectureG9.jpg)
 
 The diagram above depicts the Onion-architecture of our code-base. The different layers and their position shows which code they have access to. 'Chirp.Core' only know about itself, whereas 'Chirp.Infrastucture' has access to the code in 'Chirp.Core' but not the outer layers - except for the database as depicted with the arrow in the diagram.
 
@@ -46,7 +46,7 @@ We will briefly discuss the architecture of the deployed application, which is b
 
 In the illustration below, the Web Server, hosted on Azure, manages user requests and serves the website, while the SQL Server, also on Azure, stores structured data like user information and chirps. The Client browser communicates with the Web Server, which contains the webpage artifact. The Web server, in turn, interacts with the SQL Server, which contains the SQL_Database artifact, for database operations. In this manner, the Client doesn't directly connect to the SQL Server; but instead communicates with the Web Server, which handles the interaction with the database.
 
-![Illustration of the _Chirp!_ deployed application](docs/images/../../diagrams/DeploymentDiagram.png)
+![Illustration of the _Chirp!_ deployed application](./diagrams/DeploymentDiagram.png)
 
 ## User activities
 
@@ -56,7 +56,7 @@ We will outline a few different user journeys to showcase the capabilities of Ch
 
 For an unauthorized user, typical actions might involve viewing cheeps on the public timeline or accessing specific details about an author, such as past cheeps, total cheeps, and other information, which would be accessible through the author's private timeline. This process is depicted in a simple User Activity diagram, where the unauthorized user navigates the webpage to view public cheeps and then explores a specific author's timeline on Chirp! for more details.
 
-![Illustration of Unauthorised user journey](docs/images/../../diagrams/ActivityDiagramNotAuthorised.png)
+![Illustration of Unauthorised user journey](./diagrams/ActivityDiagramNotAuthorised.png)
 
 #### Registration and Login processes: {#login-register}
 
@@ -66,13 +66,13 @@ For the full Chirp! experience, authorized users can personalize their interacti
 
 To register, users click the "Register" button and choose either GitHub, where they will be authorized if they have an account in Github, or they can enter their password, username, and email, and then click "Register." After registration, users are redirected to the public timeline, where they can start following other users, liking their posts, and also posting cheeps.
 
-![Illustration of Registering to Chirp](docs/images/../../diagrams/ActivityDiagramRegister.png)
+![Illustration of Registering to Chirp](./diagrams/ActivityDiagramRegister.png)
 
 #### Log-in
 
 To log in, users click the login button, choose either GitHub or enter their password and username. Upon successful login, users are redirected to their private timeline if following someone or to the public timeline if not following anyone yet.
 
-![Illustration of Log-in process](docs/images/../../diagrams/ActivityDiagramLogin.png)
+![Illustration of Log-in process](./diagrams/ActivityDiagramLogin.png)
 
 #### Cheeping and Following Authors
 
@@ -82,17 +82,17 @@ When using Chirp, users primarily write cheeps or follow authors and like their 
 
 The user starts by visiting the Public timeline. They click on author x to view that author's timeline. If not already following, they hit "follow," go to their private timeline, and check what author x has posted. If already following, the user unfollows the author, then checks their private timeline to ensure author x's cheeps are no longer visible.
 
-![Illustration of Following other users](docs/images/../../diagrams/ActivityDiagramFollowAuthor.png)
+![Illustration of Following other users](./diagrams/ActivityDiagramFollowAuthor.png)
 
 #### Cheeping
 
 We assume, we have an user, who is already following other users. When this is the case, a user sees their private timeline, when logged in, where they see their own posts and posts from the people they follow. They then share short cheeps (up to 160 characters) and then look at their private timeline again to see what they've posted.
 
-![Illustration of Cheeping](docs/images/../../diagrams/ActivityDiagramCheep.png)
+![Illustration of Cheeping](./diagrams/ActivityDiagramCheep.png)
 
 ## Sequence of functionality/calls through _Chirp!_
 
-![Sequence of calls thorugh Chirp for an unauthorized user to root](docs/images/../../diagrams/SeqDia.png)
+![Sequence of calls thorugh Chirp for an unauthorized user to root](./diagrams/SeqDia.png)
 
 We see the sequence of calls that is made both internally by the program and externally, from a unauthorized user, sending a simple GET request to the root endpoint (acessing bdsagroup9chirprazor.azurewebsites.net).
 
@@ -100,21 +100,21 @@ We see the sequence of calls that is made both internally by the program and ext
 
 ## Build, test, release, and deployment
 
-![Build and test github workflow](docs/images/../../diagrams/BuildAndTest.png)
+![Build and test github workflow](./diagrams/BuildAndTest.png)
 
 Here we have the build and test workflow, that ensures that the code passes all tests before merging a pull request to main.
 
-![Release github workflow](docs/images/../../diagrams/ReleaseWorkflow.png)
+![Release github workflow](./diagrams/ReleaseWorkflow.png)
 
 Here we see the workflow that creates a release of the program to Github. It is triggered when a tag of the format v\* is pushed to github.
 
-![Deployment gihub workflow](docs/images/../../diagrams/ReleaseToProduction.png)
+![Deployment gihub workflow](./diagrams/ReleaseToProduction.png)
 
 This Github workflow is triggered after a push to main, and releases main to our production environment.
 
 ## Team work
 
-![Workflow from Task to Finish](docs/images/../../diagrams/TeamWorkDiagram.png)
+![Workflow from Task to Finish](./diagrams/TeamWorkDiagram.png)
 
 We set up a KanBan board to handle our issues and give us an overview of the process an issue had to go through.
 
