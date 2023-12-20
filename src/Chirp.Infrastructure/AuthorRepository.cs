@@ -91,7 +91,7 @@ public class AuthorRepository : IAuthorRepository
         return user.Following.Contains(author);
     }
 
-    public async Task<List<AuthorDTO>> GetFollowers(string authorUsername)
+    public async Task<List<AuthorDTO>> GetFollowing(string authorUsername)
     {
         var authorModel = await FindAuthorModelByName(authorUsername);
         return authorModel.Following
@@ -102,7 +102,7 @@ public class AuthorRepository : IAuthorRepository
     public async Task<int> GetTotalCheepCountFromFollowersAndAuthor(string authorUserName)
     {
         var sum = await GetTotalCheepCountFromAuthor(authorUserName);
-        var following = await GetFollowers(authorUserName);
+        var following = await GetFollowing(authorUserName);
 
         foreach (AuthorDTO author in following)
         {

@@ -4,22 +4,60 @@ using Chirp.Core;
 
 namespace Chirp.Web.Pages;
 
+/// <summary>
+/// Razor page representing the private timeline of an author.
+/// </summary>
 public class PrivateTimelineModel : PageModel
 {
 
     private readonly ICheepRepository _cheepRepo;
     private readonly IAuthorRepository _authorRepo;
+
+    /// <summary>
+    /// Gets or sets the list of cheeps displayed on a private timeline.
+    /// </summary>
     public List<CheepDTO> Cheeps { get; set; }
+    /// <summary>
+    /// Gets or sets the author associated with a private timeline.
+    /// </summary>
     public AuthorDTO? author { get; set; }
+
+    /// <summary>
+    /// Gets or sets a dictionary saying whether a user is following an author or not.
+    /// </summary>
     public Dictionary<string, bool>? IsUserFollowingAuthor { get; set; }
+
+    /// <summary>
+    /// Gets or sets the total cheeps. 
+    /// </summary>
     public int TotalCheeps { get; set; }
+
+    /// <summary>
+    /// Gets or sets the current page number.
+    /// </summary>
     public int PageNumber { get; set; }
+
+    /// <summary>
+    /// Gets or sets the number of cheeps allowed per page.
+    /// </summary>
     public int CheepsPerPage { get; set; }
+
+    /// <summary>
+    /// Gets or sets the redirection URL.
+    /// </summary>
     public string? RedirectUrl { get; set; }
 
+    /// <summary>
+    /// Gets or sets a new cheep.
+    /// </summary>
     [BindProperty]
     public string? NewCheep { get; set; }
 
+    /// <summary>
+    /// Initializes a new instance of private timeline.
+    /// </summary>
+    /// <param name="cheepRepo"></param>
+    /// <param name="authorRepo"></param>
     public PrivateTimelineModel(ICheepRepository cheepRepo, IAuthorRepository authorRepo)
     {
         Cheeps = new();
@@ -29,6 +67,11 @@ public class PrivateTimelineModel : PageModel
         CheepsPerPage = 32;
     }
 
+    /// <summary>
+    /// Handles HTTP GET requests for the private timeline.
+    /// </summary>
+    /// <param name="pageNumber"></param>
+    /// <returns>The IActionResult representing the result of the operation.</returns>
     public async Task<ActionResult> OnGet(int? pageNumber)
     {
         string username = User.Identity?.Name!;
@@ -52,6 +95,10 @@ public class PrivateTimelineModel : PageModel
         return Page();
     }
 
+    /// <summary>
+    /// Handles HTTP POST requests for the private timeline.
+    /// </summary>
+    /// <returns>The IActionResult representing the result of the operation.</returns>
     public async Task<IActionResult> OnPost()
     {
         if (NewCheep == null)
@@ -103,6 +150,11 @@ public class PrivateTimelineModel : PageModel
         return await _cheepRepo.HasUserLikedCheep(cheepId, User.Identity?.Name!);
     }
 
+    /// <summary>
+    /// Formats the timestamp to remove unnecessary trailing zeros.
+    /// </summary>
+    /// <param name="timestamp"></param>
+    /// <returns>The formatted timestamp</returns>
     public string FormatTimestamp(string timestamp)
     {
         if (timestamp.EndsWith(".0000000"))
