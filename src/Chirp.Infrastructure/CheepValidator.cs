@@ -5,7 +5,7 @@ public class CheepValidator : AbstractValidator<CheepDTO>
 {
     public CheepValidator()
     {
-        RuleFor(x => x.message).NotEmpty().MaximumLength(160);
+        RuleFor(x => x.message).MaximumLength(160);
     }
 
 }
