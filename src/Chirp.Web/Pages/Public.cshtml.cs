@@ -52,8 +52,12 @@ public class PublicModel : PageModel
         return Page();
     }
 
-    public async Task<IActionResult> OnPost()
+    public async Task<IActionResult?> OnPost()
     {
+        if (newCheep?.Message == null)
+        {
+            return LocalRedirect(Url.Content("~/"));
+        }
         var cheepToPost = new CheepDTO(Guid.NewGuid().ToString(), newCheep?.Message!, User.Identity?.Name!, DateTime.UtcNow.ToString());
         await _cheepRepo.CreateCheep(cheepToPost);
         return LocalRedirect(Url.Content("~/")); //Go to profile after posting a cheep
