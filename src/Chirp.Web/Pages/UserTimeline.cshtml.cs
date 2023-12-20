@@ -99,6 +99,15 @@ public class UserTimelineModel : PageModel
         return await _cheepRepo.HasUserLikedCheep(cheepId, User.Identity?.Name!);
     }
 
+    public string FormatTimestamp(string timestamp)
+    {
+        if (timestamp.EndsWith(".0000000"))
+        {
+            return timestamp.Substring(0, timestamp.Length - 8);
+        }
+        return timestamp;
+    }
+
     public class NewCheep
     {
         public string? Message { get; set; }

@@ -56,8 +56,6 @@ public class PrivateTimelineModel : PageModel
 
     public async Task<IActionResult> OnPost()
     {
-        //var user = await _userManager.GetUserAsync(User);
-        //var author = new AuthorDTO(user.UserName, user.Email);
         var cheepToPost = new CheepDTO(Guid.NewGuid().ToString(), newCheep!.Message!, User.Identity?.Name!, DateTime.UtcNow.ToString());
         await _cheepRepo.CreateCheep(cheepToPost);
         return RedirectToPage(redirectUrl);
@@ -105,6 +103,15 @@ public class PrivateTimelineModel : PageModel
     public async Task<bool> HasUserLikedCheep(string cheepId)
     {
         return await _cheepRepo.HasUserLikedCheep(cheepId, User.Identity?.Name!);
+    }
+
+    public string FormatTimestamp(string timestamp)
+    {
+        if (timestamp.EndsWith(".0000000"))
+        {
+            return timestamp.Substring(0, timestamp.Length - 8);
+        }
+        return timestamp;
     }
 }
 
