@@ -93,6 +93,10 @@ We assume, we have an user, who is already following other users. When this is t
 
 ## Sequence of functionality/calls through _Chirp!_
 
+![Simple Sequence Diagram](./diagrams/SimpleSequenceDiagram.png)
+
+With this sequence diagram show an overview of the simple sequences both an unauthorized and authorized will go through to access different parts of the our application.
+
 ![Sequence of calls thorugh Chirp for an unauthorized user to root](./diagrams/SeqDia.png)
 
 We see the sequence of calls that is made both internally by the program and externally, from a unauthorized user, sending a simple GET request to the root endpoint (acessing bdsagroup9chirprazor.azurewebsites.net).
