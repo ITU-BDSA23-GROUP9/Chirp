@@ -65,13 +65,9 @@ For the full Chirp! experience, authorized users can personalize their interacti
 
 #### Registration
 
-To register, users click the "Register" button and choose either GitHub, where they will be authorized if they have an account on Github, or they can enter their username, email and password, and then click "Register." After registration, users are redirected to the public timeline, where they can start following other users, liking their posts, and also posting cheeps.
-
 ![Illustration of Registering to Chirp](./diagrams/ActivityDiagramRegister.png)
 
 #### Log-in
-
-To log in, users click the login button, choose either GitHub or enter their username and password. Upon successful login, users are redirected to their private timeline if they are following someone or to the public timeline if they are not following anyone yet.
 
 ![Illustration of Log-in process](./diagrams/ActivityDiagramLogin.png)
 
