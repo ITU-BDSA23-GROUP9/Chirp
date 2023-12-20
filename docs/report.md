@@ -38,6 +38,8 @@ Inside of Chirp&#46;Web, we have our Program.cs, which is the class the program 
 
 ![Illustration of the _Chirp!_ data model as UML class diagram.](docs/images/../../diagrams/OnionDiagramSmallArchitectureG9.jpg)
 
+The diagram above depicts the Onion-architecture of our code-base. The different layers and their position shows which code they have access to. 'Chirp.Core' only know about itself, whereas 'Chirp.Infrastucture' has access to the code in 'Chirp.Core' but not the outer layers - except for the database as depicted with the arrow in the diagram.
+
 ## Architecture of deployed application
 
 We will briefly discuss the architecture of the deployed application, which is based on a client-server-model.
