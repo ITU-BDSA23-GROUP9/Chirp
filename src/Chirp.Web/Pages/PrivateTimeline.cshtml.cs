@@ -5,7 +5,7 @@ using Chirp.Core;
 namespace Chirp.Web.Pages;
 
 /// <summary>
-/// Razor page arepresenting the private timeline of an author.
+/// Razor page representing the private timeline of an author.
 /// </summary>
 public class PrivateTimelineModel : PageModel
 {

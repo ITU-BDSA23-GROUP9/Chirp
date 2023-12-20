@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Chirp.Web.Pages;
 
 /// <summary>
-/// Razor page arepresenting the public timeline of an author.
+/// Razor page representing the public timeline of an author.
 /// </summary>
 [AllowAnonymous]
 public class PublicModel : PageModel
