@@ -142,6 +142,8 @@ We set up a KanBan board to handle our issues and give us an overview of the pro
 -   When tests have been made (if necessary) a PR is created and the issues is moved to the coloumn 'In review'.
 -   If the PR for the issues gets approved, it is merged into the main-branch. If this is the case the issue can be closed and moved to the 'Done' coloumn.
 
+## Team work diagram
+
 The diagram below shows the entire workflow - from receiving a task to creating an issue and the above-mentioned steps.
 
 ![Workflow from Task to Finish](./diagrams/TeamWorkDiagram.png)
