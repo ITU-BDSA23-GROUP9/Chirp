@@ -24,16 +24,5 @@ public class ChirpContext : ApiAuthorizationDbContext<Author>
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Cheep>().Property(cheep => cheep.Text).HasMaxLength(160);
-        modelBuilder.Entity<Like>()
-            .HasOne(l => l.Cheep)
-            .WithMany()
-            .HasForeignKey(l => l.CheepId)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<Like>()
-            .HasOne(l => l.Author)
-            .WithMany()
-            .HasForeignKey(l => l.AuthorId)
-            .OnDelete(DeleteBehavior.ClientSetNull);
     }
 }
