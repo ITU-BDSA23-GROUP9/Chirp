@@ -1,15 +1,12 @@
 @startuml
 start
-:Display private timeline;
-if (Is logged in?) then (yes)
+:Click Private Timeline;
     :Type Cheep;
     note left
         Cheep must be 
         <= 160 characters
     end note
     :Share;
-    :Display private timeline;
-else (no)
-endif
+    :Display Private Timeline;
 end
 @enduml
