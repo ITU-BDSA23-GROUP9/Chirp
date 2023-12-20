@@ -1,6 +1,5 @@
 using Chirp.Core;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Protocol.Core.Types;
 
 namespace Chirp.Infrastructure;
 public class AuthorRepository : IAuthorRepository
