@@ -37,7 +37,7 @@ Inside of Chirp&#46;Web, we have our Program.cs, which is the class the program 
 
 ## Architecture — In the small
 
-The diagram below depicts the Onion-architecture of our code-base. The different layers and their position shows which code they have access to. 'Chirp.Core' only know about itself, whereas 'Chirp.Infrastucture' has access to the code in 'Chirp.Core' but not the outer layers - except for the database as depicted with the arrow in the diagram. In general, upper layers should depend on lower layers. The Onion Architecture organizes our software in a manner, where we can keep our main business rules separate from external details. This separation of concerns makes the software easier to understand and change. It is also good for testing and adapting to new requirements and technologies. It adheres to SOLID-principles like Dependency Inversion.
+The deployment diagram below depicts the Onion-architecture of our code-base. The different layers and their position shows which code they have access to. 'Chirp.Core' only know about itself, whereas 'Chirp.Infrastucture' has access to the code in 'Chirp.Core' but not the outer layers - except for the database as depicted with the arrow in the diagram. In general, upper layers should depend on lower layers. The Onion Architecture organizes our software in a manner, where we can keep our main business rules separate from external details. This separation of concerns makes the software easier to understand and change. It is also good for testing and adapting to new requirements and technologies. It adheres to SOLID-principles like Dependency Inversion.
 
 ![Illustration of the _Chirp!_ data model as UML class diagram.](./images/OnionDiagramSmallArchitectureG9.jpg)
 
@@ -45,9 +45,9 @@ The diagram below depicts the Onion-architecture of our code-base. The different
 
 We will briefly discuss the architecture of the deployed application, which is based on a client-server-model.
 
-In the [deployment diagram](#deployedapp) the Web Server, hosted on Azure, manages user requests and serves the website, while the SQL Server, also on Azure, stores structured data like user information and cheeps. The Client browser communicates with the Web Server, which contains the webpage artifact. The Web server, in turn, interacts with the SQL Server, which contains the SQL_Database artifact, for database operations. In this manner, the Client does not directly connect to the SQL Server; but instead communicates with the Web Server, which handles the interaction with the database.
+In the deployment diagram, the Web Server, hosted on Azure, manages user requests and serves the website, while the SQL Server, also on Azure, stores structured data like user information and cheeps. The Client browser communicates with the Web Server, which contains the webpage artifact. The Web server, in turn, interacts with the SQL Server, which contains the SQL_Database artifact, for database operations. In this manner, the Client does not directly connect to the SQL Server; but instead communicates with the Web Server, which handles the interaction with the database.
 
-![Illustration of the _Chirp!_ deployed application](./diagrams/DeploymentDiagram.png){#deployedapp}
+![Illustration of the _Chirp!_ deployed application](./diagrams/DeploymentDiagram.png)
 
 ## User activities
 
@@ -62,13 +62,13 @@ A user journey corresponding to this use of Chirp is described in the following 
 
 ### Registration and Login processes {#login-register}
 
-For the full Chirp! experience, authorized users can personalize their interaction by posting, liking cheeps, and following authors. The registration and log-in processes are described in the following diagrams:
+For the full Chirp! experience, authorized users can personalize their interaction by posting, liking cheeps, and following authors. [The registration](#registration) and [log-in processes](#login) are described in the following diagrams:
 
-#### Registration
+#### Registration {#registration}
 
 ![Illustration of Registering to Chirp](./diagrams/ActivityDiagramRegister.png)
 
-#### Log-in
+#### Log-in {#login}
 
 ![Illustration of Log-in process](./diagrams/ActivityDiagramLogin.png)
 
