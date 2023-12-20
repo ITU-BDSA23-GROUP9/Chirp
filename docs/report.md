@@ -156,8 +156,21 @@ Then start the application by running the command:
 
 ## How to run test suite locally
 
-Firstly, open a command prompt. Navigate to the folder in which the Chirp! application is. When standing in the root folder, simply run the command `dotnet test` to run all tests.
-If you want to run tests for individidual parts of the system, run the command `cd test` to go to the test directory, and then go into an individual directory, for example by running `cd Chirp.Core.Tests/`, and then running the command `dotnet test`.
+Firstly, open a command prompt. Navigate to the folder in which the Chirp! application is. When standing in the root folder, to run all tests, simply run the command:
+
+`dotnet test`
+
+If you want to run tests for individidual parts of the system, first go to the test directory with the command:
+
+`cd test`
+
+Then go into an individual directory, for example by running:
+
+`cd Chirp.Core.Tests/`
+
+Then run the command:
+
+`dotnet test`
 
 # Ethics
 
