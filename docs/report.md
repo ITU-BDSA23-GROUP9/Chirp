@@ -96,7 +96,7 @@ We assume, we have an user, who is already following other users. When this is t
 
 ![Simple Sequence Diagram](./diagrams/SimpleSequenceDiagram.png)
 
-With this sequence diagram show an overview of the simple sequences both an unauthorized and authorized will go through to access different parts of the our application.
+With this sequence diagram we show an overview of the simple sequences both an unauthorized and authorized user will go through to access different parts of the our application.
 
 ![Sequence of calls thorugh Chirp for an unauthorized user to root](./diagrams/SeqDia.png)
 
