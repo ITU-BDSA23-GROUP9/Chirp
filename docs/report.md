@@ -92,10 +92,16 @@ We assume, we have a user, who is already following other users. When this is th
 ![Illustration of Cheeping](./diagrams/ActivityDiagramCheep.png)
 
 ## Sequence of functionality/calls through _Chirp!_
+
 In the following, two sequence diagrams are shown. The first shows a general overview of some of the calls a user - authorized or not - might go through, while the second gives an idea of what a specific call looks like and the inner workings behind it.
+
+### Sequence diagram 1
+
 ![Simple Sequence Diagram](./images/SimpleSequenceDiagram.png)
 
 In this sequence diagram, we have 3 lifelines: User, Chirp.Web, and ChirpDb. Here we show an overview of the simple sequences both an unauthorized and authorized user will go through to access different parts of the our application.
+
+### Sequence diagram 2
 
 ![Sequence of calls thorugh Chirp for an unauthorized user to root](./diagrams/SeqDia.png)
 
