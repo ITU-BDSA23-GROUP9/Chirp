@@ -113,7 +113,7 @@ We see the sequence of calls that is made both internally by the program and ext
 
 # Process
 
-This chapter gives a brief overview of our process, showcasing GitHub Actions workflows with UML activity diagrams. We highlight our team's project board's status and offer clear documentation for local setup and testing.
+This chapter gives a brief overview of our process, showcasing GitHub Actions workflows with UML activity diagrams. We highlight our team's project board's status and offer clear instructions for local setup and testing.
 
 ## Build, test, release, and deployment
 
