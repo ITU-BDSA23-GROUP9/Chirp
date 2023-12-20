@@ -17,7 +17,7 @@ numbersections: true
 
 In our domain model, we capture entities and relationships to provide a high-level abstraction of the system's static structure, thereby centering the focus on the business logic of our Chirp!-system. We provide a complete diagram below:
 
-![Domain model UML](./diagrams/DomainModelGroup9-Sketch.png)
+![Domain model UML](./images/DomainModelGroup9-Sketch.png)
 
 At the highest level in this diagram, we have Chirp.Core, Chirp.Infrastructre, Chirp&#46;Web, wherein certain classes are contained. Apart from this, we have references to external libraries such as AspNetCoreIdentity and FluentValidation.
 
@@ -37,7 +37,7 @@ Inside of Chirp&#46;Web, we have our Program.cs, which is the class the program 
 
 ## Architecture — In the small
 
-![Illustration of the _Chirp!_ data model as UML class diagram.](./diagrams/OnionDiagramSmallArchitectureG9.jpg)
+![Illustration of the _Chirp!_ data model as UML class diagram.](./images/OnionDiagramSmallArchitectureG9.jpg)
 
 The diagram above depicts the Onion-architecture of our code-base. The different layers and their position shows which code they have access to. 'Chirp.Core' only know about itself, whereas 'Chirp.Infrastucture' has access to the code in 'Chirp.Core' but not the outer layers - except for the database as depicted with the arrow in the diagram. In general, upper layers should depend on lower layers. The Onion Architecture organizes our software in a manner, where we can keep our main business rules separate from external details. This separation of concerns makes the software easier to understand and change. It is also good for testing and adapting to new requirements and technologies. It adheres to SOLID-principles like Dependency Inversion.
 
@@ -93,7 +93,7 @@ We assume, we have a user, who is already following other users. When this is th
 
 ## Sequence of functionality/calls through _Chirp!_
 
-![Simple Sequence Diagram](./diagrams/SimpleSequenceDiagram.png)
+![Simple Sequence Diagram](./images/SimpleSequenceDiagram.png)
 
 With this sequence diagram we show an overview of the simple sequences both an unauthorized and authorized user will go through to access different parts of the our application.
 
@@ -174,7 +174,7 @@ Then run the command:
 
 # Ethics
 
-In this chapter, we'll discuss the software license we've chosen and explain how we've utilized AI/Large Language Models in our development process.
+In this chapter, we will discuss the software license we have chosen and explain how we have utilized AI/Large Language Models in our development process.
 
 ## License
 
@@ -190,4 +190,4 @@ In this report we have only made use of the LLM's: ChatGPT and CoPilot.
 
 ### Usefulness and efficiency of LLMs
 
-Language models (LLMs) helped us understand concepts and find bugs efficiently. However, directly using them to generate code for more complex architecture might lead to more debugging, which was why we only used it for generating very generic code. It's important to use LLMs in a way where you benefit from their strengths without slowing down the development process.
+Language models (LLMs) helped us understand concepts and find bugs efficiently. However, directly using them to generate code for more complex architecture might lead to more debugging, which was why we only used it for generating very generic code. It is important to use LLMs in a way where you benefit from their strengths without slowing down the development process.
