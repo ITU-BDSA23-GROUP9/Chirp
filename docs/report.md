@@ -15,7 +15,7 @@ numbersections: true
 
 ## Domain model
 
-In our domain model, we capture entities and relationships to provide a high-level abstraction of the system's static structure with a focus on its business logic of our Chirp!-system. We provide a complete diagram below:
+In our domain model, we capture entities and relationships to provide a high-level abstraction of the system's static structure, thereby centering the focus on the business logic of our Chirp!-system. We provide a complete diagram below:
 
 ![Domain model UML](./diagrams/DomainModelGroup9-Sketch.png)
 At the highest level in this diagram, we have Chirp.Core, Chirp.Infrastructre, Chirp&#46;Web, wherein certain classes are contained. Apart from this, we have references to external libraries such as AspNetCoreIdentity and FluentValidation.
