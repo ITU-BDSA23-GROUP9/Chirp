@@ -1,5 +1,7 @@
 namespace Chirp.Core;
-
+/// <summary>
+/// Defines the operations needed to work with author-related data
+/// </summary>
 public interface IAuthorRepository
 {
     /// <summary>
