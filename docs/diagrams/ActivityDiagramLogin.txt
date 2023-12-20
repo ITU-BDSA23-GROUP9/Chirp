@@ -4,7 +4,7 @@ start
 :Click on Login;
 if (Has GitHub?) then (yes)
     :Click GitHub;
-    :Authorize;
+    :Authenticate;
 else (no)
     :Enter Information;
     :Click Login;

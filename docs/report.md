@@ -19,25 +19,25 @@ In our domain model, we capture entities and relationships to give a high-level 
 
 ![Domain model UML](./images/DomainModelGroup9-Sketch.png)
 
-At the highest level in this diagram, we have Chirp.Core, Chirp.Infrastructre, Chirp&#46;Web, wherein certain classes are contained. Apart from this, we have references to external libraries such as AspNetCoreIdentity and FluentValidation.
+At the highest level in this diagram, we have Chirp.Core, Chirp.Infrastructre and Chirp&#46;Web, wherein certain classes are contained. Apart from this, we have references to external libraries such as AspNetCoreIdentity and FluentValidation.
 
 ### Brief Description of Classes inside Chirp.Core
 
-Chirp.Core contains all the core functionality. We have Data Transfer Objects (DTOs) for Cheeps and Authors, as well as interfaces for Author and Cheep Repositories. There is an associative relationship between the DTOs and the repositories, since the repositories use the DTOs to create cheeps and authors, get cheeps and name of authors, follow authors etc. The interface repositories provide an interface contract for the repository implementation, which will transfer structured data between different layers of the application and use DTOs as a standardised communication contract in this regard.
+Chirp.Core contains all the core functionality. We have Data Transfer Objects (DTOs) for Cheeps and Authors, as well as interfaces for Author and Cheep Repositories. There is an associative relationship between the DTOs and the repositories since the repositories use the DTOs to create cheeps and authors, get cheeps and name of authors, follow authors etc. The repository interfaces provide an interface contract for the repository implementation, which will transfer structured data between different layers of the application using DTO's as a standardized communication contract in this regard.
 
 ### Brief Description of Classes inside Chirp.Infrastructure
 
-Key elements of our infrastructure include CheepRepository and AuthorRepository, which implement the Repository interfaces. These use the ChirpContext class to interact with the database, managing data for authors and cheeps. Each repository handles specific queries related to either authors or cheeps, working with Author and Cheep models. However, they return only Data Transfer Objects (DTOs) to maintain separation of concerns. The Author and Cheep models are queried from the dbsets of the dbcontext. The composition between the Author and Cheep classes and ChirpContext ensures data integrity, as removing the context also removes the associated data models from the program.
+Key elements of our infrastructure include CheepRepository and AuthorRepository, which implement the Repository interfaces. These use the ChirpContext class to interact with the database, managing data for authors and cheeps. Each repository handles specific queries related to either authors or cheeps, working with Author and Cheep models. However, they return only Data Transfer Objects (DTOs) to maintain separation of concerns. The Author and Cheep models are queried from the dbsets of the dbcontext. The composition relation between the Author and ChirpContext as well as the Cheep and ChirpContext ensures data integrity, as removing the context also removes the associated data models from the program.
 
 To streamline authentication and authorization, a chirp author inherits from Identity User from ASP.NET Core Identity. There is a composite relationship between Author and Cheep, meaning that an Author can own zero or more cheeps and that any existing cheep is owned by a unique Author.
 
 ### Brief Description of Classes inside Chirp&#46;Web
 
-Inside of Chirp&#46;Web, we have our Program.cs, which is the class the program is run from. It has the fields WebApplicationBuilder builder and WebApplication app, which are used for encapsulating the app's services and middleware and for building the web application, setting up authentication and services necessary to make the application run.
+Inside of Chirp&#46;Web, we have our Program.cs, which is our startup class. It has the fields WebApplicationBuilder builder and WebApplication app, which are used for encapsulating the app's services and middleware and for building the web application, setting up authentication and services necessary to make the application run using dependency injection.
 
 ## Architecture — In the small
 
-The deployment diagram below depicts the Onion-architecture of our code-base. The different layers and their position shows which code they have access to. 'Chirp.Core' only know about itself, whereas 'Chirp.Infrastucture' has access to the code in 'Chirp.Core' but not the outer layers - except for the database as depicted with the arrow in the diagram. In general, upper layers should depend on lower layers. The Onion Architecture organizes our software in a manner, where we can keep our main business rules separate from external details. This separation of concerns makes the software easier to understand and change. It is also good for testing and adapting to new requirements and technologies. It adheres to SOLID-principles like Dependency Inversion.
+The diagram below depicts the Onion-architecture of our code-base. The different layers and their position shows which code they have access to. 'Chirp.Core' only know about itself, whereas 'Chirp.Infrastucture' has access to the code in 'Chirp.Core' but not the outer layers - except for the database as depicted with the arrow in the diagram. In general, outer layers should depend on inner layers, such that the dependencies flow outwards. The Onion Architecture organises our software in a manner, where we can keep our main business rules separate from external details. This separation of concerns makes the software easier to understand and change. It is also good for testing and adapting to new requirements and technologies. It adheres to SOLID-principles like Dependency Inversion.
 
 ![Illustration of the _Chirp!_ data model as UML class diagram.](./images/OnionDiagramSmallArchitectureG9.jpg)
 
@@ -47,30 +47,30 @@ We will briefly discuss the architecture of the deployed application, which is b
 
 In the deployment diagram, the Web Server, hosted on Azure, manages user requests and serves the website, while the SQL Server, also on Azure, stores structured data like user information and cheeps. The Client browser communicates with the Web Server, which contains the webpage artifact. The Web server, in turn, interacts with the SQL Server, which contains the SQL_Database artifact, for database operations. In this manner, the Client does not directly connect to the SQL Server; but instead communicates with the Web Server, which handles the interaction with the database.
 
-![Illustration of the _Chirp!_ deployed application](./diagrams/DeploymentDiagram.png)
+![Illustration of the _Chirp!_ deployed application](./images/DeploymentDiagram.png)
 
 ## User activities
 
-We will outline a few different user journeys to showcase the capabilities of Chirp! users. This includes showcasing possible actions for an unauthorized user, guiding through registration and login processes, and demonstrating a typical user journey within the Chirp! app when logged in.
+We will outline a few different user journeys to showcase the capabilities of Chirp! users. This includes showcasing possible actions for an unauthenticated user, guiding through registration and login processes and demonstrating a typical user journey within the Chirp! app when logged in.
 
-### Unauthorized User Journey
+### Unauthenticated User Journey
 
-For an unauthorized user, typical actions might involve viewing cheeps on the public timeline or accessing specific details about an author, such as past cheeps, total cheeps, and other information, which would be accessible through the author's private timeline.
+For an unauthenticated user, typical actions might involve viewing cheeps on the public timeline or accessing specific details about an author, such as past cheeps, total cheeps, and other information, which would be accessible through the author's private timeline.
 A user journey corresponding to this use of Chirp is described in the following User Activity diagram:
 
-![Illustration of Unauthorised user journey](./diagrams/ActivityDiagramNotAuthorised.png)
+![Illustration of Unauthenticated user journey](./images/ActivityDiagramNotAuthorised.png)
 
 ### Registration and Login processes {#login-register}
 
-For the full Chirp! experience, authorized users can personalise their interaction by posting new cheeps, liking already existing cheeps, and following authors. [The registration](#registration) and [log-in processes](#login) are described in the following diagrams:
+For the full Chirp! experience, authorised users can personalise their interaction by posting new cheeps, liking already existing cheeps and following authors. [The registration](#registration) and [log-in processes](#login) are described in the following diagrams:
 
 #### Registration {#registration}
 
-![Illustration of Registering to Chirp](./diagrams/ActivityDiagramRegister.png)
+![Illustration of Registering to Chirp](./images/ActivityDiagramRegister.png)
 
 #### Log-in {#login}
 
-![Illustration of Log-in process](./diagrams/ActivityDiagramLogin.png)
+![Illustration of Log-in process](./images/ActivityDiagramLogin.png)
 
 ### Cheeping and Following Authors
 
@@ -78,29 +78,29 @@ When using Chirp!, users primarily write cheeps or follow authors and like their
 
 #### Following an Author
 
-![Illustration of Following other users](./diagrams/ActivityDiagramFollowAuthor.png)
+![Illustration of Following other users](./images/ActivityDiagramFollowAuthor.png)
 
 #### Cheeping a Cheep
 
-In this diagram, we assume we have a user who is already following other users.
+In this diagram, we assume that we have a user who is already following other users.
 
-![Illustration of Cheeping](./diagrams/ActivityDiagramCheep.png)
+![Illustration of Cheeping](./images/ActivityDiagramCheep.png)
 
 ## Sequence of functionality/calls through _Chirp!_
 
-We will provide two sequence diagrams to show the dynamic interactions between components in our Chirp! system and the order in which they occur. The first shows a general overview of some of the calls a user - authorised or not - might go through, while the second gives an idea of what a specific call looks like and the inner workings behind it.
+Below we have provided two sequence diagrams to show the dynamic interactions between components in our Chirp! system and the order in which they occur. The first shows a general overview of some of the calls a user - authenticated or not - might go through, while the second gives an idea of what a specific call looks like and the inner workings behind it.
 
 ### Sequence diagram 1
 
-In this sequence diagram, we have 3 lifelines: User, Chirp.Web, and ChirpDb. Here we show an overview of the simple sequences both an unauthorized and authorized user will go through to access different parts of the our application.
+In this sequence diagram, we have 3 lifelines: User, Chirp.Web, and ChirpDb. Here we show an overview of the simple sequences both an unauthenticated and authenticated user will go through to access different parts of our application.
 
 ![Simple Sequence Diagram](./images/SimpleSequenceDiagram.png)
 
 ### Sequence diagram 2
 
-In this sequence, we have 5 lifelines: UnAuthorizedUser, Chirp.Web, CheepRepository, ChirpContext, and RemoteDB. Here, we see the sequence of calls that is made both internally by the program and externally, from an unauthorized user, sending a simple GET request to the root endpoint (acessing bdsagroup9chirprazor.azurewebsites.net).
+In this sequence, we have 5 lifelines: UnAuthenticatedUser, Chirp.Web, CheepRepository, ChirpContext and RemoteDB. Here, we see the sequence of calls that is made both internally by the program and externally, from an unauthenticated user, sending a simple GET request to the root endpoint (accessing bdsagroup9chirprazor.azurewebsites.net).
 
-![Sequence of calls thorugh Chirp for an unauthorized user to root](./diagrams/SeqDia.png)
+![Sequence of calls through Chirp for an unauthenticated user to root](./images/SeqDia.png)
 
 # Process
 
@@ -108,29 +108,27 @@ This chapter gives a brief overview of our process, illustrating GitHub Actions 
 
 ## Build, test, release, and deployment
 
-We use Github Workflows to streamline and automate software development processes and to obtain continuous integration and continuous delivery.
+We use GitHub Workflows to streamline and automate software development processes and to obtain continuous integration and continuous delivery.
 
-The illustration below shows our build and test workflow, which ensures that the code passes all tests before merging a pull request to main.
+The illustration below shows our build and test workflow, which ensures that the code passes all tests before merging a pull request to our main branch.
 
-![Build and test github workflow](./diagrams/BuildAndTest.png)
+![Build and test github workflow](./images/BuildAndTest.png)
 
-In the illustration below, we see the workflow that creates a release of the program to Github. It is triggered when a tag of the format v\* is pushed to Github.
+In the illustration below, we see the workflow that creates a release of the program to GitHub. It is triggered when a tag of the format v\* is pushed to GitHub.
 
-![Release github workflow](./diagrams/ReleaseWorkflow.png)
+![Release GitHub workflow](./images/ReleaseWorkflow.png)
 
-This Github workflow is triggered after a push to main, and releases main to our production environment.
+This GitHub workflow is triggered after a push to main, and releases main to our production environment.
 
-![Deployment gihub workflow](./diagrams/ReleaseToProduction.png)
+![Deployment GitHub workflow](./images/ReleaseToProduction.png)
 
-## Team work
+## Teamwork
 
 In this chapter, we will provide an overview of our collaboration by discussing the status of tasks on our project board and showing the general flow of activities from task creation to integration of features.
 
 ### Project Board
 
-// Briefly describe which tasks are still unresolved, i.e., which features are missing from our applications or which functionality is incomplete. //
-
-The image below shows our project board as is before handin of this report. The only issue we have left (issue#194), is making the ducplicate UI-elements into partial components as this would rid our application of some redundant code.
+The image below shows our project board as is before handin of this report. The only issue we have left (issue#194), is making the duplicate UI-elements into partial components as this would rid our application of redundant code.
 
 ![Workflow from Task to Finish](./images/projectboard.png)
 
@@ -138,16 +136,16 @@ We set up a KanBan board to handle our issues and give us an overview of the pro
 
 -   The issue is created and put into the 'Backlog'.
 -   When the issue is ready with a description, acceptance criteria and has no dependencies pending it is moved to then coloumn 'Ready'.
--   When we start working on the issues it is moved to the 'In progress' coloumn.
+-   When we start working on the issues it is moved to the 'In progress' column.
 -   If the issue relates to the code-base and we hgiave determined it is done, it is moved to 'Create tests'.
--   When tests have been made (if necessary) a PR is created and the issues is moved to the coloumn 'In review'.
--   If the PR for the issues gets approved, it is merged into the main-branch. If this is the case the issue can be closed and moved to the 'Done' coloumn.
+-   When tests have been made (if necessary) a PR is created and the issues is moved to the column 'In review'.
+-   If the PR for the issues gets approved, it is merged into the main-branch. If this is the case the issue can be closed and moved to the 'Done' column.
 
-## Team work diagram
+## Teamwork diagram
 
 The diagram below shows the entire workflow - from receiving a task to creating an issue and the above-mentioned steps.
 
-![Workflow from Task to Finish](./diagrams/TeamWorkDiagram.png)
+![Workflow from Task to Finish](./images/TeamWorkDiagram.png)
 
 ## How to make _Chirp!_ work locally
 
@@ -159,26 +157,36 @@ Then, navigate to the Chirp folder with the command:
 
 `cd Chirp`
 
-Navigate to src/Chirp.Web by running the command:
-
-`cd src/Chirp.Web/`
-
 Then start the application by running the command:
 
-`dotnet run`
+`dotnet run --project src/Chirp.Web`
 
-To be able to log in with GitHub, you will need to export client_secrets to the application.
-Firstly, navigate to:
+You see the following in the terminal, click the url http://localhost:5372 or copy it into the adressbar in your browser.
 
-...
+![Dotnet run](./images/DotnetRun.png)
 
-Then, ...:
+This action should show the application as below:
 
-`export GITHUB_CLIENT_ID=731d6c33e6157e4ffdcd`
+![Dotnet run](./images/Chirp.png)
 
-and the secret:
+To be able to log in with GitHub, you will need to create a GitHub application. You do this by navigation to this url:
 
-`export GITHUB_CLIENT_SECRET=dc75bc058fa4f5c20eb6f930ffae5a7d30a5fd25`
+https://github.com/settings/applications/new
+
+Here you need to give it a name and set the homepage-url to localhost:5273.
+
+Set authorisation callback url to localhost:5273/signin-github
+client_secrets for the application.
+
+Then click register application.
+
+Then set your environment variables for the following:
+
+`GITHUB_CLIENT_ID=<client_id>`
+
+`GITHUB_CLIENT_SECRET=<client_secret>`
+
+and rerun the application.
 
 ## How to run test suite locally
 
@@ -198,13 +206,17 @@ Then run the command:
 
 `dotnet test`
 
+### Our tests
+
+We have made integration tests for the UI-elements in Chirp&#46;Web. Unit tests have been created for all essential methods in the repositories in Chirp.Infrastructure.
+
 # Ethics
 
 In this chapter, we will discuss the software license we have chosen and explain the use of AI/Large Language Models in our development process.
 
 ## License
 
-We have chosen the MIT License for our application. Mainly due to its simplicity, which makes it easy for students to collaborate and simplifies licensing issues. In addition, it allows for lots of people to use our webpage, and if we potentially wanted to commercialize Chirp!, the license is really flexible and allows this.
+We have chosen the MIT License for our application. Mainly due to its simplicity, which makes it easy for students to collaborate and simplifies licensing issues. In addition, it allows for lots of people to use our webpage, and if we potentially wanted to commercialise Chirp!, the license is really flexible and allows this.
 
 ## LLMs, ChatGPT, CoPilot, and others
 

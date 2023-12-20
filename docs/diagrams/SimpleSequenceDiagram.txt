@@ -1,9 +1,10 @@
 sequenceDiagram 
     actor User
     participant CW as Chirp.Web
+
     participant DB as ChirpDb
 
-    alt UnAuthorized
+    alt UnAuthenticated
     User->>CW: GET (all cheeps - Public timeline)
     activate CW
     CW->>DB: GET (all cheeps - PublicTimeline)
@@ -13,7 +14,7 @@ sequenceDiagram
     CW-->>User: Resource (PublicTimeline)
     deactivate CW
 
-    else Authorized
+    else Authenticated
     User->>CW: GET (cheeps - UserTimeline, PrivateTimeline)
     activate CW
     CW->>DB: GET (cheeps - UserTimeline, PrivateTimeline)
