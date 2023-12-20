@@ -90,7 +90,7 @@ We assume, we have an user, who is already following other users. When this is t
 
 ![Illustration of Cheeping](docs/images/../../diagrams/ActivityDiagramCheep.png)
 
-## Sequence of functionality/calls trough _Chirp!_
+## Sequence of functionality/calls through _Chirp!_
 
 ![Sequence of calls thorugh Chirp for an unauthorized user to root](docs/images/../../diagrams/SeqDia.png)
 
