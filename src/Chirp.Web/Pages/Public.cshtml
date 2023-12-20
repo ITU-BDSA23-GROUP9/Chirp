@@ -54,7 +54,7 @@
                     </div>
                     <p>
                         @cheep.message
-                        <small>&mdash; @cheep.timestamp</small>
+                        <small>&mdash; @Model.FormatTimestamp(cheep.timestamp)</small>
                     </p>
                     <div>
                         @if (User.Identity?.IsAuthenticated == true)

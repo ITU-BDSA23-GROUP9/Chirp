@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Chirp.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateAndTest : Migration
+    public partial class UpdateLikes : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -257,6 +257,42 @@ namespace Chirp.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Likes",
+                columns: table => new
+                {
+                    LikeId = table.Column<string>(type: "TEXT", nullable: false),
+                    AuthorId = table.Column<string>(type: "TEXT", nullable: false),
+                    CheepId = table.Column<string>(type: "TEXT", nullable: false),
+                    AuthorId1 = table.Column<string>(type: "TEXT", nullable: true),
+                    CheepId1 = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Likes", x => x.LikeId);
+                    table.ForeignKey(
+                        name: "FK_Likes_AspNetUsers_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Likes_AspNetUsers_AuthorId1",
+                        column: x => x.AuthorId1,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Likes_Cheeps_CheepId",
+                        column: x => x.CheepId,
+                        principalTable: "Cheeps",
+                        principalColumn: "CheepId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Likes_Cheeps_CheepId1",
+                        column: x => x.CheepId1,
+                        principalTable: "Cheeps",
+                        principalColumn: "CheepId");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -321,6 +357,26 @@ namespace Chirp.Infrastructure.Migrations
                 column: "Use");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Likes_AuthorId",
+                table: "Likes",
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Likes_AuthorId1",
+                table: "Likes",
+                column: "AuthorId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Likes_CheepId",
+                table: "Likes",
+                column: "CheepId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Likes_CheepId1",
+                table: "Likes",
+                column: "CheepId1");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PersistedGrants_ConsumedTime",
                 table: "PersistedGrants",
                 column: "ConsumedTime");
@@ -363,19 +419,22 @@ namespace Chirp.Infrastructure.Migrations
                 name: "AuthorAuthor");
 
             migrationBuilder.DropTable(
-                name: "Cheeps");
-
-            migrationBuilder.DropTable(
                 name: "DeviceCodes");
 
             migrationBuilder.DropTable(
                 name: "Keys");
 
             migrationBuilder.DropTable(
+                name: "Likes");
+
+            migrationBuilder.DropTable(
                 name: "PersistedGrants");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Cheeps");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
