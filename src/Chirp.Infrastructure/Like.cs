@@ -14,16 +14,8 @@ namespace Chirp.Infrastructure
         /// </summary>
         public string? AuthorId { get; set; }
         /// <summary>
-        /// Gets or sets an author of a like.
-        /// </summary>
-        public required Author Author { get; set; }
-        /// <summary>
         /// Gets or sets the id of a cheep.
         /// </summary>
         public string? CheepId { get; set; }
-        /// <summary>
-        /// Gets or sets the cheep that is liked.
-        /// </summary>
-        public required Cheep Cheep { get; set; }
     }
 }
