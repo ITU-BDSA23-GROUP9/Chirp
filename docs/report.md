@@ -27,7 +27,8 @@ At the highest level in this diagram, we have Chirp.Core, Chirp.Infrastructre, C
 Chirp.Core contains all the core functionality. In Chirp.Core, we have Data Transfer Objects (DTOs) for Cheeps and Authors, as well as interfaces for Author and Cheep Repositories. There is an associative relationship between the DTOs and the repositories, since the repositories use the DTOs to create cheeps and authors, get cheeps and name of authors, follow authors etc. The interface repositories provide an interface contract for the repository implementation that will transfer structured data between different layers of the application and use DTOs as a standardized communication contract in this regard.
 =======
 Chirp.Core contains all the core functionality. In Chirp.Core, we have Data Transfer Objects (DTOs) for Cheeps and Authors, as well as interfaces for Author and Cheep Repositories. Nothing inside Chirp.Core points to anything outside of Chirp.Core. There is an associative relationship between the DTOs and the repositories, since the repositories use the DTOs to create cheeps and authors, get cheeps and name of authors, follow authors etc. The interface repositories provide an interface contract for the repository implementation that will transfer structured data between different layers of the application and use DTO's as a standardized communication contract in this regard.
->>>>>>> Stashed changes
+
+> > > > > > > Stashed changes
 
 ### Brief Description of Classes inside Chirp.Infrastructure
 
@@ -53,7 +54,8 @@ We will briefly discuss the architecture of the deployed application, which is b
 In the illustration below, the Web Server, hosted on Azure, manages user requests and serves the website, while the SQL Server, also on Azure, stores structured data like user information and cheeps. The Client browser communicates with the Web Server, which contains the webpage artifact. The Web server, in turn, interacts with the SQL Server, which contains the SQL_Database artifact, for database operations. In this manner, the Client doesn't directly connect to the SQL Server; but instead communicates with the Web Server, which handles the interaction with the database.
 =======
 In the illustration below, the Web Server, hosted on Azure, manages user requests and serves the website, while the SQL Server, also on Azure, stores structured data like user information and chirps. The Client browser communicates with the Web Server, which contains the webpage artifact. The Web server, in turn, interacts with the SQL Server, which contains the SQL_Database artifact, for database operations. In this manner, the Client does not directly connect to the SQL Server; but instead communicates with the Web Server, which handles the interaction with the database.
->>>>>>> Stashed changes
+
+> > > > > > > Stashed changes
 
 ![Illustration of the _Chirp!_ deployed application](./diagrams/DeploymentDiagram.png)
 
@@ -110,6 +112,8 @@ With this sequence diagram we show an overview of the simple sequences both an u
 We see the sequence of calls that is made both internally by the program and externally, from a unauthorized user, sending a simple GET request to the root endpoint (acessing bdsagroup9chirprazor.azurewebsites.net).
 
 # Process
+
+This chapter gives a brief overview of our process, showcasing GitHub Actions workflows with UML activity diagrams. We highlight our team's project board's status and offer clear documentation for local setup and testing.
 
 ## Build, test, release, and deployment
 
