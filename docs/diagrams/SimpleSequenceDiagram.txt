@@ -1,8 +1,6 @@
 sequenceDiagram 
     actor User
     participant CW as Chirp.Web
-    participant GB as GitHub - AuthEP
-    participant TR as GitHub - TokenEP
     participant DB as ChirpDb
 
     alt UnAuthorized
@@ -16,25 +14,11 @@ sequenceDiagram
     deactivate CW
 
     else Authorized
-    CW->>User: GET (User wants to login
-    activate User
-    User->>GB: GET
-    activate GB
-    User-->>GB: Authenticate User 
-    GB-->>User: User Authenticated
-    deactivate GB
-
-    User->>TR: Authenticate (Chirp.Web) 
-    User-->>CW: Chirp.Web Authenticated
-    deactivate User
-
-    CW-->>User: Redirect URL
-
     User->>CW: GET (cheeps - UserTimeline, PrivateTimeline)
     activate CW
     CW->>DB: GET (cheeps - UserTimeline, PrivateTimeline)
     activate DB
-    DB-->>CW: Protected Resource (UserTimeline)
+    DB-->>CW: Protected Resource
     deactivate DB
     CW-->>User: Success
     deactivate CW
