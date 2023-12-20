@@ -53,7 +53,7 @@ In the deployment diagram, the Web Server, hosted on Azure, manages user request
 
 We will outline a few different user journeys to showcase the capabilities of Chirp! users. This includes showcasing possible actions for an unauthorized user, guiding through registration and login processes, and demonstrating a typical user journey within the Chirp! app when logged in.
 
-### Un-authorised User Journey
+### Unauthorized User Journey
 
 For an unauthorized user, typical actions might involve viewing cheeps on the public timeline or accessing specific details about an author, such as past cheeps, total cheeps, and other information, which would be accessible through the author's private timeline.
 A user journey corresponding to this use of Chirp is described in the following User Activity diagram:
@@ -62,7 +62,7 @@ A user journey corresponding to this use of Chirp is described in the following 
 
 ### Registration and Login processes {#login-register}
 
-For the full Chirp! experience, authorised users can personalise their interaction by posting, liking cheeps, and following authors. [The registration](#registration) and [log-in processes](#login) are described in the following diagrams:
+For the full Chirp! experience, authorized users can personalise their interaction by posting new cheeps, liking already existing cheeps, and following authors. [The registration](#registration) and [log-in processes](#login) are described in the following diagrams:
 
 #### Registration {#registration}
 
@@ -74,7 +74,7 @@ For the full Chirp! experience, authorised users can personalise their interacti
 
 ### Cheeping and Following Authors
 
-When using Chirp, users primarily write cheeps or follow authors and like their cheeps. The upcoming user activity diagrams are centered around these actions. In both diagrams, we assume the user has already been through the [log-in or registration process](#login-register) to engage in these functionalities.
+When using Chirp!, users primarily write cheeps or follow authors and like their cheeps. The upcoming user activity diagrams are centered around these actions. In both diagrams, we assume the user has already been through the [log-in or registration process](#login-register) to engage in these functionalities.
 
 #### Following an Author
 
@@ -204,7 +204,7 @@ In this chapter, we will discuss the software license we have chosen and explain
 
 ## License
 
-We have chosen the MIT License for our application. Mainly due its simplicity, which makes it easy for students to collaborate and simplifies licensing issues. In addition, it allows for lots of people to use our webpage, and if we potentially wanted to commercialize Chirp!, the license is really flexible and allows this.
+We have chosen the MIT License for our application. Mainly due to its simplicity, which makes it easy for students to collaborate and simplifies licensing issues. In addition, it allows for lots of people to use our webpage, and if we potentially wanted to commercialize Chirp!, the license is really flexible and allows this.
 
 ## LLMs, ChatGPT, CoPilot, and others
 
@@ -212,8 +212,8 @@ In this report we have only made use of the LLM's: ChatGPT and CoPilot.
 
 **ChatGPT**: has been used to understand the theory behind some of the features which we have implemented, and generally not to generate code, unless explictly specified as co-writer. In some cases, it has been used for debugging purposes, indicated by including it as a co-writer in commit messages.
 
-**CoPilot**: was only used in the later stages of the process to speed up code-writing-proces when writing generic code. (We decided in the beginning that we would follow Rasmus' reccomendation of writing code without CoPilot, when we were learning the basics of C#.)
+**CoPilot**: was only used in the later stages of the process to speed up the code-writing-process when writing generic code. (We decided in the beginning that we would follow Rasmus' reccomendation of writing code without CoPilot, when we were learning the basics of C#.)
 
 ### Usefulness and efficiency of LLMs
 
-Language models (LLMs) helped us understand concepts and find bugs efficiently. However, we thought that using them directly to generate code for more complex architecture would might lead to more extensive debugging and workarounds, which was why we only used it for generating very generic code. It is important to use LLMs in a way where you benefit from their strengths without slowing down the development process.
+Large Language models (LLMs) helped us understand concepts and find bugs efficiently. However, we thought that using them directly to generate code for more complex architecture might lead to more extensive debugging and workarounds, which was why we only used it for generating very generic code. It is important to use LLMs in a way where you benefit from their strengths without slowing down the development process.
