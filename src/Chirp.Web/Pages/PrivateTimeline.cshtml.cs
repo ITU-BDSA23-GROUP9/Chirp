@@ -108,5 +108,14 @@ public class PrivateTimelineModel : PageModel
     {
         return await _cheepRepo.HasUserLikedCheep(cheepId, User.Identity?.Name!);
     }
+
+    public string FormatTimestamp(string timestamp)
+    {
+        if (timestamp.EndsWith(".0000000"))
+        {
+            return timestamp.Substring(0, timestamp.Length - 8);
+        }
+        return timestamp;
+    }
 }
 

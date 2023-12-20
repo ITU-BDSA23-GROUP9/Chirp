@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chirp.Infrastructure.Migrations
 {
     [DbContext(typeof(ChirpContext))]
-    [Migration("20231213120350_addLikeClass2")]
-    partial class addLikeClass2
+    [Migration("20231220113447_UpdateLikes")]
+    partial class UpdateLikes
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -132,15 +132,25 @@ namespace Chirp.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("AuthorId1")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("CheepId")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CheepId1")
                         .HasColumnType("TEXT");
 
                     b.HasKey("LikeId");
 
                     b.HasIndex("AuthorId");
 
+                    b.HasIndex("AuthorId1");
+
                     b.HasIndex("CheepId");
+
+                    b.HasIndex("CheepId1");
 
                     b.ToTable("Likes");
                 });
@@ -447,16 +457,23 @@ namespace Chirp.Infrastructure.Migrations
             modelBuilder.Entity("Chirp.Infrastructure.Like", b =>
                 {
                     b.HasOne("Chirp.Infrastructure.Author", "Author")
-                        .WithMany("Liked")
+                        .WithMany()
                         .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Chirp.Infrastructure.Author", null)
+                        .WithMany("Liked")
+                        .HasForeignKey("AuthorId1");
+
                     b.HasOne("Chirp.Infrastructure.Cheep", "Cheep")
-                        .WithMany("Likes")
+                        .WithMany()
                         .HasForeignKey("CheepId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Chirp.Infrastructure.Cheep", null)
+                        .WithMany("Likes")
+                        .HasForeignKey("CheepId1");
 
                     b.Navigation("Author");
 
