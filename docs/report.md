@@ -26,10 +26,7 @@ Chirp.Core contains all the core functionality. In Chirp.Core, we have Data Tran
 
 ##### Brief Description of Classes inside Chirp.Infrastructure
 
-Chirp.Infrastructure is the backbone of the application, where data is moved around and processed.
-Inside Chirp.Infrastructure, we have quite a few classes and relationships. We will describe some of the most important of these.
-
-Firstly, we have the concrete implementation of our Repositories, named CheepRepository and AuthorRepository. These implement the interfaces from Chirp.Core, which we just described. Both CheepRepository and AuthorRepository in the Chirp application use the ChirpContext for working with the database. The ChirpContext helps manage the data for both authors and cheeps in the database. Each repository is responsible for querying the database for either Author related or Cheep related data. They work with Author and Cheep models, but only return DTO's to adhere to the seperation of concerns. Author and Cheep models are stored in the database, and queried from the dbsets of the dbcontext. These sets contain the information stored as models our program can interact with, the Author and Cheep classes have a composition relationship with ChirpContext since if we remove the context the stored datamodels are removed (the data continues in the database, but not as Author and Cheep object models). <!-- TODO: Make this shorter tomorrow -->
+Key elements within Chirp.Infrastructure include CheepRepository and AuthorRepository, which are concrete implementations of the Repository interfaces. These repositories use ChirpContext to interact with the database, managing data for authors and cheeps. Each repository handles specific queries related to either authors or cheeps, working with Author and Cheep models. However, they return only Data Transfer Objects (DTOs) to maintain separation of concerns. The Author and Cheep models, stored in the database, are queried from the dbsets of the dbcontext. The composition relationship between Author and Cheep classes and ChirpContext ensures data integrity, as removing the context also removes the associated data models from the program.
 
 The Author class inherits from identity user to streamline authentication and authorization for a Chirp author. There is a composite relationship between Author and Cheep, indicating that an Author can own 0 or more cheeps and that any existing cheep is owned by a unique Author.
 
@@ -56,7 +53,6 @@ We will outline a few different user journeys to showcase the capabilities of Ch
 #### Un-authorised user-journey
 
 For an unauthorized user, typical actions might involve viewing cheeps on the public timeline or accessing specific details about an author, such as past cheeps, total cheeps, and other information, which would be accessible through the author's private timeline. This process is depicted in a simple User Activity diagram, where the unauthorized user navigates the webpage to view public cheeps and then explores a specific author's timeline on Chirp! for more details.
-
 ![Illustration of Unauthorised user journey](docs/images/../../diagrams/ActivityDiagramNotAuthorised.png)
 
 #### Registration and Login processes: {#login-register}
