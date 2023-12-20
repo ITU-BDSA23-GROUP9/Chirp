@@ -56,6 +56,7 @@ We will outline a few different user journeys to showcase the capabilities of Ch
 #### Un-authorised user-journey
 
 For an unauthorized user, typical actions might involve viewing cheeps on the public timeline or accessing specific details about an author, such as past cheeps, total cheeps, and other information, which would be accessible through the author's private timeline. This process is depicted in a simple User Activity diagram, where the unauthorized user navigates the webpage to view public cheeps and then explores a specific author's timeline on Chirp! for more details.
+
 ![Illustration of Unauthorised user journey](docs/images/../../diagrams/ActivityDiagramNotAuthorised.png)
 
 #### Registration and Login processes: {#login-register}
@@ -120,15 +121,14 @@ We set up a KanBan board to handle our issues and give us an overview of the pro
 -   If the PR for the issues gets approved, it is merged into the main-branch. If this is the case the issue can be closed and moved to the 'Done' coloumn.
 
 ## How to make _Chirp!_ work locally
+
 Firstly, open a command prompt. From here, navigate to the folder in which you want the project to be, and run the command: `git clone https://github.com/ITU-BDSA23-GROUP9/Chirp.git`. Afterwards, navigate to the Chirp folder by running the command `cd Chirp`, and then run the command `code .` to open VS Code.
 
 When in VS Code, navigate to src/Chirp.Web by running the command `cd src/Chirp.Web/`, and then start the application by running the command `dotnet run`.
 
-
-
-
 ## How to run test suite locally
-Firstly, open a command prompt. Navigate to the folder in which the Chirp! application is, and then run the command `code .` to open VS Code. 
+
+Firstly, open a command prompt. Navigate to the folder in which the Chirp! application is, and then run the command `code .` to open VS Code.
 
 When standing in the root folder, simply run the command `dotnet test` to run all tests.
 If you want to run tests for individidual parts of the system, run the command `cd test` to go to the test directory, and then go into an individual directory, for example by running `cd Chirp.Core.Tests/`, and then running the command `dotnet test`.
