@@ -172,5 +172,6 @@ In this report we have only made use of the LLM's: ChatGPT and CoPilot.
 
 **CoPilot**: was only used in the later stages of the process to speed up code-writing-proces when writing generic code. (We decided in the beginning that we would follow Rasmus' reccomendation of writing code without CoPilot, when we were learning the basics of C#.)
 
-###Usefulness and efficiency of LLMs
+### Usefulness and efficiency of LLMs
+
 Language models (LLMs) helped us understand concepts and find bugs efficiently. However, directly using them to generate code for more complex architecture might lead to more debugging, which was why we only used it for generating very generic code. It's important to use LLMs in a way where you benefit from their strengths without slowing down the development process.
