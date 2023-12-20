@@ -5,21 +5,56 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Chirp.Web.Pages;
 
+/// <summary>
+/// Razor page representing the user timeline.
+/// </summary>
 [AllowAnonymous]
 public class UserTimelineModel : PageModel
 {
     private readonly ICheepRepository _cheepRepo;
     private readonly IAuthorRepository _authorRepo;
+
+    /// <summary>
+    /// Gets or sets the list of cheeps displayed on a private timeline.
+    /// </summary>
     public List<CheepDTO> Cheeps { get; set; }
+
+    /// <summary>
+    /// Gets or sets a dictionary saying whether a user is following an author or not.
+    /// </summary>
     public Dictionary<string, bool>? IsUserFollowingAuthor { get; set; }
+
+    /// <summary>
+    /// Gets or sets the total cheeps. 
+    /// </summary>
     public int TotalCheeps { get; set; }
+
+    /// <summary>
+    /// Gets or sets the current page number.
+    /// </summary>
     public int PageNumber { get; set; }
+
+    /// <summary>
+    /// Gets or sets the number of cheeps allowed per page.
+    /// </summary>
     public int CheepsPerPage { get; set; }
+
+    /// <summary>
+    /// Gets or sets the redirection URL.
+    /// </summary>
     public string? RedirectUrl { get; set; }
     
+    /// <summary>
+    /// Gets or sets a new cheep.
+    /// </summary>
     [BindProperty]
     public string? NewCheep { get; set; }
 
+    /// <summary>
+    /// Initializes a new instance of user timeline.
+    /// </summary>
+    /// <param name="cheepRepo"></param>
+    /// <param name="authorRepo"></param>
     public UserTimelineModel(ICheepRepository cheepRepo, IAuthorRepository authorRepo)
     {
         Cheeps = new();
@@ -29,6 +64,12 @@ public class UserTimelineModel : PageModel
         CheepsPerPage = 32;
     }
 
+    /// <summary>
+    /// Handles HTTP GET requests for the user timeline.
+    /// </summary>
+    /// <param name="author"></param>
+    /// <param name="pageNumber"></param>
+    /// <returns>The IActionResult representing the result of the operation.</returns>
     public async Task<ActionResult> OnGet(string author, int? pageNumber)
     {
         if (pageNumber.HasValue)
@@ -52,6 +93,10 @@ public class UserTimelineModel : PageModel
         return Page();
     }
 
+    /// <summary>
+    /// Handles HTTP POST requests for the user timeline.
+    /// </summary>
+    /// <returns>The IActionResult representing the result of the operation.</returns>
     public async Task<IActionResult> OnPost()
     {
         if (NewCheep! == null)
@@ -103,6 +148,11 @@ public class UserTimelineModel : PageModel
         return await _cheepRepo.HasUserLikedCheep(cheepId, User.Identity?.Name!);
     }
 
+    /// <summary>
+    /// Formats the timestamp to remove unnecessary trailing zeros.
+    /// </summary>
+    /// <param name="timestamp"></param>
+    /// <returns>The formatted timestamp</returns>
     public string FormatTimestamp(string timestamp)
     {
         if (timestamp.EndsWith(".0000000"))

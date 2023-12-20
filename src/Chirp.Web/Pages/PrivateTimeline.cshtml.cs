@@ -43,7 +43,7 @@ public class PrivateTimelineModel : PageModel
     public int CheepsPerPage { get; set; }
 
     /// <summary>
-    /// Gets or sets the redirectionURL.
+    /// Gets or sets the redirection URL.
     /// </summary>
     public string? RedirectUrl { get; set; }
 

@@ -14,6 +14,7 @@ public class UserInformationModel : PageModel
     private readonly UserManager<Author> _userManager;
     private readonly SignInManager<Author> _signInManager;
     private readonly IAuthorRepository _authorRepo;
+
     /// <summary>
     /// Gets or sets the following of an author.
     /// </summary>
@@ -35,7 +36,6 @@ public class UserInformationModel : PageModel
     /// <summary>
     /// Handles HTTP GET requests for the user information page.
     /// </summary>
-    /// <param name="pageNumber"></param>
     /// <returns>The IActionResult representing the result of the operation.</returns>
     public async Task<ActionResult> OnGet()
     {
