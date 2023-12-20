@@ -17,17 +17,16 @@ public class PublicModel : PageModel
     public int PageNumber { get; set; }
     public int CheepsPerPage { get; set; }
 
-
     [BindProperty]
-    public NewCheep? newCheep { get; set; }
+    public string? NewCheep { get; set; }
 
     public PublicModel(ICheepRepository cheepRepo, IAuthorRepository authorRepo)
     {
         Cheeps = new();
         _cheepRepo = cheepRepo;
         _authorRepo = authorRepo;
-        PageNumber = 1; // Default to page 1
-        CheepsPerPage = 32; // Set the number of cheeps per page
+        PageNumber = 1;
+        CheepsPerPage = 32;
     }
 
     public async Task<ActionResult> OnGet(int? pageNumber)
@@ -54,15 +53,9 @@ public class PublicModel : PageModel
 
     public async Task<IActionResult> OnPost()
     {
-        var cheepToPost = new CheepDTO(Guid.NewGuid().ToString(), newCheep?.Message!, User.Identity?.Name!, DateTime.UtcNow.ToString());
+        var cheepToPost = new CheepDTO(Guid.NewGuid().ToString(), NewCheep!, User.Identity?.Name!, DateTime.UtcNow.ToString());
         await _cheepRepo.CreateCheep(cheepToPost);
         return LocalRedirect(Url.Content("~/")); //Go to profile after posting a cheep
-    }
-
-    public class NewCheep
-    {
-        [Required, StringLength(160)]
-        public string? Message { get; set; }
     }
 
     public async Task<bool> FindIsUserFollowingAuthor(string authorUsername, string username)

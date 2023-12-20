@@ -12,22 +12,21 @@ public class UserTimelineModel : PageModel
     private readonly IAuthorRepository _authorRepo;
     public List<CheepDTO> Cheeps { get; set; }
     public Dictionary<string, bool>? IsUserFollowingAuthor { get; set; }
-
     public int TotalCheeps { get; set; }
     public int PageNumber { get; set; }
     public int CheepsPerPage { get; set; }
-    public string? redirectUrl { get; set; }
-
+    public string? RedirectUrl { get; set; }
+    
     [BindProperty]
-    public NewCheep? newCheep { get; set; }
+    public string? NewCheep { get; set; }
 
     public UserTimelineModel(ICheepRepository cheepRepo, IAuthorRepository authorRepo)
     {
         Cheeps = new();
         _cheepRepo = cheepRepo;
         _authorRepo = authorRepo;
-        PageNumber = 1; // Default to page 1
-        CheepsPerPage = 32; // Set the number of cheeps per page
+        PageNumber = 1;
+        CheepsPerPage = 32;
     }
 
     public async Task<ActionResult> OnGet(string author, int? pageNumber)
@@ -49,15 +48,15 @@ public class UserTimelineModel : PageModel
             }
         }
 
-        redirectUrl ??= Url.Content($"/{author}");
+        RedirectUrl ??= Url.Content($"/{author}");
         return Page();
     }
 
     public async Task<IActionResult> OnPost()
     {
-        var cheepToPost = new CheepDTO(Guid.NewGuid().ToString(), newCheep?.Message!, User.Identity?.Name!, DateTime.UtcNow.ToString());
+        var cheepToPost = new CheepDTO(Guid.NewGuid().ToString(), NewCheep!, User.Identity?.Name!, DateTime.UtcNow.ToString());
         await _cheepRepo.CreateCheep(cheepToPost);
-        return RedirectToPage(redirectUrl);
+        return RedirectToPage(RedirectUrl);
     }
 
     public async Task<bool> FindIsUserFollowingAuthor(string authorUsername, string username)
@@ -68,25 +67,25 @@ public class UserTimelineModel : PageModel
     public async Task<IActionResult> OnPostFollowAuthor(string author)
     {
         await _authorRepo.Follow(User.Identity?.Name!, author);
-        return RedirectToPage(redirectUrl);
+        return RedirectToPage(RedirectUrl);
     }
 
     public async Task<IActionResult> OnPostUnfollowAuthor(string author)
     {
         await _authorRepo.Unfollow(User.Identity?.Name!, author);
-        return RedirectToPage(redirectUrl);
+        return RedirectToPage(RedirectUrl);
     }
 
     public async Task<IActionResult> OnPostLikeCheep(string cheepId)
     {
         await _cheepRepo.Like(cheepId, User.Identity?.Name!);
-        return RedirectToPage(redirectUrl);
+        return RedirectToPage(RedirectUrl);
     }
 
     public async Task<IActionResult> OnPostDislikeCheep(string cheepId)
     {
         await _cheepRepo.Dislike(cheepId, User.Identity?.Name!);
-        return RedirectToPage(redirectUrl);
+        return RedirectToPage(RedirectUrl);
     }
 
     public async Task<int> GetCheepLikesCount(string cheepId)
@@ -106,10 +105,5 @@ public class UserTimelineModel : PageModel
             return timestamp.Substring(0, timestamp.Length - 8);
         }
         return timestamp;
-    }
-
-    public class NewCheep
-    {
-        public string? Message { get; set; }
     }
 }
