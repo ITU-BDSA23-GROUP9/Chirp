@@ -23,10 +23,7 @@ At the highest level in this diagram, we have Chirp.Core, Chirp.Infrastructre, C
 
 ### Brief Description of Classes inside Chirp.Core
 
-<<<<<<< Updated upstream
 Chirp.Core contains all the core functionality. In Chirp.Core, we have Data Transfer Objects (DTOs) for Cheeps and Authors, as well as interfaces for Author and Cheep Repositories. There is an associative relationship between the DTOs and the repositories, since the repositories use the DTOs to create cheeps and authors, get cheeps and name of authors, follow authors etc. The interface repositories provide an interface contract for the repository implementation that will transfer structured data between different layers of the application and use DTOs as a standardized communication contract in this regard.
-=======
-Chirp.Core contains all the core functionality. In Chirp.Core, we have Data Transfer Objects (DTOs) for Cheeps and Authors, as well as interfaces for Author and Cheep Repositories. Nothing inside Chirp.Core points to anything outside of Chirp.Core. There is an associative relationship between the DTOs and the repositories, since the repositories use the DTOs to create cheeps and authors, get cheeps and name of authors, follow authors etc. The interface repositories provide an interface contract for the repository implementation that will transfer structured data between different layers of the application and use DTO's as a standardized communication contract in this regard.
 
 ### Brief Description of Classes inside Chirp.Infrastructure
 
