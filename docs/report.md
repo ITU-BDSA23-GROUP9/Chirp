@@ -92,14 +92,14 @@ We assume, we have a user, who is already following other users. When this is th
 ![Illustration of Cheeping](./diagrams/ActivityDiagramCheep.png)
 
 ## Sequence of functionality/calls through _Chirp!_
-
+In the following, two sequence diagrams are shown. The first shows a general overview of some of the calls a user - authorized or not - might go through, while the second gives an idea of what a specific call looks like and the inner workings behind it.
 ![Simple Sequence Diagram](./images/SimpleSequenceDiagram.png)
 
-With this sequence diagram we show an overview of the simple sequences both an unauthorized and authorized user will go through to access different parts of the our application.
+In this sequence diagram, we have 3 lifelines: User, Chirp.Web, and ChirpDb. Here we show an overview of the simple sequences both an unauthorized and authorized user will go through to access different parts of the our application.
 
 ![Sequence of calls thorugh Chirp for an unauthorized user to root](./diagrams/SeqDia.png)
 
-We see the sequence of calls that is made both internally by the program and externally, from a unauthorized user, sending a simple GET request to the root endpoint (acessing bdsagroup9chirprazor.azurewebsites.net).
+In this sequence, we have 5 lifelines: UnAuthorizedUser, Chirp.Web, CheepRepository, ChirpContext, and RemoteDB. Here, we see the sequence of calls that is made both internally by the program and externally, from an unauthorized user, sending a simple GET request to the root endpoint (acessing bdsagroup9chirprazor.azurewebsites.net).
 
 # Process
 
