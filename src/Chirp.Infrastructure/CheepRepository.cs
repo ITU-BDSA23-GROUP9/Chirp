@@ -98,7 +98,7 @@ public class CheepRepository : ICheepRepository
         Cheep cheepModel = await _db.Cheeps
                         .Include(c => c.Likes)
                         .FirstOrDefaultAsync(c => c.CheepId == cheepId) ?? throw new Exception("Cheep does not exist");
-        var like = new Like { LikeId = Guid.NewGuid().ToString(), Author = author, Cheep = cheepModel };
+        var like = new Like { LikeId = Guid.NewGuid().ToString(), AuthorId = author.Id, CheepId = cheepId };
         cheepModel.Likes.Add(like);
         author.Liked.Add(like);
         _db.SaveChanges();
@@ -110,7 +110,7 @@ public class CheepRepository : ICheepRepository
         Cheep cheepModel = await _db.Cheeps
                         .Include(c => c.Likes)
                         .FirstOrDefaultAsync(c => c.CheepId == cheepId) ?? throw new Exception("Cheep does not exist");
-        Like like = await _db.Likes.FirstOrDefaultAsync(like => like.Cheep == cheepModel && like.Author.UserName == authorUsername) ?? throw new Exception("Like does not exist");
+        Like like = await _db.Likes.FirstOrDefaultAsync(like => like.CheepId == cheepId && like.AuthorId == author.Id) ?? throw new Exception("Like does not exist");
 
         cheepModel.Likes.Remove(like);
         author.Liked.Remove(like);
@@ -127,10 +127,9 @@ public class CheepRepository : ICheepRepository
 
     public async Task<bool> HasUserLikedCheep(string cheepId, string authorUsername)
     {
-        Cheep cheepModel = await _db.Cheeps
-                        .Include(c => c.Likes)
-                        .FirstOrDefaultAsync(c => c.CheepId == cheepId) ?? throw new Exception("Cheep does not exist");
-        Like? like = await _db.Likes.FirstOrDefaultAsync(like => like.Cheep == cheepModel && like.Author.UserName == authorUsername);
+        Author authorModel = await _db.Authors
+                        .FirstOrDefaultAsync(a => a.UserName == authorUsername) ?? throw new Exception("Author does not exist");
+        Like? like = await _db.Likes.FirstOrDefaultAsync(like => like.CheepId == cheepId && like.AuthorId == authorModel.Id);
         return like != null;
     }
 
