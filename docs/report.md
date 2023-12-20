@@ -167,6 +167,19 @@ Then start the application by running the command:
 
 `dotnet run`
 
+To be able to log in with GitHub, you will need to export client_secrets to the application.
+Firstly, navigate to:
+
+...
+
+Then, ...:
+
+`export GITHUB_CLIENT_ID=731d6c33e6157e4ffdcd`
+
+and the secret:
+
+`export GITHUB_CLIENT_SECRET=dc75bc058fa4f5c20eb6f930ffae5a7d30a5fd25`
+
 ## How to run test suite locally
 
 Firstly, open a command prompt. Navigate to the folder in which the Chirp! application is. When standing in the root folder, to run all tests, simply run the command:
