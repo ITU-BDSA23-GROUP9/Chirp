@@ -6,7 +6,7 @@ start
         Cheep must be 
         <= 160 characters
     end note
-    :Share;
+    :Click Share;
     :Display Private Timeline;
 end
 @enduml
