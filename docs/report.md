@@ -51,7 +51,7 @@ In the illustration below, the Web Server, hosted on Azure, manages user request
 
 ## User activities
 
-We will outline a few different user journeys to showcase the capabilities of Chirp! users. This includes showcasing actions for an unauthorized user, guiding through registration and login processes, and demonstrating a typical user journey within the Chirp! app when logged in.
+We will outline a few different user journeys to showcase the capabilities of Chirp! users. This includes showcasing possible actions for an unauthorized user, guiding through registration and login processes, and demonstrating a typical user journey within the Chirp! app when logged in.
 
 ### Un-authorised user-journey
 
