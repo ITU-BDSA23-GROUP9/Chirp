@@ -58,7 +58,7 @@ For an unauthorized user, typical actions might involve viewing cheeps on the pu
 
 ![Illustration of Unauthorised user journey](./diagrams/ActivityDiagramNotAuthorised.png)
 
-#### Registration and Login processes: {#login-register}
+### Registration and Login processes: {#login-register}
 
 For the full Chirp! experience, authorized users can personalize their interaction by posting, liking cheeps, and following authors. Let's illustrate the registration and log-in processes to demonstrate how users can achieve this.
 
@@ -74,7 +74,7 @@ To log in, users click the login button, choose either GitHub or enter their pas
 
 ![Illustration of Log-in process](./diagrams/ActivityDiagramLogin.png)
 
-#### Cheeping and Following Authors
+### Cheeping and Following Authors
 
 When using Chirp, users primarily write cheeps or follow authors and like their cheeps. The upcoming descriptions will illustrate user journeys centered around these actions. In both of the chapters below, we assume the user have already been through the [log-in or registration process.](#login-register) to engage in these functionalities.
 
