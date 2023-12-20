@@ -75,11 +75,11 @@ For the full Chirp! experience, authorized users can personalize their interacti
 
 When using Chirp, users primarily write cheeps or follow authors and like their cheeps. The upcoming user activity diagrams are centered around these actions. In both diagrams, we assume the user has already been through the [log-in or registration process](#login-register) to engage in these functionalities.
 
-#### Following
+#### Following an Author
 
 ![Illustration of Following other users](./diagrams/ActivityDiagramFollowAuthor.png)
 
-#### Cheeping
+#### Cheeping a Cheep
 
 In this diagram, we assume, we have a user, who is already following other users.
 
