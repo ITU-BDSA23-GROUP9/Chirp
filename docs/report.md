@@ -81,7 +81,7 @@ When using Chirp, users primarily write cheeps or follow authors and like their 
 
 #### Cheeping
 
-In the diagram, we assume, we have a user, who is already following other users:
+In this diagram, we assume, we have a user, who is already following other users.
 
 ![Illustration of Cheeping](./diagrams/ActivityDiagramCheep.png)
 
