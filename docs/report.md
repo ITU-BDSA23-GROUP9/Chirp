@@ -158,7 +158,7 @@ If you want to run tests for individidual parts of the system, run the command `
 
 # Ethics
 
-In this chapter, we'll discuss the software license we've chosen and explain how we've utilized AI in our development process.
+In this chapter, we'll discuss the software license we've chosen and explain how we've utilized AI/Large Language Models in our development process.
 
 ## License
 
