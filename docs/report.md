@@ -123,16 +123,30 @@ This Github workflow is triggered after a push to main, and releases main to our
 
 We set up a KanBan board to handle our issues and give us an overview of the process an issue had to go through.
 
--   The issue is created and put into the 'Backlog'.
--   When the issue is ready with a description, acceptance criteria and has no dependencies pending it is moved to then coloumn 'Ready'.
--   When we start working on the issues it is moved to the 'In progress' coloumn.
--   If the issue relates to the code-base and we have determined it is done, it is moved to 'Create tests'.
--   When tests have been made (if necessary) a PR is created and the issues is moved to the coloumn 'In review'.
--   If the PR for the issues gets approved, it is merged into the main-branch. If this is the case the issue can be closed and moved to the 'Done' coloumn.
+* The issue is created and put into the 'Backlog'.
+* When the issue is ready with a description, acceptance criteria and has no dependencies pending it is moved to then coloumn 'Ready'.
+* When we start working on the issues it is moved to the 'In progress' coloumn.
+* If the issue relates to the code-base and we have determined it is done, it is moved to 'Create tests'.
+* When tests have been made (if necessary) a PR is created and the issues is moved to the coloumn 'In review'.
+* If the PR for the issues gets approved, it is merged into the main-branch. If this is the case the issue can be closed and moved to the 'Done' coloumn.
 
 ## How to make _Chirp!_ work locally
 
-Firstly, open a command prompt. From here, navigate to the folder in which you want the project to be, and run the command: `git clone https://github.com/ITU-BDSA23-GROUP9/Chirp.git`. Afterwards, navigate to the Chirp folder by running the command `cd Chirp`. Afterward, navigate to src/Chirp.Web by running the command `cd src/Chirp.Web/`, and then start the application by running the command `dotnet run`.
+Firstly, open a command prompt. From here, navigate to the folder in which you want the project to be, and run the command:
+
+`git clone https://github.com/ITU-BDSA23-GROUP9/Chirp.git`
+
+Then, navigate to the Chirp folder with the command:
+
+`cd Chirp`
+
+Navigate to src/Chirp.Web by running the command:
+
+`cd src/Chirp.Web/`
+
+Then start the application by running the command:
+
+`dotnet run`
 
 ## How to run test suite locally
 
