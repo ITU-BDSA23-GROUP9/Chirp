@@ -77,7 +77,8 @@ To log in, users click the login button, choose either GitHub or enter their pas
 
 ### Cheeping and Following Authors
 
-When using Chirp, users primarily write cheeps or follow authors and like their cheeps. The upcoming descriptions will illustrate user journeys centered around these actions. In both of the chapters below, we assume the user have already been through the [log-in or registration process.](#login-register) to engage in these functionalities.
+When using Chirp, users primarily write cheeps or follow authors and like their cheeps. The upcoming descriptions will illustrate user journeys centered around these actions. In both of the chapters below, we assume the user have already been through the
+[log-in or registration process.](#login-register) to engage in these functionalities.
 
 #### Following
 
@@ -105,9 +106,11 @@ We see the sequence of calls that is made both internally by the program and ext
 
 ## Build, test, release, and deployment
 
+We use Github Workflows to streamline and automate software development processes and ensure continuous integration and continuous delivery.
+
 ![Build and test github workflow](./diagrams/BuildAndTest.png)
 
-Here we have the build and test workflow, that ensures that the code passes all tests before merging a pull request to main.
+The illustration above shows our build and test workflow, that ensures that the code passes all tests before merging a pull request to main.
 
 ![Release github workflow](./diagrams/ReleaseWorkflow.png)
 
@@ -123,12 +126,12 @@ This Github workflow is triggered after a push to main, and releases main to our
 
 We set up a KanBan board to handle our issues and give us an overview of the process an issue had to go through.
 
-* The issue is created and put into the 'Backlog'.
-* When the issue is ready with a description, acceptance criteria and has no dependencies pending it is moved to then coloumn 'Ready'.
-* When we start working on the issues it is moved to the 'In progress' coloumn.
-* If the issue relates to the code-base and we have determined it is done, it is moved to 'Create tests'.
-* When tests have been made (if necessary) a PR is created and the issues is moved to the coloumn 'In review'.
-* If the PR for the issues gets approved, it is merged into the main-branch. If this is the case the issue can be closed and moved to the 'Done' coloumn.
+-   The issue is created and put into the 'Backlog'.
+-   When the issue is ready with a description, acceptance criteria and has no dependencies pending it is moved to then coloumn 'Ready'.
+-   When we start working on the issues it is moved to the 'In progress' coloumn.
+-   If the issue relates to the code-base and we have determined it is done, it is moved to 'Create tests'.
+-   When tests have been made (if necessary) a PR is created and the issues is moved to the coloumn 'In review'.
+-   If the PR for the issues gets approved, it is merged into the main-branch. If this is the case the issue can be closed and moved to the 'Done' coloumn.
 
 ## How to make _Chirp!_ work locally
 
