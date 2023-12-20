@@ -119,12 +119,12 @@ This Github workflow is triggered after a push to main, and releases main to our
 
 We set up a KanBan board to handle our issues and give us an overview of the process an issue had to go through.
 
-* The issue is created and put into the 'Backlog'.
-* When the issue is ready with a description, acceptance criteria and has no dependencies pending it is moved to then coloumn 'Ready'.
-* When we start working on the issues it is moved to the 'In progress' coloumn.
-* If the issue relates to the code-base and we have determined it is done, it is moved to 'Create tests'.
-* When tests have been made (if necessary) a PR is created and the issues is moved to the coloumn 'In review'.
-* If the PR for the issues gets approved, it is merged into the main-branch. If this is the case the issue can be closed and moved to the 'Done' coloumn.
+-   The issue is created and put into the 'Backlog'.
+-   When the issue is ready with a description, acceptance criteria and has no dependencies pending it is moved to then coloumn 'Ready'.
+-   When we start working on the issues it is moved to the 'In progress' coloumn.
+-   If the issue relates to the code-base and we have determined it is done, it is moved to 'Create tests'.
+-   When tests have been made (if necessary) a PR is created and the issues is moved to the coloumn 'In review'.
+-   If the PR for the issues gets approved, it is merged into the main-branch. If this is the case the issue can be closed and moved to the 'Done' coloumn.
 
 ## How to make _Chirp!_ work locally
 
