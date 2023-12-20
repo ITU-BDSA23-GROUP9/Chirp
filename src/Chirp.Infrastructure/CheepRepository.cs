@@ -5,8 +5,8 @@ namespace Chirp.Infrastructure;
 public class CheepRepository : ICheepRepository
 {
     private readonly ChirpContext _db;
-    private readonly CheepCreateValidator _validator;
-    public CheepRepository(ChirpContext db, CheepCreateValidator validator)
+    private readonly CheepValidator _validator;
+    public CheepRepository(ChirpContext db, CheepValidator validator)
     {
         _db = db;
         _validator = validator;

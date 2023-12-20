@@ -18,7 +18,7 @@ else if (builder.Environment.IsDevelopment())
 
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
-builder.Services.AddScoped<CheepCreateValidator>();
+builder.Services.AddScoped<CheepValidator>();
 
 builder.Services.AddDefaultIdentity<Author>()
     .AddEntityFrameworkStores<ChirpContext>();

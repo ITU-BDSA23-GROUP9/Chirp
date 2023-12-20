@@ -16,7 +16,7 @@ public class UnitTests
         connection.Open();
         var builder = new DbContextOptionsBuilder<ChirpContext>().UseSqlite(connection);
         using var context = new ChirpContext(builder.Options);
-        var validator = new CheepCreateValidator();
+        var validator = new CheepValidator();
         await context.Database.EnsureCreatedAsync();
         var repository = new CheepRepository(context, validator);
         var authorGuid = Guid.NewGuid().ToString();
@@ -40,7 +40,7 @@ public class UnitTests
         connection.Open();
         var builder = new DbContextOptionsBuilder<ChirpContext>().UseSqlite(connection);
         using var context = new ChirpContext(builder.Options);
-        var validator = new CheepCreateValidator();
+        var validator = new CheepValidator();
         await context.Database.EnsureCreatedAsync();
         var repository = new CheepRepository(context, validator);
         var authorGuid = Guid.NewGuid().ToString();
@@ -64,7 +64,7 @@ public class UnitTests
         connection.Open();
         var builder = new DbContextOptionsBuilder<ChirpContext>().UseSqlite(connection);
         using var context = new ChirpContext(builder.Options);
-        var validator = new CheepCreateValidator();
+        var validator = new CheepValidator();
         await context.Database.EnsureCreatedAsync();
         var repository = new CheepRepository(context, validator);
         var authorGuid = Guid.NewGuid().ToString();
@@ -88,7 +88,7 @@ public class UnitTests
         connection.Open();
         var builder = new DbContextOptionsBuilder<ChirpContext>().UseSqlite(connection);
         using var context = new ChirpContext(builder.Options);
-        var validator = new CheepCreateValidator();
+        var validator = new CheepValidator();
         await context.Database.EnsureCreatedAsync();
         var repository = new CheepRepository(context, validator);
         var authorGuid = Guid.NewGuid().ToString();
@@ -142,7 +142,7 @@ public class UnitTests
         connection.Open();
         var builder = new DbContextOptionsBuilder<ChirpContext>().UseSqlite(connection);
         using var context = new ChirpContext(builder.Options);
-        var validator = new CheepCreateValidator();
+        var validator = new CheepValidator();
         await context.Database.EnsureCreatedAsync();
         var authorRepository = new AuthorRepository(context);
         var cheepRepository = new CheepRepository(context, validator);
@@ -183,7 +183,7 @@ public class UnitTests
         connection.Open();
         var builder = new DbContextOptionsBuilder<ChirpContext>().UseSqlite(connection);
         using var context = new ChirpContext(builder.Options);
-        var validator = new CheepCreateValidator();
+        var validator = new CheepValidator();
         await context.Database.EnsureCreatedAsync();
         var authorRepository = new AuthorRepository(context);
         var cheepRepository = new CheepRepository(context, validator);
@@ -213,7 +213,7 @@ public class UnitTests
         connection.Open();
         var builder = new DbContextOptionsBuilder<ChirpContext>().UseSqlite(connection);
         using var context = new ChirpContext(builder.Options);
-        var validator = new CheepCreateValidator();
+        var validator = new CheepValidator();
         await context.Database.EnsureCreatedAsync();
         var authorRepository = new AuthorRepository(context);
         var cheepRepository = new CheepRepository(context, validator);
@@ -243,7 +243,7 @@ public class UnitTests
         connection.Open();
         var builder = new DbContextOptionsBuilder<ChirpContext>().UseSqlite(connection);
         using var context = new ChirpContext(builder.Options);
-        var validator = new CheepCreateValidator();
+        var validator = new CheepValidator();
         await context.Database.EnsureCreatedAsync();
         var authorRepository = new AuthorRepository(context);
         var cheepRepository = new CheepRepository(context, validator);
@@ -281,7 +281,7 @@ public class UnitTests
         var builder = new DbContextOptionsBuilder<ChirpContext>().UseSqlite(connection);
         using var context = new ChirpContext(builder.Options);
         await context.Database.EnsureCreatedAsync();
-        var cheepRepo = new CheepRepository(context, new CheepCreateValidator());
+        var cheepRepo = new CheepRepository(context, new CheepValidator());
         var authorRepo = new AuthorRepository(context);
         UserFaker faker = new();
         faker.Init(followingAmount);
@@ -309,7 +309,7 @@ public class UnitTests
         var builder = new DbContextOptionsBuilder<ChirpContext>().UseSqlite(connection);
         using var context = new ChirpContext(builder.Options);
         await context.Database.EnsureCreatedAsync();
-        var cheepRepo = new CheepRepository(context, new CheepCreateValidator());
+        var cheepRepo = new CheepRepository(context, new CheepValidator());
         var authorRepo = new AuthorRepository(context);
         UserFaker faker = new();
         faker.Init(followersAmount);
@@ -337,7 +337,7 @@ public class UnitTests
         var builder = new DbContextOptionsBuilder<ChirpContext>().UseSqlite(connection);
         using var context = new ChirpContext(builder.Options);
         await context.Database.EnsureCreatedAsync();
-        var cheepRepo = new CheepRepository(context, new CheepCreateValidator());
+        var cheepRepo = new CheepRepository(context, new CheepValidator());
         var authorRepo = new AuthorRepository(context);
         UserFaker userFaker = new();
         CheepFaker cheepFaker = new();
@@ -371,7 +371,7 @@ public class UnitTests
             .UseSqlite(connection);
         using var context = new ChirpContext(builder.Options);
         await context.Database.EnsureCreatedAsync();
-        var cheepRepo = new CheepRepository(context, new CheepCreateValidator());
+        var cheepRepo = new CheepRepository(context, new CheepValidator());
         var authorRepo = new AuthorRepository(context);
         UserFaker userFaker = new();
         CheepFaker cheepFaker = new();
