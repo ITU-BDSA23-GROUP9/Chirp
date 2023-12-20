@@ -1,39 +1,70 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Identity;
 using Chirp.Core;
-using Chirp.Infrastructure;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Duende.IdentityServer.Extensions;
 using System.ComponentModel.DataAnnotations;
 
 namespace Chirp.Web.Pages;
 
+/// <summary>
+/// Razor page representing the public timeline of an author.
+/// </summary>
 [AllowAnonymous]
 public class PublicModel : PageModel
 {
     private readonly ICheepRepository _cheepRepo;
     private readonly IAuthorRepository _authorRepo;
+
+    // <summary>
+    /// Gets or sets the list of cheeps displayed on a private timeline.
+    /// </summary>
     public List<CheepDTO> Cheeps { get; set; }
+
+    /// <summary>
+    /// Gets or sets a dictionary saying whether a user is following an author or not.
+    /// </summary>
     public Dictionary<string, bool>? IsUserFollowingAuthor { get; set; }
+
+    /// <summary>
+    /// Gets or sets the total cheeps. 
+    /// </summary>
     public int TotalCheeps { get; set; }
+
+    /// <summary>
+    /// Gets or sets the current page number.
+    /// </summary>
     public int PageNumber { get; set; }
+
+    /// <summary>
+    /// Gets or sets the number of cheeps allowed per page.
+    /// </summary>
     public int CheepsPerPage { get; set; }
 
-
+    /// <summary>
+    /// Gets or sets a new cheep.
+    /// </summary>
     [BindProperty]
-    public NewCheep? newCheep { get; set; }
+    public string? NewCheep { get; set; }
 
+    /// <summary>
+    /// Initializes a new instance of public timeline.
+    /// </summary>
+    /// <param name="cheepRepo"></param>
+    /// <param name="authorRepo"></param>
     public PublicModel(ICheepRepository cheepRepo, IAuthorRepository authorRepo)
     {
         Cheeps = new();
         _cheepRepo = cheepRepo;
         _authorRepo = authorRepo;
-        PageNumber = 1; // Default to page 1
-        CheepsPerPage = 32; // Set the number of cheeps per page
+        PageNumber = 1;
+        CheepsPerPage = 32;
     }
 
+    /// <summary>
+    /// Handles HTTP GET requests for the private timeline.
+    /// </summary>
+    /// <param name="pageNumber"></param>
+    /// <returns>The IActionResult representing the result of the operation.</returns>
     public async Task<ActionResult> OnGet(int? pageNumber)
     {
         if (pageNumber.HasValue)
@@ -56,19 +87,21 @@ public class PublicModel : PageModel
         return Page();
     }
 
-    public async Task<IActionResult> OnPost()
+    /// <summary>
+    /// Handles HTTP POST requests for the private timeline.
+    /// </summary>
+    /// <returns>The IActionResult representing the result of the operation.</returns>
+    public async Task<IActionResult?> OnPost()
     {
-        //var user = await _userManager.GetUserAsync(User);
-        //var author = new AuthorDTO(user.UserName, user.Email);
-        var cheepToPost = new CheepDTO(newCheep?.Message!, User.Identity?.Name!, DateTime.UtcNow.ToString());
+
+        if (NewCheep == null)
+        {
+            return LocalRedirect(Url.Content("~/"));
+        }
+        var cheepToPost = new CheepDTO(Guid.NewGuid().ToString(), NewCheep!, User.Identity?.Name!, DateTime.UtcNow.ToString());
+
         await _cheepRepo.CreateCheep(cheepToPost);
         return LocalRedirect(Url.Content("~/")); //Go to profile after posting a cheep
-    }
-
-    public class NewCheep
-    {
-        [Required, StringLength(160)]
-        public string? Message { get; set; }
     }
 
     public async Task<bool> FindIsUserFollowingAuthor(string authorUsername, string username)
@@ -87,4 +120,41 @@ public class PublicModel : PageModel
         await _authorRepo.Unfollow(User.Identity?.Name!, author);
         return LocalRedirect(Url.Content("~/"));
     }
+
+    public async Task<IActionResult> OnPostLikeCheep(string cheepId)
+    {
+        await _cheepRepo.Like(cheepId, User.Identity?.Name!);
+        return LocalRedirect(Url.Content("~/"));
+    }
+
+    public async Task<IActionResult> OnPostDislikeCheep(string cheepId)
+    {
+        await _cheepRepo.Dislike(cheepId, User.Identity?.Name!);
+        return LocalRedirect(Url.Content("~/"));
+    }
+
+    public async Task<int> GetCheepLikesCount(string cheepId)
+    {
+        return await _cheepRepo.GetLikesCount(cheepId);
+    }
+
+    public async Task<bool> HasUserLikedCheep(string cheepId)
+    {
+        return await _cheepRepo.HasUserLikedCheep(cheepId, User.Identity?.Name!);
+    }
+
+    /// <summary>
+    /// Formats the timestamp to remove unnecessary trailing zeros.
+    /// </summary>
+    /// <param name="timestamp"></param>
+    /// <returns>The formatted timestamp</returns>
+    public string FormatTimestamp(string timestamp)
+    {
+        if (timestamp.EndsWith(".0000000"))
+        {
+            return timestamp.Substring(0, timestamp.Length - 8);
+        }
+        return timestamp;
+    }
+
 }

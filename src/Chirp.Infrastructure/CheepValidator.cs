@@ -1,10 +1,9 @@
 using Chirp.Core;
 using FluentValidation;
 
-public class CheepCreateValidator : AbstractValidator<CheepDTO>
+public class CheepValidator : AbstractValidator<CheepDTO>
 {
-
-    public CheepCreateValidator()
+    public CheepValidator()
     {
         RuleFor(x => x.message).MaximumLength(160);
     }

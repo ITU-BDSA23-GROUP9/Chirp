@@ -1,6 +1,5 @@
 using Chirp.Core;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Protocol.Core.Types;
 
 namespace Chirp.Infrastructure;
 public class AuthorRepository : IAuthorRepository
@@ -22,9 +21,9 @@ public class AuthorRepository : IAuthorRepository
         Author? authorModel = await _db.Authors.FirstOrDefaultAsync(a => a.UserName == author);
         if (authorModel == null)
         {
-            throw new Exception("Author does not exist");
+            throw new Exception("Could not find Author: " + author);
         }
-        return new AuthorDTO(authorModel.UserName!, authorModel.Email!);
+        return new(authorModel.UserName!, authorModel.Email!);
     }
 
     public async Task<AuthorDTO?> FindAuthorByEmail(string email)
@@ -32,16 +31,16 @@ public class AuthorRepository : IAuthorRepository
         Author? authorModel = await _db.Authors.FirstOrDefaultAsync(a => a.Email == email);
         if (authorModel == null)
         {
-            throw new Exception("Author does not exist");
+            throw new Exception("Could not find Author from email: " + email);
         }
-        return new AuthorDTO(authorModel.UserName!, authorModel.Email!);
+        return new(authorModel.UserName!, authorModel.Email!);
     }
 
     public void CreateAuthor(string name, string email)
     {
         var author = new Author()
         {
-            Id = Guid.NewGuid().ToString().ToString(),
+            Id = Guid.NewGuid().ToString(),
             UserName = name,
             Email = email
         };
@@ -71,8 +70,6 @@ public class AuthorRepository : IAuthorRepository
         await _db.SaveChangesAsync();
     }
 
-
-
     public async Task<Author> FindAuthorModelByName(string author)
     {
         Author? authorModel = await _db.Authors
@@ -94,7 +91,7 @@ public class AuthorRepository : IAuthorRepository
         return user.Following.Contains(author);
     }
 
-    public async Task<List<AuthorDTO>> GetFollowers(string authorUsername)
+    public async Task<List<AuthorDTO>> GetFollowing(string authorUsername)
     {
         var authorModel = await FindAuthorModelByName(authorUsername);
         return authorModel.Following
@@ -105,7 +102,7 @@ public class AuthorRepository : IAuthorRepository
     public async Task<int> GetTotalCheepCountFromFollowersAndAuthor(string authorUserName)
     {
         var sum = await GetTotalCheepCountFromAuthor(authorUserName);
-        var following = await GetFollowers(authorUserName);
+        var following = await GetFollowing(authorUserName);
 
         foreach (AuthorDTO author in following)
         {
