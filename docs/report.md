@@ -216,4 +216,4 @@ In this report we have only made use of the LLM's: ChatGPT and CoPilot.
 
 ### Usefulness and efficiency of LLMs
 
-Language models (LLMs) helped us understand concepts and find bugs efficiently. However, directly using them to generate code for more complex architecture might lead to more debugging, which was why we only used it for generating very generic code. It is important to use LLMs in a way where you benefit from their strengths without slowing down the development process.
+Language models (LLMs) helped us understand concepts and find bugs efficiently. However, we thought that using them directly to generate code for more complex architecture would might lead to more extensive debugging and workarounds, which was why we only used it for generating very generic code. It is important to use LLMs in a way where you benefit from their strengths without slowing down the development process.
