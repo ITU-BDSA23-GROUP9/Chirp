@@ -125,7 +125,11 @@ This Github workflow is triggered after a push to main, and releases main to our
 
 In this chapter, we will provide an overview of our collaboration by discussing the status of tasks on our project board and showing the general flow of activities from task creation to integration of features.
 
-![Workflow from Task to Finish](./diagrams/TeamWorkDiagram.png)
+Show a screenshot of your project board right before hand-in. Briefly describe which tasks are still unresolved, i.e., which features are missing from your applications or which functionality is incomplete.
+
+The image below shows our project board as is before handin of this report. The only issue we have left (issue#194), is making the ducplicate UI-elements into partial components as this would rid our application of some redundant code.
+
+![Workflow from Task to Finish](./images/projectboard.png)
 
 We set up a KanBan board to handle our issues and give us an overview of the process an issue had to go through.
 
@@ -135,6 +139,10 @@ We set up a KanBan board to handle our issues and give us an overview of the pro
 -   If the issue relates to the code-base and we have determined it is done, it is moved to 'Create tests'.
 -   When tests have been made (if necessary) a PR is created and the issues is moved to the coloumn 'In review'.
 -   If the PR for the issues gets approved, it is merged into the main-branch. If this is the case the issue can be closed and moved to the 'Done' coloumn.
+
+The diagram below shows the entire workflow - from receiving a task to creating an issue and the above-mentioned steps.
+
+![Workflow from Task to Finish](./diagrams/TeamWorkDiagram.png)
 
 ## How to make _Chirp!_ work locally
 
