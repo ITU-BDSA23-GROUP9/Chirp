@@ -56,8 +56,10 @@ public class PrivateTimelineModel : PageModel
 
     public async Task<IActionResult> OnPost()
     {
-        //var user = await _userManager.GetUserAsync(User);
-        //var author = new AuthorDTO(user.UserName, user.Email);
+        if (newCheep?.Message == null)
+        {
+            return LocalRedirect(Url.Content("/private"));
+        }
         var cheepToPost = new CheepDTO(Guid.NewGuid().ToString(), newCheep!.Message!, User.Identity?.Name!, DateTime.UtcNow.ToString());
         await _cheepRepo.CreateCheep(cheepToPost);
         return RedirectToPage(redirectUrl);

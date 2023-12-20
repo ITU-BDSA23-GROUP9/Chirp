@@ -55,6 +55,10 @@ public class UserTimelineModel : PageModel
 
     public async Task<IActionResult> OnPost()
     {
+        if (newCheep?.Message == null)
+        {
+           return RedirectToPage(redirectUrl);
+        }
         var cheepToPost = new CheepDTO(Guid.NewGuid().ToString(), newCheep?.Message!, User.Identity?.Name!, DateTime.UtcNow.ToString());
         await _cheepRepo.CreateCheep(cheepToPost);
         return RedirectToPage(redirectUrl);
