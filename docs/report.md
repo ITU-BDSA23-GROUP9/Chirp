@@ -15,7 +15,7 @@ numbersections: true
 
 ## Domain model
 
-In our domain model, we capture entities and relationships to provide a high-level abstraction of the system's static structure, thereby centering the focus on the business logic of our Chirp!-system. We provide a complete diagram below:
+In our domain model, we capture entities and relationships to give a high-level abstraction of the system's static structure, thereby centering the focus on the business logic of our Chirp!-system. We provide a complete diagram below:
 
 ![Domain model UML](./images/DomainModelGroup9-Sketch.png)
 
@@ -23,13 +23,13 @@ At the highest level in this diagram, we have Chirp.Core, Chirp.Infrastructre, C
 
 ### Brief Description of Classes inside Chirp.Core
 
-Chirp.Core contains all the core functionality. In Chirp.Core, we have Data Transfer Objects (DTOs) for Cheeps and Authors, as well as interfaces for Author and Cheep Repositories. There is an associative relationship between the DTOs and the repositories, since the repositories use the DTOs to create cheeps and authors, get cheeps and name of authors, follow authors etc. The interface repositories provide an interface contract for the repository implementation that will transfer structured data between different layers of the application and use DTOs as a standardized communication contract in this regard.
+Chirp.Core contains all the core functionality. We have Data Transfer Objects (DTOs) for Cheeps and Authors, as well as interfaces for Author and Cheep Repositories. There is an associative relationship between the DTOs and the repositories, since the repositories use the DTOs to create cheeps and authors, get cheeps and name of authors, follow authors etc. The interface repositories provide an interface contract for the repository implementation, which will transfer structured data between different layers of the application and use DTOs as a standardised communication contract in this regard.
 
 ### Brief Description of Classes inside Chirp.Infrastructure
 
-Key elements include CheepRepository and AuthorRepository, which are concrete implementations of the Repository interfaces. These repositories use ChirpContext to interact with the database, managing data for authors and cheeps. Each repository handles specific queries related to either authors or cheeps, working with Author and Cheep models. However, they return only Data Transfer Objects (DTOs) to maintain separation of concerns. The Author and Cheep models are queried from the dbsets of the dbcontext. The composition relationship between the Author and Cheep classes and ChirpContext ensures data integrity, as removing the context also removes the associated data models from the program.
+Key elements of our infrastructure include CheepRepository and AuthorRepository, which implement the Repository interfaces. These use the ChirpContext class to interact with the database, managing data for authors and cheeps. Each repository handles specific queries related to either authors or cheeps, working with Author and Cheep models. However, they return only Data Transfer Objects (DTOs) to maintain separation of concerns. The Author and Cheep models are queried from the dbsets of the dbcontext. The composition between the Author and Cheep classes and ChirpContext ensures data integrity, as removing the context also removes the associated data models from the program.
 
-To streamline authentication and authorization, a chirp author inherits from Identity User. There is a composite relationship between Author and Cheep, indicating that an Author can own 0 or more cheeps and that any existing cheep is owned by a unique Author.
+To streamline authentication and authorization, a chirp author inherits from Identity User from ASP.NET Core Identity. There is a composite relationship between Author and Cheep, meaning that an Author can own zero or more cheeps and that any existing cheep is owned by a unique Author.
 
 ### Brief Description of Classes inside Chirp&#46;Web
 
@@ -62,7 +62,7 @@ A user journey corresponding to this use of Chirp is described in the following 
 
 ### Registration and Login processes {#login-register}
 
-For the full Chirp! experience, authorized users can personalize their interaction by posting, liking cheeps, and following authors. [The registration](#registration) and [log-in processes](#login) are described in the following diagrams:
+For the full Chirp! experience, authorised users can personalise their interaction by posting, liking cheeps, and following authors. [The registration](#registration) and [log-in processes](#login) are described in the following diagrams:
 
 #### Registration {#registration}
 
@@ -82,13 +82,13 @@ When using Chirp, users primarily write cheeps or follow authors and like their 
 
 #### Cheeping a Cheep
 
-In this diagram, we assume, we have a user, who is already following other users.
+In this diagram, we assume we have a user who is already following other users.
 
 ![Illustration of Cheeping](./diagrams/ActivityDiagramCheep.png)
 
 ## Sequence of functionality/calls through _Chirp!_
 
-In the following, two sequence diagrams are shown. The first shows a general overview of some of the calls a user - authorized or not - might go through, while the second gives an idea of what a specific call looks like and the inner workings behind it.
+We will provide two sequence diagrams to show the dynamic interactions between components in our Chirp! system and the order in which they occur. The first shows a general overview of some of the calls a user - authorised or not - might go through, while the second gives an idea of what a specific call looks like and the inner workings behind it.
 
 ### Sequence diagram 1
 
@@ -104,17 +104,17 @@ In this sequence, we have 5 lifelines: UnAuthorizedUser, Chirp.Web, CheepReposit
 
 # Process
 
-This chapter gives a brief overview of our process, showcasing GitHub Actions workflows with UML activity diagrams. We highlight our team's project board's status and offer clear instructions for local setup and testing.
+This chapter gives a brief overview of our process, illustrating GitHub Actions workflows with UML activity diagrams. We highlight the status of our team's project board and offer clear instructions for local setup and testing.
 
 ## Build, test, release, and deployment
 
-We use Github Workflows to streamline and automate software development processes and ensure continuous integration and continuous delivery.
+We use Github Workflows to streamline and automate software development processes and to obtain continuous integration and continuous delivery.
 
 The illustration below shows our build and test workflow, which ensures that the code passes all tests before merging a pull request to main.
 
 ![Build and test github workflow](./diagrams/BuildAndTest.png)
 
-In the illustration below, we see the workflow that creates a release of the program to Github. It is triggered when a tag of the format v\* is pushed to github.
+In the illustration below, we see the workflow that creates a release of the program to Github. It is triggered when a tag of the format v\* is pushed to Github.
 
 ![Release github workflow](./diagrams/ReleaseWorkflow.png)
 
@@ -128,7 +128,7 @@ In this chapter, we will provide an overview of our collaboration by discussing 
 
 ### Project Board
 
-Show a screenshot of your project board right before hand-in. Briefly describe which tasks are still unresolved, i.e., which features are missing from your applications or which functionality is incomplete.
+// Briefly describe which tasks are still unresolved, i.e., which features are missing from our applications or which functionality is incomplete. //
 
 The image below shows our project board as is before handin of this report. The only issue we have left (issue#194), is making the ducplicate UI-elements into partial components as this would rid our application of some redundant code.
 
@@ -200,7 +200,7 @@ Then run the command:
 
 # Ethics
 
-In this chapter, we will discuss the software license we have chosen and explain how we have utilized AI/Large Language Models in our development process.
+In this chapter, we will discuss the software license we have chosen and explain the use of AI/Large Language Models in our development process.
 
 ## License
 
