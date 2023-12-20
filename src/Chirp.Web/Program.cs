@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Chirp.Core;
 using Chirp.Infrastructure;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 if (builder.Environment.IsProduction())
 {
-    var connectionString = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+    string connectionString = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
     builder.Services.AddDbContext<ChirpContext>(option => option.UseSqlServer(connectionString));
 }
 else if (builder.Environment.IsDevelopment())
@@ -18,7 +18,7 @@ else if (builder.Environment.IsDevelopment())
 
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
-builder.Services.AddScoped<CheepCreateValidator>();
+builder.Services.AddScoped<CheepValidator>();
 
 builder.Services.AddDefaultIdentity<Author>()
     .AddEntityFrameworkStores<ChirpContext>();
@@ -33,21 +33,19 @@ builder.Services.AddAuthentication()
 });
 
 builder.Services.AddRazorPages();
-var app = builder.Build();
+WebApplication app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
-using (var scope = app.Services.CreateScope())
+using (IServiceScope scope = app.Services.CreateScope())
 {
-    var services = scope.ServiceProvider;
+    IServiceProvider services = scope.ServiceProvider;
 
-    var context = services.GetRequiredService<ChirpContext>();
+    ChirpContext context = services.GetRequiredService<ChirpContext>();
 
     if (app.Environment.IsDevelopment())
     {

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using System.Text.RegularExpressions;
 
 //Code taken from lecture-slides-05 and small parts adapted by: Oline <okre@itu.dk>, Anton <anlf@itu.dk> & Clara <clwj@itu.dk>
-public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
+public partial class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly WebApplicationFactory<Program> _fixture;
     private readonly HttpClient _client;
@@ -20,11 +20,11 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     public async void CanSeePublicTimeline()
     {
         // Arrange
-        var response = await _client.GetAsync("/");
+        HttpResponseMessage response = await _client.GetAsync("/");
         response.EnsureSuccessStatusCode();
 
         // Act
-        var content = await response.Content.ReadAsStringAsync();
+        string content = await response.Content.ReadAsStringAsync();
 
         // Assert
         Assert.Contains("Chirp!", content);
@@ -37,11 +37,11 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     public async void CanSeeUserTimeline(string author)
     {
         // Arrange
-        var response = await _client.GetAsync($"/{author}");
+        HttpResponseMessage response = await _client.GetAsync($"/{author}");
         response.EnsureSuccessStatusCode();
 
         // Act
-        var content = await response.Content.ReadAsStringAsync();
+        string content = await response.Content.ReadAsStringAsync();
 
         // Assert
         Assert.Contains("Chirp!", content);
@@ -52,11 +52,11 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     public async void PageContainsMax32Cheeps()
     {
         // Arrange
-        var response = await _client.GetAsync("/");
+        HttpResponseMessage response = await _client.GetAsync("/");
         response.EnsureSuccessStatusCode();
-        var content = await response.Content.ReadAsStringAsync();
 
         // Act
+        string content = await response.Content.ReadAsStringAsync();
         int cheepCount = 0;
 
         int listStart = content.IndexOf("<ul id=\"messagelist\" class=\"cheeps\">");
@@ -69,7 +69,7 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
                 string listContent = content.Substring(listStart, listEnd - listStart);
 
                 // Count the number of list items (list items are represented as "<li>")
-                cheepCount = Regex.Matches(listContent, "<li>").Count;
+                cheepCount = MyRegex().Matches(listContent).Count;
             }
         }
 
@@ -82,16 +82,19 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     public async void HomePageIsEqualToPage1()
     {
         // Arrange
-        var homePage = await _client.GetAsync("/");
+        HttpResponseMessage homePage = await _client.GetAsync("/");
         homePage.EnsureSuccessStatusCode();
-        var HPContent = await homePage.Content.ReadAsStringAsync();
+        string HPContent = await homePage.Content.ReadAsStringAsync();
 
-        var pageOne = await _client.GetAsync("/?pageNumber=1");
+        HttpResponseMessage pageOne = await _client.GetAsync("/?pageNumber=1");
         pageOne.EnsureSuccessStatusCode();
-        var pageOneContent = await pageOne.Content.ReadAsStringAsync();
+        string pageOneContent = await pageOne.Content.ReadAsStringAsync();
 
         // Assert
         Assert.Equal(HPContent, pageOneContent);
 
     }
+
+    [GeneratedRegex("<li>")]
+    private static partial Regex MyRegex();
 }
