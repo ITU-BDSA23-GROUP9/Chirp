@@ -114,7 +114,7 @@ The illustration above shows our build and test workflow, that ensures that the 
 
 ![Release github workflow](./diagrams/ReleaseWorkflow.png)
 
-Here we see the workflow that creates a release of the program to Github. It is triggered when a tag of the format v\* is pushed to github.
+In the illustration above, we see the workflow that creates a release of the program to Github. It is triggered when a tag of the format v\* is pushed to github.
 
 ![Deployment gihub workflow](./diagrams/ReleaseToProduction.png)
 
