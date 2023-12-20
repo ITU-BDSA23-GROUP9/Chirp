@@ -26,10 +26,7 @@ Chirp.Core contains all the core functionality. In Chirp.Core, we have Data Tran
 
 ### Brief Description of Classes inside Chirp.Infrastructure
 
-Chirp.Infrastructure is the backbone of the application, where data is moved around and processed.
-Inside Chirp.Infrastructure, we have quite a few classes and relationships. We will describe some of the most important of these.
-
-Firstly, we have the concrete implementation of our Repositories, named CheepRepository and AuthorRepository. These implement the interfaces from Chirp.Core, which we just described. Both CheepRepository and AuthorRepository in the Chirp application use the ChirpContext for working with the database. The ChirpContext helps manage the data for both authors and cheeps in the database. Each repository is responsible for querying the database for either Author related or Cheep related data. They work with Author and Cheep models, but only return DTO's to adhere to the seperation of concerns. Author and Cheep models are stored in the database, and queried from the dbsets of the dbcontext. These sets contain the information stored as models our program can interact with, the Author and Cheep classes have a composition relationship with ChirpContext since if we remove the context the stored datamodels are removed (the data continues in the database, but not as Author and Cheep object models). <!-- TODO: Make this shorter tomorrow -->
+Key elements within Chirp.Infrastructure include CheepRepository and AuthorRepository, which are concrete implementations of the Repository interfaces. These repositories use ChirpContext to interact with the database, managing data for authors and cheeps. Each repository handles specific queries related to either authors or cheeps, working with Author and Cheep models. However, they return only Data Transfer Objects (DTOs) to maintain separation of concerns. The Author and Cheep models, stored in the database, are queried from the dbsets of the dbcontext. The composition relationship between Author and Cheep classes and ChirpContext ensures data integrity, as removing the context also removes the associated data models from the program.
 
 The Author class inherits from identity user to streamline authentication and authorization for a Chirp author. There is a composite relationship between Author and Cheep, indicating that an Author can own 0 or more cheeps and that any existing cheep is owned by a unique Author.
 
@@ -133,7 +130,8 @@ Firstly, open a command prompt. From here, navigate to the folder in which you w
 When in VS Code, navigate to src/Chirp.Web by running the command `cd src/Chirp.Web/`, and then start the application by running the command `dotnet run`.
 
 ## How to run test suite locally
-Firstly, open a command prompt. Navigate to the folder in which the Chirp! application is, and then run the command `code .` to open VS Code. 
+
+Firstly, open a command prompt. Navigate to the folder in which the Chirp! application is, and then run the command `code .` to open VS Code.
 
 When standing in the root folder, simply run the command `dotnet test` to run all tests.
 If you want to run tests for individidual parts of the system, run the command `cd test` to go to the test directory, and then go into an individual directory, for example by running `cd Chirp.Core.Tests/`, and then running the command `dotnet test`.
