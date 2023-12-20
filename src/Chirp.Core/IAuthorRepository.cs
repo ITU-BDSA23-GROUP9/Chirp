@@ -17,7 +17,7 @@ public interface IAuthorRepository
     /// <returns>A task where the result is the author corresponding to the specified name.</returns>
     public Task<AuthorDTO?> FindAuthorByName(string author);
     /// <summary>
-    /// Finds a specific author based on a name.
+    /// Finds a specific author based on an email.
     /// </summary>
     /// <param name="email"></param>
     /// <returns>A task where the result is the author corresponding to the specified email.</returns>

@@ -15,7 +15,7 @@ public class UserTimelineModel : PageModel
     private readonly IAuthorRepository _authorRepo;
 
     /// <summary>
-    /// Gets or sets the list of cheeps displayed on a private timeline.
+    /// Gets or sets the list of cheeps displayed on a user timeline.
     /// </summary>
     public List<CheepDTO> Cheeps { get; set; }
 

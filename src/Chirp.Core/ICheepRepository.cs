@@ -7,18 +7,18 @@ public interface ICheepRepository
     /// <summary>
     /// Gets all the cheeps from the database.
     /// </summary>
-    /// <param name="limit"></param>
+    /// <param name="cheepPerPage"></param>
     /// <param name="pageNumber"></param>
     /// <returns>A task where the result is a list of all current cheeps in the database.</returns>
-    public Task<List<CheepDTO>> GetCheeps(int limit, int pageNumber);
+    public Task<List<CheepDTO>> GetCheeps(int cheepsPerPage, int pageNumber);
     /// <summary>
     /// Gets all the cheeps from an author.
     /// </summary>
     /// <param name="author"></param>
-    /// <param name="limit"></param>
+    /// <param name="cheepPerPage"></param>
     /// <param name="pageNumber"></param>
     /// <returns>A task where the result is a list of all the cheeps from specified author.</returns>
-    public Task<List<CheepDTO>> GetCheepsFromAuthor(string author, int limit, int pageNumber);
+    public Task<List<CheepDTO>> GetCheepsFromAuthor(string author, int cheepsPerPage, int pageNumber);
     /// <summary>
     /// Gets all the cheeps from the database.
     /// </summary>
