@@ -139,7 +139,7 @@ We set up a KanBan board to handle our issues and give us an overview of the pro
 -   The issue is created and put into the 'Backlog'.
 -   When the issue is ready with a description, acceptance criteria and has no dependencies pending it is moved to then coloumn 'Ready'.
 -   When we start working on the issues it is moved to the 'In progress' coloumn.
--   If the issue relates to the code-base and we have determined it is done, it is moved to 'Create tests'.
+-   If the issue relates to the code-base and we hgiave determined it is done, it is moved to 'Create tests'.
 -   When tests have been made (if necessary) a PR is created and the issues is moved to the coloumn 'In review'.
 -   If the PR for the issues gets approved, it is merged into the main-branch. If this is the case the issue can be closed and moved to the 'Done' coloumn.
 
@@ -191,7 +191,7 @@ In this chapter, we will discuss the software license we have chosen and explain
 
 ## License
 
-We have chosen the MIT License for our application. Mainly due its simplicity, which makes it easy for students to collaborate and simplifies licensing issues. In addition, it allows for lots of people to use our webpage, and if we potentialy wanted to commercialize Chirp!, the license is really flexible and allows this.
+We have chosen the MIT License for our application. Mainly due its simplicity, which makes it easy for students to collaborate and simplifies licensing issues. In addition, it allows for lots of people to use our webpage, and if we potentially wanted to commercialize Chirp!, the license is really flexible and allows this.
 
 ## LLMs, ChatGPT, CoPilot, and others
 
