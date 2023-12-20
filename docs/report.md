@@ -158,6 +158,8 @@ If you want to run tests for individidual parts of the system, run the command `
 
 # Ethics
 
+In this chapter, we'll discuss the software license we've chosen and explain how we've utilized AI in our development process.
+
 ## License
 
 We have chosen the MIT License for our application. Mainly due its simplicity, which makes it easy for students to collaborate and simplifies licensing issues. In addition, it allows for lots of people to use our webpage, and if we potentialy wanted to commercialize Chirp!, the license is really flexible and allows this.
