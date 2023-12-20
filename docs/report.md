@@ -122,6 +122,8 @@ This Github workflow is triggered after a push to main, and releases main to our
 
 ## Team work
 
+In this chapter, we will provide an overview of our collaboration by discussing the status of tasks on our project board and showing the general flow of activities from task creation to integration of features.
+
 ![Workflow from Task to Finish](./diagrams/TeamWorkDiagram.png)
 
 We set up a KanBan board to handle our issues and give us an overview of the process an issue had to go through.
