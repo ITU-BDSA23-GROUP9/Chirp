@@ -125,6 +125,8 @@ This Github workflow is triggered after a push to main, and releases main to our
 
 In this chapter, we will provide an overview of our collaboration by discussing the status of tasks on our project board and showing the general flow of activities from task creation to integration of features.
 
+### Project Board
+
 Show a screenshot of your project board right before hand-in. Briefly describe which tasks are still unresolved, i.e., which features are missing from your applications or which functionality is incomplete.
 
 The image below shows our project board as is before handin of this report. The only issue we have left (issue#194), is making the ducplicate UI-elements into partial components as this would rid our application of some redundant code.
