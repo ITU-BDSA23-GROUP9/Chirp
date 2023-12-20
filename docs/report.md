@@ -73,17 +73,15 @@ For the full Chirp! experience, authorized users can personalize their interacti
 
 ### Cheeping and Following Authors
 
-When using Chirp, users primarily write cheeps or follow authors and like their cheeps. The upcoming descriptions will illustrate user journeys centered around these actions. In both of the chapters below, we assume the user have already been through the [log-in or registration process](#login-register) to engage in these functionalities.
+When using Chirp, users primarily write cheeps or follow authors and like their cheeps. The upcoming user activity diagrams are centered around these actions. In both diagrams, we assume the user has already been through the [log-in or registration process](#login-register) to engage in these functionalities.
 
 #### Following
-
-The user starts by visiting the Public timeline. They click on author x to view that author's timeline. If they are not already following this author, they hit "follow," go to their private timeline, and check what author x has posted. If they already follow this author, the user unfollows the author, then checks their private timeline to ensure author x's cheeps are no longer visible.
 
 ![Illustration of Following other users](./diagrams/ActivityDiagramFollowAuthor.png)
 
 #### Cheeping
 
-We assume, we have a user, who is already following other users. When this is the case, a user sees their private timeline, when logged in, where they see their own posts and posts from the people they follow. They then share short cheeps (up to 160 characters) and then look at their private timeline again to see what they've posted.
+In the diagram, we assume, we have a user, who is already following other users:
 
 ![Illustration of Cheeping](./diagrams/ActivityDiagramCheep.png)
 
