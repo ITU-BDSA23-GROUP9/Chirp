@@ -66,9 +66,13 @@ For the full Chirp! experience, authorised users can personalise their interacti
 
 #### Registration {#registration}
 
+Illustration of registering to Chirp:
+
 ![Illustration of Registering to Chirp](./images/ActivityDiagramRegister.png)
 
 #### Log-in {#login}
+
+Illustration of log-in process:
 
 ![Illustration of Log-in process](./images/ActivityDiagramLogin.png)
 
@@ -77,6 +81,8 @@ For the full Chirp! experience, authorised users can personalise their interacti
 When using Chirp!, users primarily write cheeps or follow authors and like their cheeps. The upcoming user activity diagrams are centered around these actions. In both diagrams, we assume the user has already been through the [log-in or registration process](#login-register) to engage in these functionalities.
 
 #### Following an Author
+
+Illustration of following other users:
 
 ![Illustration of Following other users](./images/ActivityDiagramFollowAuthor.png)
 
