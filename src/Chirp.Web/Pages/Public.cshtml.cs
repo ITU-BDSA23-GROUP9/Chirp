@@ -54,11 +54,11 @@ public class PublicModel : PageModel
     public async Task<IActionResult?> OnPost()
     {
 
-        if (newCheep?.Message == null)
+        if (NewCheep == null)
         {
             return LocalRedirect(Url.Content("~/"));
         }
-        var cheepToPost = new CheepDTO(Guid.NewGuid().ToString(), newCheep?.Message!, User.Identity?.Name!, DateTime.UtcNow.ToString());
+        var cheepToPost = new CheepDTO(Guid.NewGuid().ToString(), NewCheep!, User.Identity?.Name!, DateTime.UtcNow.ToString());
 
         await _cheepRepo.CreateCheep(cheepToPost);
         return LocalRedirect(Url.Content("~/")); //Go to profile after posting a cheep
